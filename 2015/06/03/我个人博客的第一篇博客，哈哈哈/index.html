@@ -79,16 +79,17 @@
 
 
 
-<meta name="description" content="iOS开发者，爱生活，爱编程">
-<meta property="og:type" content="website">
-<meta property="og:title" content="安东的博客">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="#1. GCD简介iOS开发中多线程的API主要有pthread，NSThread，NSOperation和GCD，前两者在现在开发过程中已经不常用，NSOperation是面向对象封装的一套API，而GCD则是一套纯C语言API。  引用下百度的介绍GCD为Grand Central Dispatch的缩写。Grand Central Dispatch (GCD)是Apple开发的一个多核编程的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS多线程编程之GCD详解（一）...">
+<meta property="og:url" content="http://yoursite.com/2015/06/03/我个人博客的第一篇博客，哈哈哈/index.html">
 <meta property="og:site_name" content="安东的博客">
-<meta property="og:description" content="iOS开发者，爱生活，爱编程">
+<meta property="og:description" content="#1. GCD简介iOS开发中多线程的API主要有pthread，NSThread，NSOperation和GCD，前两者在现在开发过程中已经不常用，NSOperation是面向对象封装的一套API，而GCD则是一套纯C语言API。  引用下百度的介绍GCD为Grand Central Dispatch的缩写。Grand Central Dispatch (GCD)是Apple开发的一个多核编程的">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-03T07:35:41.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="安东的博客">
-<meta name="twitter:description" content="iOS开发者，爱生活，爱编程">
+<meta name="twitter:title" content="iOS多线程编程之GCD详解（一）...">
+<meta name="twitter:description" content="#1. GCD简介iOS开发中多线程的API主要有pthread，NSThread，NSOperation和GCD，前两者在现在开发过程中已经不常用，NSOperation是面向对象封装的一套API，而GCD则是一套纯C语言API。  引用下百度的介绍GCD为Grand Central Dispatch的缩写。Grand Central Dispatch (GCD)是Apple开发的一个多核编程的">
 
 
 
@@ -118,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2015/06/03/我个人博客的第一篇博客，哈哈哈/"/>
 
 
 
 
 
-  <title>安东的博客</title>
+  <title>iOS多线程编程之GCD详解（一）... | 安东的博客</title>
   
 
 
@@ -143,8 +144,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -217,9 +217,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -249,9 +249,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/06/03/我个人博客的第一篇博客，哈哈哈/" itemprop="url">iOS多线程编程之GCD详解（一）...</a></h1>
+          <h1 class="post-title" itemprop="name headline">iOS多线程编程之GCD详解（一）...</h1>
         
 
         <div class="post-meta">
@@ -301,9 +299,7 @@
       
 
       
-        
-          
-            <p>#1. GCD简介<br>iOS开发中多线程的API主要有pthread，NSThread，NSOperation和GCD，前两者在现在开发过程中已经不常用，NSOperation是面向对象封装的一套API，而GCD则是一套纯C语言API。</p>
+        <p>#1. GCD简介<br>iOS开发中多线程的API主要有pthread，NSThread，NSOperation和GCD，前两者在现在开发过程中已经不常用，NSOperation是面向对象封装的一套API，而GCD则是一套纯C语言API。</p>
 <blockquote>
 <p>引用下百度的介绍<br>GCD为Grand Central Dispatch的缩写。<br>Grand Central Dispatch (GCD)是Apple开发的一个多核编程的较新的解决方法。它主要用于优化应用程序以支持多核处理器以及其他对称多处理系统。它是一个在线程池模式的基础上执行的并行任务。在Mac OS X 10.6雪豹中首次推出，也可在IOS 4及以上版本使用。</p>
 </blockquote>
@@ -413,8 +409,6 @@
 <p>参考书籍:<br><a href="http://baike.baidu.com/link?url=8cLEWwOe25Y-Fg2wzOTmOmvwn9Osy7tkkNbMKft-fsX0NJlkCXUKsljKkAh2UK0pFb2zm5hL4vs4w6xgMSgWzw2FGCnTTit_hNdQbDOQIHjHs1BW6e4lUl5qARANbVfyNfqEDP_E_aoVC6tR1kLR2K" target="_blank" rel="noopener">Objective-C高级编程</a></p>
 <p>后篇:<br><a href="http://www.jianshu.com/p/53091736c9da" target="_blank" rel="noopener">iOS多线程编程之GCD详解（二）完结</a></p>
 
-          
-        
       
     </div>
     
@@ -431,12 +425,12 @@
       
 
       
+      
+      
 
       
 
       
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -446,10 +440,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -457,6 +452,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -477,8 +476,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -520,6 +528,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#3-GCD队列编程实现"><span class="nav-number">1.</span> <span class="nav-text">3. GCD队列编程实现</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -653,6 +677,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
