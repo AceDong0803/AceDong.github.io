@@ -87,7 +87,7 @@
 <meta property="og:description" content="GCD简介iOS开发中多线程的API主要有pthread，NSThread，NSOperation和GCD，前两者在现在开发过程中已经不常用，NSOperation是面向对象封装的一套API，而GCD则是一套纯C语言API。  引用下百度的介绍GCD为Grand Central Dispatch的缩写。Grand Central Dispatch (GCD)是Apple开发的一个多核编程的较新的解">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1320629-79295d0d030009a0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-07-14T12:29:26.725Z">
+<meta property="og:updated_time" content="2018-07-14T15:07:06.238Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS多线程编程之GCD详解（一）">
 <meta name="twitter:description" content="GCD简介iOS开发中多线程的API主要有pthread，NSThread，NSOperation和GCD，前两者在现在开发过程中已经不常用，NSOperation是面向对象封装的一套API，而GCD则是一套纯C语言API。  引用下百度的介绍GCD为Grand Central Dispatch的缩写。Grand Central Dispatch (GCD)是Apple开发的一个多核编程的较新的解">
@@ -476,7 +476,6 @@
 <p>AFNetworking中大量使用<code>dispatch_barrier_async</code>做数据存储，可以看到<code>dispatch_barrier_async</code>也可以实现串行同步队列效果，相比于<code>dispatch_sync</code>容易产生死锁（在串行队列中同步添加该串行队列任务即会发生死锁),<code>dispatch_barrier_async</code>更加安全。</p>
 <h1 id="全文总结"><a href="#全文总结" class="headerlink" title="全文总结:"></a>全文总结:</h1><p>以上介绍了GCD中绝大多数常用API，可以看到GCD的灵活性，通过在应用中合理使用GCD来提高程序的执行效率。</p>
 <h1 id="参考书籍"><a href="#参考书籍" class="headerlink" title="参考书籍:"></a>参考书籍:</h1><p><a href="http://baike.baidu.com/link?url=8cLEWwOe25Y-Fg2wzOTmOmvwn9Osy7tkkNbMKft-fsX0NJlkCXUKsljKkAh2UK0pFb2zm5hL4vs4w6xgMSgWzw2FGCnTTit_hNdQbDOQIHjHs1BW6e4lUl5qARANbVfyNfqEDP_E_aoVC6tR1kLR2K" target="_blank" rel="noopener">Objective-C高级编程</a></p>
-<h1 id="后篇"><a href="#后篇" class="headerlink" title="后篇:"></a>后篇:</h1><p><a href="http://www.jianshu.com/p/53091736c9da" target="_blank" rel="noopener">iOS多线程编程之GCD详解（二）完结</a></p>
 
       
     </div>
@@ -497,6 +496,22 @@
       
       
 
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/06/10/iOS多线程编程之GCD详解（二）完结/" rel="prev" title="iOS多线程编程之GCD详解（二）">
+                iOS多线程编程之GCD详解（二） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
       
 
       
@@ -574,7 +589,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -611,7 +626,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#GCD简介"><span class="nav-number">1.</span> <span class="nav-text">GCD简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Dispatch-Queue（队列）概念"><span class="nav-number">2.</span> <span class="nav-text">Dispatch_Queue（队列）概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#队列"><span class="nav-number">2.1.</span> <span class="nav-text">队列</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GCD队列编程实现"><span class="nav-number">3.</span> <span class="nav-text">GCD队列编程实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建一个队列"><span class="nav-number">3.1.</span> <span class="nav-text">创建一个队列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主线程同步执行"><span class="nav-number">3.2.</span> <span class="nav-text">主线程同步执行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主线程异步执行"><span class="nav-number">3.3.</span> <span class="nav-text">主线程异步执行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#串行队列同步执行"><span class="nav-number">3.4.</span> <span class="nav-text">串行队列同步执行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#串行队列异步执行"><span class="nav-number">3.5.</span> <span class="nav-text">串行队列异步执行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#并发队列同步执行"><span class="nav-number">3.6.</span> <span class="nav-text">并发队列同步执行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#并发队列异步执行"><span class="nav-number">3.7.</span> <span class="nav-text">并发队列异步执行</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#应用示例"><span class="nav-number">4.</span> <span class="nav-text">应用示例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他GCD-API"><span class="nav-number">5.</span> <span class="nav-text">其他GCD API</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-after"><span class="nav-number">5.1.</span> <span class="nav-text">dispatch_after</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-once"><span class="nav-number">5.2.</span> <span class="nav-text">dispatch_once</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-suspend-dispatch-resume"><span class="nav-number">5.3.</span> <span class="nav-text">dispatch_suspend / dispatch_resume</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-set-target-queue"><span class="nav-number">5.4.</span> <span class="nav-text">dispatch_set_target_queue</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-group"><span class="nav-number">5.5.</span> <span class="nav-text">dispatch_group</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-apply"><span class="nav-number">5.6.</span> <span class="nav-text">dispatch_apply</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-barrier-sync-dispatch-barrier-async"><span class="nav-number">5.7.</span> <span class="nav-text">dispatch_barrier_sync / dispatch_barrier_async</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#全文总结"><span class="nav-number">6.</span> <span class="nav-text">全文总结:</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考书籍"><span class="nav-number">7.</span> <span class="nav-text">参考书籍:</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#后篇"><span class="nav-number">8.</span> <span class="nav-text">后篇:</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#GCD简介"><span class="nav-number">1.</span> <span class="nav-text">GCD简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Dispatch-Queue（队列）概念"><span class="nav-number">2.</span> <span class="nav-text">Dispatch_Queue（队列）概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#队列"><span class="nav-number">2.1.</span> <span class="nav-text">队列</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GCD队列编程实现"><span class="nav-number">3.</span> <span class="nav-text">GCD队列编程实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建一个队列"><span class="nav-number">3.1.</span> <span class="nav-text">创建一个队列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主线程同步执行"><span class="nav-number">3.2.</span> <span class="nav-text">主线程同步执行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主线程异步执行"><span class="nav-number">3.3.</span> <span class="nav-text">主线程异步执行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#串行队列同步执行"><span class="nav-number">3.4.</span> <span class="nav-text">串行队列同步执行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#串行队列异步执行"><span class="nav-number">3.5.</span> <span class="nav-text">串行队列异步执行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#并发队列同步执行"><span class="nav-number">3.6.</span> <span class="nav-text">并发队列同步执行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#并发队列异步执行"><span class="nav-number">3.7.</span> <span class="nav-text">并发队列异步执行</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#应用示例"><span class="nav-number">4.</span> <span class="nav-text">应用示例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他GCD-API"><span class="nav-number">5.</span> <span class="nav-text">其他GCD API</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-after"><span class="nav-number">5.1.</span> <span class="nav-text">dispatch_after</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-once"><span class="nav-number">5.2.</span> <span class="nav-text">dispatch_once</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-suspend-dispatch-resume"><span class="nav-number">5.3.</span> <span class="nav-text">dispatch_suspend / dispatch_resume</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-set-target-queue"><span class="nav-number">5.4.</span> <span class="nav-text">dispatch_set_target_queue</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-group"><span class="nav-number">5.5.</span> <span class="nav-text">dispatch_group</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-apply"><span class="nav-number">5.6.</span> <span class="nav-text">dispatch_apply</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-barrier-sync-dispatch-barrier-async"><span class="nav-number">5.7.</span> <span class="nav-text">dispatch_barrier_sync / dispatch_barrier_async</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#全文总结"><span class="nav-number">6.</span> <span class="nav-text">全文总结:</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考书籍"><span class="nav-number">7.</span> <span class="nav-text">参考书籍:</span></a></li></ol></div>
             
 
           </div>

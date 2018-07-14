@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言H264是属于视频的编码层的标准格式，视频编码显然是为了压缩大小。我们看下一个完全没压缩的视频数据大小。假设视频是高清（1280 * 720），每秒30帧，也就是每秒的数据  1280  720 30 / 8(字节) /1024（KB）/1024(MB) = 3.11MB  那么90分钟的电影就要16.7GB，这个数据量显然在当前网络下是不现实的。 视频压缩的原理就是去除视频冗余部分，下面列举">
+<meta property="og:type" content="article">
+<meta property="og:title" content="H264基础简介">
+<meta property="og:url" content="http://yoursite.com/2018/06/25/H264基础简介/index.html">
+<meta property="og:site_name" content="安东的博客">
+<meta property="og:description" content="前言H264是属于视频的编码层的标准格式，视频编码显然是为了压缩大小。我们看下一个完全没压缩的视频数据大小。假设视频是高清（1280 * 720），每秒30帧，也就是每秒的数据  1280  720 30 / 8(字节) /1024（KB）/1024(MB) = 3.11MB  那么90分钟的电影就要16.7GB，这个数据量显然在当前网络下是不现实的。 视频压缩的原理就是去除视频冗余部分，下面列举">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1320629-6d194a8a69620a6c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1320629-49f50222d6902b3c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1320629-82cd67c093c6767c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1320629-32ff30a24e4a17d8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1320629-5e25e9c7c73e7c0f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1320629-a32ef719177466df.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1320629-a74cb9fa27625d00.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1320629-b3546ca8fdd5b0ce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1320629-f25df45735e36bc8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-07-14T15:55:24.050Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="H264基础简介">
+<meta name="twitter:description" content="前言H264是属于视频的编码层的标准格式，视频编码显然是为了压缩大小。我们看下一个完全没压缩的视频数据大小。假设视频是高清（1280 * 720），每秒30帧，也就是每秒的数据  1280  720 30 / 8(字节) /1024（KB）/1024(MB) = 3.11MB  那么90分钟的电影就要16.7GB，这个数据量显然在当前网络下是不现实的。 视频压缩的原理就是去除视频冗余部分，下面列举">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/1320629-6d194a8a69620a6c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/25/H264基础简介/"/>
+
+
+
+
+
+  <title>H264基础简介 | 安东的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">安东的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不忘初心，方得始终</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/25/H264基础简介/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ace Dong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安东的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">H264基础简介</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-25T22:08:05+08:00">
+                2018-06-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>H264是属于视频的编码层的标准格式，视频编码显然是为了压缩大小。<br>我们看下一个完全没压缩的视频数据大小。假设视频是高清（1280 * 720），每秒30帧，也就是每秒的数据</p>
+<blockquote>
+<p>1280 <em> 720 </em>30 / 8(字节) /1024（KB）/1024(MB) = 3.11MB</p>
+</blockquote>
+<p>那么90分钟的电影就要16.7GB，这个数据量显然在当前网络下是不现实的。</p>
+<p><strong>视频压缩的原理就是去除视频冗余部分，下面列举下</strong></p>
+<ol>
+<li><p>时间冗余<br>时间冗余是序列图像(电视图像、动画)和语音数据中所经常包含的冗余。<br>图像序列中的两幅相邻的图像，后一幅图像与前一幅图像之间有较大的相关性，这反映为时间冗余。同理，在语言中，由于人在说话时发音的音频是一连续的渐变过程，而不是一个完全的在时间上独立的过程，因而存在时间冗余。</p>
+</li>
+<li><p>空间冗余<br>空间冗余是图像数据中经常存在的一种冗余。<br>在同一幅图像中，规则物体和规则背景(所谓规则是指表面颜色分布是有序的而不是杂乱无章的)的表面物理特性具有相关性，这些相关性的光成像结构在数字化图像中就表现为数据冗余。,</p>
+</li>
+<li><p>知识冗余<br>有许多图像的理解与某些基础知识有相当大的相关性,<br>例如：人脸的图像有固定的结构。比如，嘴的上方有鼻子。鼻子的上方有眼睛，鼻子位于正脸图像的中线上等等。这类规律性的结构可由先验知识相背景知识得到，我们称此类冗余为知识冗余。</p>
+</li>
+<li><p>结构冗余<br>有些图像从大域上看存在着非常强的纹理结构，例如布纹图像和草席图像，我们说它们在结构上存在冗余。 </p>
+</li>
+<li><p>视觉冗余<br>人类视觉系统对于图像场的任何变化，并不是都能感知的。例如，对于图像的编码和解码处理时，由于压缩或量比截断引入了噪声而使图像发生了一些变化，如果这些变化不能为视觉所感知，则仍认为图像足够好。事实上人类视觉系统一般的分辨能力约为26灰度等级，而一般图像量化采用28灰度等级，这类冗余我们称为视觉冗余。<br>通常情况下，人类视觉系统对亮度变化敏感，而对色度的变化相对不敏感；在高亮度区，人眼对亮度变化敏感度下降。<br>对物体边缘敏感，内部区域相对不敏感；对整体结构敏感，而对内部细节相对不敏感。</p>
+</li>
+<li><p>信息熵冗余<br>信息熵是指一组数据所携带的信息量。它一般定义为：H =<br>-∑pi×log2pi。其中N为码元个数，pi为码元yi发生的概率。由定义，为使单位数据量d接近于或等于H，应设d＝∑pi×b(yi)，其中b(yi)是分配给码元yi的比特数，理论上应取-log2pi。实际上在应用中很难估计出{Po，P1，…，PN—1}。因此一般取b(yo)＝b(y1)＝…＝b(yN—1)，例如，英文字母编码码元长为7比特，即b(yo)＝b(y1)＝…＝b(yN—1)＝7，这样所得的d必然大于H，由此带来的冗余称为信息墒冗余或编码冗余。</p>
+</li>
+</ol>
+<h1 id="H264原始码流结构"><a href="#H264原始码流结构" class="headerlink" title="H264原始码流结构"></a>H264原始码流结构</h1><p>组成：<br>H264功能分为两层，VCL(视频编码层)和 NAL(网络提取层).</p>
+<ol>
+<li>VCL：包括核心压缩引擎和块，宏块和片的语法级别定义，设计目标是尽可能地独立于网络进行高效的编码。</li>
+<li>NAL：负责将VCL产生的比特字符串适配到各种各样的网络和多元环境中，覆盖了所有片级以上的语法级别。</li>
+</ol>
+<p>VCL数据传输或者存储之前，会被映射到一个NALU中，H264数据包含一个个NALU。如下图<img src="https://upload-images.jianshu.io/upload_images/1320629-6d194a8a69620a6c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="NALU"></p>
+<blockquote>
+<p>一个NALU = 一组对应于视频编码的NALU头部信息 + 一个原始字节序列负荷(RBSP,Raw Byte Sequence Payload).</p>
+</blockquote>
+<p><img src="https://upload-images.jianshu.io/upload_images/1320629-49f50222d6902b3c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="NALU结构"></p>
+<p>一个原始的NALU单元结构如下<br>[StartCode][NALU Header][NALU Payload]三部分。</p>
+<blockquote>
+<p>StartCode，是一个NALU单元开始，必须是00 00 00 01 或者00 00 01。</p>
+</blockquote>
+<p><strong>1. NAL Header</strong></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1320629-82cd67c093c6767c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="NAL Header"></p>
+<p>头信息协议如上图。</p>
+<blockquote>
+<p>例如: 1 00 00 00 01 06:  SEI信息<br>2 00 00 00 01 67:  0x67&amp;0x1f = 0x07 :SPS<br>3 00 00 00 01 68:  0x68&amp;0x1f = 0x08 :PPS<br>4 00 00 00 01 65:  0x65&amp;0x1f = 0x05: IDR Slice</p>
+</blockquote>
+<ol start="2">
+<li>RBSP</li>
+</ol>
+<p><img src="https://upload-images.jianshu.io/upload_images/1320629-32ff30a24e4a17d8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RBSP序列举例"></p>
+<p>下面是RBSP序列的描述</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1320629-5e25e9c7c73e7c0f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RBSP序列"></p>
+<h1 id="H264的码流分层结构"><a href="#H264的码流分层结构" class="headerlink" title="H264的码流分层结构"></a>H264的码流分层结构</h1><p><img src="https://upload-images.jianshu.io/upload_images/1320629-a32ef719177466df.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>下面我们挨个来看每层的结构.</p>
+<ol>
+<li><p>Slice(片)</p>
+<p>可以看到NALU的主体是slice。<br>slice是H264提出的新概念，编码图片后切分高效整合而成。<br>一个图片有一个或者多个slice。通过NALU装载网络传输。</p>
+<blockquote>
+<p>设置片的目的是为了限制误码的扩散和传输，编码片是项目独立的，一个片的预测不能以其他片中的宏块为参考图像。保证了某一片的预测误差不会传播到别的片。</p>
+</blockquote>
+</li>
+</ol>
+<p>一个slice同样包含Slice Header  + Slice Data</p>
+<p>slice有以下五种类型</p>
+<p>(1) I -slice: slice的全部MB（宏块）都采用intra-prediction（帧内预测）的方式来编码；</p>
+<p>(2) P-slice: slice中的MB（宏块）使用intra-prediction（帧内预测）和inter-prediction（帧间预测）的方式来编码，但每一个inter-prediction block最多只能使用一个移动向量；</p>
+<p>(3) B-slice:与P-slice类似，但每一个inter-prediction block可以使用二个移动向量。B-slice的‘B’是指Bi-predictive（双向预测），除了可由前一张和后一张影像的I(或P、B)-slice外，也能从前二张不同影像的I(或P、B)-slice来做inter- prediction。</p>
+<p>(4) SP-slice:即所谓的Switching P slice，为P-slice的一种特殊类型，用来串接两个不同bitrate的bitstream；</p>
+<p>(5) SI-slice: 即所谓的Switching I slice，为I-slice的一种特殊类型，除了用来串接两个不同content的bitstream外，也可用来执行随机存取(random access)来达到网络VCR的功能</p>
+<ol start="2">
+<li>宏块(Macroblock,MB)<br>从上面结构图中可以看到片中包含宏块。那什么是宏块呢？</li>
+</ol>
+<p>宏块是视频信息的主要承载者。一个编码图像通常划分为多个宏块组成.包含着每一个像素的亮度和色度信息。视频解码最主要的工作则是提供高效的方式从码流中获得宏块中像素阵列。</p>
+<blockquote>
+<p>一个宏块 = 一个16*16的亮度像素 + 一个8×8Cb + 一个8×8Cr彩色像素块组成。(YCbCr 是属于 YUV 家族的一员,在YCbCr 中 Y 是指亮度分量，Cb 指蓝色色度分量，而 Cr 指红色色度分量)</p>
+</blockquote>
+<p>宏块分类:</p>
+<p>I宏块:  帧内预测</p>
+<p>P宏块: 利用前帧作为参考进行帧内预测，一个帧内编码的宏块可进一步作宏块的分割</p>
+<p>B宏块: 双向参考图像（前帧和后帧）进行帧内预测</p>
+<p><strong>简单总结下帧和片和宏块的概念</strong></p>
+<p> 1帧 = 1个或n个片<br> 1片 = n个宏块<br> 1宏块 = 16x16yuv数据</p>
+<p>如下图所示<br><img src="https://upload-images.jianshu.io/upload_images/1320629-a74cb9fa27625d00.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>宏块的结构如下图所示</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1320629-b3546ca8fdd5b0ce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="slice结构"></p>
+<blockquote>
+<p>mb_type 确定该 MB 是帧内或帧间(P 或 B)编码模式，确定该 MB 分割的尺寸<br>mb_pred    确定帧内预测模式(帧内宏块)确定表 0 或表 1 参考图 像，和每一宏块分割的差分编码的运动矢量(帧间宏块，除 8×8 宏块分割的帧内 MB)<br>sub_mb_pred    (只对 8×8MB 分割的帧内 MB)确定每一子宏块的子宏 块分割，每一宏块分割的表 0 和/或表 1 的参考图象;每一 宏块子分割的差分编码运动矢量。<br>coded_block_pattern    指出哪个 8×8 块(亮度和彩色)包 编码变换系数<br>mb_qp_delta    量化参数的改变值<br>esidual    预测后对应于残差图象取样的编码变换系数</p>
+</blockquote>
+<h1 id="I-P-B-IDR帧，DTS和PTS，GOP"><a href="#I-P-B-IDR帧，DTS和PTS，GOP" class="headerlink" title="I,P,B,IDR帧，DTS和PTS，GOP"></a>I,P,B,IDR帧，DTS和PTS，GOP</h1><p>I帧: 帧内编码帧，I帧通常是每个GOP的第一帧，适度压缩，类似于图片jpg压缩一样的原理。大约可以得到6：1的压缩比。</p>
+<p>P帧: 前向预测编码帧，通过图像序列前面已经编码帧的时间冗余信息压缩，称为预测帧，大约可以得到20：1的压缩比</p>
+<p>B帧：双向预测内插编码帧,通过前帧和后帧的时间冗余信息压缩，也叫双向预测帧。大约可以得到50:1的压缩比</p>
+<p>IDR帧: I帧的一种特殊帧，一个序列的第一个图像叫做 IDR 图像（立即刷新图像）</p>
+<blockquote>
+<p>当解码器解码到 IDR 图像时，立即将参考帧队列清空，将已解码的数据全部输出或抛弃，重新查找参数集，开始一个新的序列。这样可以避免前一个序列出现重大错误的问题。</p>
+</blockquote>
+<p>DTS: (Decode Time Stamp) 用于视频的解码序列<br>PTS: (Presentation Time Stamp)用于视频的显示序列。</p>
+<p>正因为有B帧这样的双向预测帧的存在，某一帧的解码序列和实际的显示序列是不一样的。如下图所示</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1320629-f25df45735e36bc8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="DTS和PTS"></p>
+<p>GOP: （Group of Picture）两个I帧之间形成的一组图片，就是GOP。一般为编码器设置参数的时候，必须设置gop_size的值，表示两个I帧之间的帧数目，相对来说GOP_size设置越小，画面质量越好。但是相应的容量越大。</p>
+<blockquote>
+<p>由于解码必须先获取到I帧，才能获得第一张图像，所以直播秒开的原理就是在CDN缓存一个GOP图片组，这样迅速解码出第一帧图。</p>
+</blockquote>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料:"></a>参考资料:</h1><ol>
+<li><a href="http://www.iosxxx.com/blog/2017-08-09-%E4%BB%8E%E9%9B%B6%E4%BA%86%E8%A7%A3H264%E7%BB%93%E6%9E%84.html" title="从零了解H264结构" target="_blank" rel="noopener">从零了解H264结构</a></li>
+</ol>
+<ol start="2">
+<li><a href="https://www.jianshu.com/p/8de09a551a66" target="_blank" rel="noopener">H.264学习笔记</a></li>
+</ol>
+<p>关于H264的介绍网络上已经有很多，本文主要是用做笔记记录。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/14/iOS-OpenGL-ES入门教程（四）光照/" rel="next" title="iOS-OpenGL-ES入门教程（四）光照">
+                <i class="fa fa-chevron-left"></i> iOS-OpenGL-ES入门教程（四）光照
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/26/iOS-VideoToolbox硬编码H264/" rel="prev" title="iOS-VideoToolbox硬编码H264">
+                iOS-VideoToolbox硬编码H264 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Ace Dong" />
+            
+              <p class="site-author-name" itemprop="name">Ace Dong</p>
+              <p class="site-description motion-element" itemprop="description">iOS开发者，爱生活，爱编程</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#H264原始码流结构"><span class="nav-number">2.</span> <span class="nav-text">H264原始码流结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#H264的码流分层结构"><span class="nav-number">3.</span> <span class="nav-text">H264的码流分层结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#I-P-B-IDR帧，DTS和PTS，GOP"><span class="nav-number">4.</span> <span class="nav-text">I,P,B,IDR帧，DTS和PTS，GOP</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考资料"><span class="nav-number">5.</span> <span class="nav-text">参考资料:</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ace Dong</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

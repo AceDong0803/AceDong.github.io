@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言上两篇文章里我们分别绘制了最简单的三角形和纹理图片下面来讲一下纹理取样，混合，和多重纹理 纹理取样，循环示例代码来源于下面这本书，OpenGL ES应用开发实践指南：iOS卷 纹理取样设置函数 12glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_NEAREST)glTexParameteri(GL_TEXTURE_2D,GL_TE">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS-OpenGL-ES入门教程（三）纹理取样，混合，多重纹理">
+<meta property="og:url" content="http://yoursite.com/2018/05/15/iOS-OpenGL-ES入门教程（三）纹理取样，混合，多重纹理/index.html">
+<meta property="og:site_name" content="安东的博客">
+<meta property="og:description" content="前言上两篇文章里我们分别绘制了最简单的三角形和纹理图片下面来讲一下纹理取样，混合，和多重纹理 纹理取样，循环示例代码来源于下面这本书，OpenGL ES应用开发实践指南：iOS卷 纹理取样设置函数 12glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_NEAREST)glTexParameteri(GL_TEXTURE_2D,GL_TE">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1320629-95f28b236f2535c6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1320629-c823616f09c82fa5.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1320629-32a1c0e3c32587c0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-07-14T15:27:43.460Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS-OpenGL-ES入门教程（三）纹理取样，混合，多重纹理">
+<meta name="twitter:description" content="前言上两篇文章里我们分别绘制了最简单的三角形和纹理图片下面来讲一下纹理取样，混合，和多重纹理 纹理取样，循环示例代码来源于下面这本书，OpenGL ES应用开发实践指南：iOS卷 纹理取样设置函数 12glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_NEAREST)glTexParameteri(GL_TEXTURE_2D,GL_TE">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/1320629-95f28b236f2535c6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/15/iOS-OpenGL-ES入门教程（三）纹理取样，混合，多重纹理/"/>
+
+
+
+
+
+  <title>iOS-OpenGL-ES入门教程（三）纹理取样，混合，多重纹理 | 安东的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">安东的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不忘初心，方得始终</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/15/iOS-OpenGL-ES入门教程（三）纹理取样，混合，多重纹理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ace Dong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安东的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS-OpenGL-ES入门教程（三）纹理取样，混合，多重纹理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-15T22:08:05+08:00">
+                2018-05-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>上两篇文章里我们分别绘制了最简单的三角形和纹理图片<br>下面来讲一下纹理取样，混合，和多重纹理</p>
+<h1 id="纹理取样，循环"><a href="#纹理取样，循环" class="headerlink" title="纹理取样，循环"></a>纹理取样，循环</h1><p>示例代码来源于下面这本书，<br><a href="https://book.douban.com/subject/24849591/" target="_blank" rel="noopener">OpenGL ES应用开发实践指南：iOS卷</a></p>
+<p>纹理取样设置函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_NEAREST)</span><br><span class="line">glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR);</span><br></pre></td></tr></table></figure>
+<p><code>GL_TEXTURE_MAG_FILTER</code>用于多个纹素对应一个顶点即片元时候的处理方式，<code>GL_NEAREST</code>是取最近的纹素，<code>GL_LINEAR</code>则是取这多个纹素的混合结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);</span><br><span class="line">glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);</span><br></pre></td></tr></table></figure>
+<p> <code>GL_TEXTURE_MAG_FILTER</code>参数用于没有足够的可用纹素来唯一性的映射一个或者多个纹素到每个片元时配置取样. GL_NEAREST是取最近的纹素，GL_LINEAR则是取附近多个纹素的混合结果<br>GL_LINEAR的直观显示效果就是图片模糊的渲染了。</p>
+<p>我们知道顶点的坐标系U,V坐标和纹理的S,T坐标一一映射对用，如果U，V大于1，或者小于0，也就是超出了纹理坐标系，我们可以设置取样边缘的纹素，或者重复纹理取样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);//取样纹理边缘的纹素</span><br><span class="line">glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);//重复纹理填满</span><br><span class="line">    </span><br><span class="line">glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);//取样纹理边缘的纹素</span><br><span class="line">glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);//重复纹理填满</span><br></pre></td></tr></table></figure>
+<p>接下来我们用下面这个Demo来看下实际效果<br><img src="https://upload-images.jianshu.io/upload_images/1320629-95f28b236f2535c6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Demo.png"></p>
+<p>这里列举下核心代码</p>
+<p>首先是顶点数组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">typedef struct &#123;</span><br><span class="line">    GLKVector3 positionCoords;</span><br><span class="line">    GLKVector2 textureCoord;</span><br><span class="line">&#125;SceneVertex;</span><br><span class="line"></span><br><span class="line">//顶点 三角形 </span><br><span class="line">static SceneVertex vertices[] =</span><br><span class="line">&#123;</span><br><span class="line">    &#123;&#123;-0.5f, -0.5f, 0.0f&#125;, &#123;0.0f, 0.0f&#125;&#125;, // lower left corner</span><br><span class="line">    &#123;&#123; 0.5f, -0.5f, 0.0f&#125;, &#123;1.0f, 0.0f&#125;&#125;, // lower right corner</span><br><span class="line">    &#123;&#123;-0.5f,  0.5f, 0.0f&#125;, &#123;0.0f, 1.0f&#125;&#125;, // upper left corner</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">//默认顶点 -- 用于关闭动画时候恢复默认顶点</span><br><span class="line">static const SceneVertex defaultVertices[] =</span><br><span class="line">&#123;</span><br><span class="line">    &#123;&#123;-0.5f, -0.5f, 0.0f&#125;, &#123;0.0f, 0.0f&#125;&#125;,</span><br><span class="line">    &#123;&#123; 0.5f, -0.5f, 0.0f&#125;, &#123;1.0f, 0.0f&#125;&#125;,</span><br><span class="line">    &#123;&#123;-0.5f,  0.5f, 0.0f&#125;, &#123;0.0f, 1.0f&#125;&#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//move结构体 用于动画，各个坐标的变换动画效果</span><br><span class="line">static GLKVector3 movementVectors[3] = &#123;</span><br><span class="line">    &#123;-0.02f,  -0.01f, 0.0f&#125;,</span><br><span class="line">    &#123;0.01f,  -0.005f, 0.0f&#125;,</span><br><span class="line">    &#123;-0.01f,   0.01f, 0.0f&#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>属性</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">@interface OpenGLES_3_2ViewController()&#123;</span><br><span class="line">     GLuint vertextBufferID;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@property (nonatomic,strong)GLKBaseEffect *baseEffect;</span><br><span class="line">//是否使用线性过滤器</span><br><span class="line">@property (nonatomic,assign)BOOL shouldUseLineFilter;</span><br><span class="line">//是否开启动画</span><br><span class="line">@property (nonatomic,assign)BOOL shouldAnimate;</span><br><span class="line">//是否重复纹理</span><br><span class="line">@property (nonatomic,assign)BOOL shouldRepeatTexture;</span><br><span class="line">//顶点s坐标的offset</span><br><span class="line">@property (nonatomic,assign)GLfloat sCoordinateOffset;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>ViewDidload中初始化context和baseEffect以及load顶点缓存和纹理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">self.preferredFramesPerSecond = 60;</span><br><span class="line">self.shouldAnimate = YES;</span><br><span class="line">self.shouldRepeatTexture = YES;</span><br><span class="line">self.shouldUseLineFilter = NO;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">GLKView *view = (GLKView *)self.view;</span><br><span class="line">NSAssert([view isKindOfClass:[GLKView class]], @&quot;View controller&apos;s is not a GLKView&quot;);</span><br><span class="line"></span><br><span class="line">view.context = [[EAGLContext alloc]initWithAPI:kEAGLRenderingAPIOpenGLES2];</span><br><span class="line">[EAGLContext setCurrentContext:view.context];</span><br><span class="line"></span><br><span class="line">self.baseEffect = [[GLKBaseEffect alloc]init];</span><br><span class="line">self.baseEffect.useConstantColor = GL_TRUE;</span><br><span class="line">self.baseEffect.constantColor = GLKVector4Make(1.0f, 1.0f, 1.0f, 1.0f);</span><br><span class="line">glClearColor(0.0f, 0.0f, 0.0f, 1.0f);</span><br><span class="line"></span><br><span class="line">//顶点缓存和纹理</span><br><span class="line">[self loadVertexBuffer];</span><br><span class="line">[self loadTexture];</span><br></pre></td></tr></table></figure>
+<p>loadVertexBuffer和loadTexture</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">- (void)loadVertexBuffer&#123;</span><br><span class="line">    glGenBuffers(1, &amp;vertextBufferID);</span><br><span class="line">    glBindBuffer(GL_ARRAY_BUFFER, vertextBufferID);</span><br><span class="line">    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)loadTexture&#123;</span><br><span class="line">    //绑定图片纹理</span><br><span class="line">    CGImageRef imageRef = [[UIImage imageNamed:@&quot;grid.png&quot;] CGImage];</span><br><span class="line">    GLKTextureInfo *textureInfo = [GLKTextureLoader textureWithCGImage:imageRef options:nil error:NULL];</span><br><span class="line">    self.baseEffect.texture2d0.name = textureInfo.name;</span><br><span class="line">    self.baseEffect.texture2d0.target = textureInfo.target;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>绘制部分代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">- (void)glkView:(GLKView *)view drawInRect:(CGRect)rect&#123;</span><br><span class="line">    glClear(GL_COLOR_BUFFER_BIT);</span><br><span class="line">    [self.baseEffect prepareToDraw];</span><br><span class="line">    glBindBuffer(GL_ARRAY_BUFFER, vertextBufferID);</span><br><span class="line"></span><br><span class="line">    //设置vertex偏移指针</span><br><span class="line">    glEnableVertexAttribArray(GLKVertexAttribPosition);</span><br><span class="line">    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(SceneVertex),NULL + offsetof(SceneVertex, positionCoords));</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    //设置textureCoords偏移指针</span><br><span class="line">    glEnableVertexAttribArray(GLKVertexAttribTexCoord0);</span><br><span class="line">    glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, sizeof(SceneVertex),NULL + offsetof(SceneVertex, textureCoord));</span><br><span class="line">    </span><br><span class="line">    //Draw</span><br><span class="line">    glDrawArrays(GL_TRIANGLES, 0, 3);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>核心部分，我们在系统方法update里面更新顶点坐标和纹理取样设置参数，系统update方法调用频率和系统屏幕帧数一致</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">- (void)update&#123;</span><br><span class="line">    </span><br><span class="line">    //更新动画顶点位置</span><br><span class="line">    [self updateAnimateVertexPositions];</span><br><span class="line"></span><br><span class="line">    //更新纹理参数设置</span><br><span class="line">    [self updateTextureParameters];</span><br><span class="line"></span><br><span class="line">    //刷新vertexBuffer</span><br><span class="line">    glBindBuffer(GL_ARRAY_BUFFER, vertextBufferID);</span><br><span class="line">    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)updateTextureParameters&#123;</span><br><span class="line">    glBindTexture(self.baseEffect.texture2d0.target, self.baseEffect.texture2d0.name);</span><br><span class="line">    glTexParameterf(self.baseEffect.texture2d0.target, GL_TEXTURE_WRAP_S, (self.shouldRepeatTexture) ? GL_REPEAT : GL_CLAMP_TO_EDGE);</span><br><span class="line">    glTexParameterf(self.baseEffect.texture2d0.target, GL_TEXTURE_MAG_FILTER, (self.shouldUseLineFilter) ? GL_LINEAR : GL_NEAREST);   </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)updateAnimateVertexPositions&#123;</span><br><span class="line">    if (_shouldAnimate) &#123;</span><br><span class="line">        int I;</span><br><span class="line">        for (i = 0; i &lt; 3; i++) &#123;</span><br><span class="line">            vertices[i].positionCoords.x += movementVectors[i].x;</span><br><span class="line">            if (vertices[i].positionCoords.x &gt; 1.0f ||</span><br><span class="line">                vertices[i].positionCoords.x &lt; -1.0f) &#123;</span><br><span class="line">                movementVectors[i].x = -movementVectors[i].x;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            vertices[i].positionCoords.y += movementVectors[i].y;</span><br><span class="line">            if(vertices[i].positionCoords.y &gt;= 1.0f ||</span><br><span class="line">               vertices[i].positionCoords.y &lt;= -1.0f)</span><br><span class="line">            &#123;</span><br><span class="line">                movementVectors[i].y = -movementVectors[i].y;</span><br><span class="line">            &#125;</span><br><span class="line">            vertices[i].positionCoords.z += movementVectors[i].z;</span><br><span class="line">            if(vertices[i].positionCoords.z &gt;= 1.0f ||</span><br><span class="line">               vertices[i].positionCoords.z &lt;= -1.0f)</span><br><span class="line">            &#123;</span><br><span class="line">                movementVectors[i].z = -movementVectors[i].z;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    else&#123;</span><br><span class="line">        int I;</span><br><span class="line">        for(i = 0; i &lt; 3; I++)</span><br><span class="line">        &#123;</span><br><span class="line">            vertices[i].positionCoords.x =</span><br><span class="line">            defaultVertices[i].positionCoords.x;</span><br><span class="line">            vertices[i].positionCoords.y =</span><br><span class="line">            defaultVertices[i].positionCoords.y;</span><br><span class="line">            vertices[i].positionCoords.z =</span><br><span class="line">            defaultVertices[i].positionCoords.z;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    &#123;  // Adjust the S texture coordinates to slide texture and</span><br><span class="line">        // reveal effect of texture repeat vs. clamp behavior</span><br><span class="line">        int    i;  // &apos;i&apos; is current vertex index</span><br><span class="line">        for(i = 0; i &lt; 3; I++)</span><br><span class="line">        &#123;</span><br><span class="line">            vertices[i].textureCoord.s =</span><br><span class="line">            (defaultVertices[i].textureCoord.s +</span><br><span class="line">             _sCoordinateOffset);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>需要注意的是，我们更新完了数据源顶点的坐标需要重新glBufferData刷新GPU顶点缓存。</p>
+</blockquote>
+<p>以上呢我们就实现了一个基于OPENGL ES2.0的简单动画，并且呢直观演示了纹理取样的不同参数的实际效果。</p>
+<h1 id="纹理混合"><a href="#纹理混合" class="headerlink" title="纹理混合"></a>纹理混合</h1><p>之前的Demo我们都是绘制了一张图片，如果是多个图片，也就是多个纹理的绘制如何处理呢。</p>
+<p>OpenGL支持纹理混合，开启纹理混合非常的简单。<br>常用的混合调用以下函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//开启混合</span><br><span class="line">glEnable(GL_BLEND);</span><br><span class="line">glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);</span><br></pre></td></tr></table></figure>
+<p>GL_ONE_MINUS_SRC_ALPHA该模式是让源片元的透明度元素和正在更新的像素的颜色元素相乘。<br>GL_SRC_ALPHA用于让源片元的透明度元素和其他的片元的透明度元素依次相乘。</p>
+<p>那么帧缓存最终的像素颜色计算公式如下<br><img src="https://upload-images.jianshu.io/upload_images/1320629-c823616f09c82fa5.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="帧缓存最终颜色计算公式"></p>
+<p>好，我们就写一个Demo来做一下纹理混合</p>
+<p>核心代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">- (void)fillTexture&#123;</span><br><span class="line">    //获取图片1</span><br><span class="line">    CGImageRef imageRef1 = [[UIImage imageNamed:@&quot;leaves.gif&quot;] CGImage];</span><br><span class="line">    //通过图片数据产生纹理缓存</span><br><span class="line">    NSDictionary* options = [NSDictionary dictionaryWithObjectsAndKeys:@(1), GLKTextureLoaderOriginBottomLeft, nil];</span><br><span class="line">    self.textureInfo1 = [GLKTextureLoader textureWithCGImage:imageRef1 options:options error:NULL];</span><br><span class="line">    </span><br><span class="line">    //获取图片2</span><br><span class="line">    CGImageRef imageRef2 = [[UIImage imageNamed:@&quot;beetle&quot;] CGImage];</span><br><span class="line">    self.textureInfo2 = [GLKTextureLoader textureWithCGImage:imageRef2 options:options error:NULL];</span><br><span class="line">    </span><br><span class="line">    //开启混合</span><br><span class="line">    glEnable(GL_BLEND);</span><br><span class="line">    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里开启GL_BLEND</p>
+<p>绘制部分代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">- (void)glkView:(GLKView *)view drawInRect:(CGRect)rect&#123;</span><br><span class="line">    //清除背景色</span><br><span class="line">    glClearColor(0.0f,0.0f,0.0f,1.0f);</span><br><span class="line">    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);</span><br><span class="line">    </span><br><span class="line">    //依次绘制顶点纹理1和纹理2</span><br><span class="line">    self.baseEffect.texture2d0.name = self.textureInfo1.name;</span><br><span class="line">    self.baseEffect.texture2d0.target = self.textureInfo1.target;</span><br><span class="line">    [self.baseEffect prepareToDraw];</span><br><span class="line">    glDrawArrays(GL_TRIANGLES, 0, 6);</span><br><span class="line">    </span><br><span class="line">    self.baseEffect.texture2d0.name = self.textureInfo2.name;</span><br><span class="line">    self.baseEffect.texture2d0.target = self.textureInfo2.target;</span><br><span class="line">    [self.baseEffect prepareToDraw];</span><br><span class="line">    glDrawArrays(GL_TRIANGLES, 0, 6);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们需要依次绘制纹理1和纹理2，运行结果图如下<img src="https://upload-images.jianshu.io/upload_images/1320629-32a1c0e3c32587c0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="纹理混合.png"></p>
+<p>图2倍绘制在了图1的上方，这取决于纹理的绘制顺序。</p>
+<p><strong>这种通过多次读写像素颜色渲染缓存叫做多通道渲染。<br>多通道渲染从性能上来看，每次更新界面图形都需要渲染多次，需要从帧缓存读取颜色数据和片元数据混合，再次写回帧缓存，显然多次的内存读取决定了混合在性能上是不佳的，是次优选择</strong></p>
+<h1 id="多重纹理"><a href="#多重纹理" class="headerlink" title="多重纹理"></a>多重纹理</h1><p>目前CPU都支持同时从至少两个纹理缓存中取样纹素，也就是多重纹理，从而可以替代纹理混合，优化性能。</p>
+<p>GLkit中GLKBaseEffect同时支持两个纹理。</p>
+<p>核心代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">- (void)fillTexture&#123;</span><br><span class="line">    //获取图片1</span><br><span class="line">    CGImageRef imageRef1 = [[UIImage imageNamed:@&quot;leaves.gif&quot;] CGImage];</span><br><span class="line">    //通过图片数据产生纹理缓存</span><br><span class="line">    NSDictionary* options = [NSDictionary dictionaryWithObjectsAndKeys:@(1), GLKTextureLoaderOriginBottomLeft, nil];</span><br><span class="line">    self.textureInfo1 = [GLKTextureLoader textureWithCGImage:imageRef1 options:options error:NULL];</span><br><span class="line">    </span><br><span class="line">    //获取图片2</span><br><span class="line">    CGImageRef imageRef2 = [[UIImage imageNamed:@&quot;beetle&quot;] CGImage];</span><br><span class="line">    self.textureInfo2 = [GLKTextureLoader textureWithCGImage:imageRef2 options:options error:NULL];</span><br><span class="line">    </span><br><span class="line">    self.baseEffect.texture2d0.name = self.textureInfo1.name;</span><br><span class="line">    self.baseEffect.texture2d0.target = self.textureInfo1.target;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    self.baseEffect.texture2d1.name = self.textureInfo2.name;</span><br><span class="line">    self.baseEffect.texture2d1.target = self.textureInfo2.target;</span><br><span class="line">    //设置混合EnvMode</span><br><span class="line">    self.baseEffect.texture2d1.envMode = GLKTextureEnvModeDecal;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里创建了两个纹理缓存并且设置了纹理2的envMode为GLKTextureEnvModeDecal，GLKTextureEnvModeDecal是和glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);效果一样的。计算公式一致</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">- (void)fillVertexArray&#123;</span><br><span class="line">    glGenBuffers(1, &amp;vertextBufferID);</span><br><span class="line">    glBindBuffer(GL_ARRAY_BUFFER, vertextBufferID); //绑定指定标识符的缓存为当前缓存</span><br><span class="line">    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    glEnableVertexAttribArray(GLKVertexAttribPosition); //顶点数据缓存</span><br><span class="line">    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(SceneVertex), NULL + offsetof(SceneVertex, positionCoords));</span><br><span class="line">    </span><br><span class="line">    glEnableVertexAttribArray(GLKVertexAttribTexCoord0); //纹理0</span><br><span class="line">    glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, sizeof(SceneVertex), NULL + offsetof(SceneVertex, textureCoords));</span><br><span class="line">    </span><br><span class="line">    glEnableVertexAttribArray(GLKVertexAttribTexCoord1); //纹理1</span><br><span class="line">    glVertexAttribPointer(GLKVertexAttribTexCoord1, 2, GL_FLOAT, GL_FALSE, sizeof(SceneVertex), NULL + offsetof(SceneVertex, textureCoords));</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里设置顶点纹理数据指针偏移时候开启了GLKVertexAttribTexCoord0 和GLKVertexAttribTexCoord1两个纹理</p>
+<p>绘制部分</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- (void)glkView:(GLKView *)view drawInRect:(CGRect)rect&#123;</span><br><span class="line">    //清除背景色</span><br><span class="line">    glClearColor(0.0f,0.0f,0.0f,1.0f);</span><br><span class="line">    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);</span><br><span class="line">    [self.baseEffect prepareToDraw];</span><br><span class="line">    glDrawArrays(GL_TRIANGLES, 0, 6);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里多重纹理就避免了重复和多次绘制，性能比纹理混合要好，是绘制多个纹理时候的优先选择。</p>
+<p>Demo代码地址：<a href="https://github.com/AceDong0803/LearnOpenGLESDemo/tree/master" target="_blank" rel="noopener">LearnOpenGLESDemo</a></p>
+<p>源码来源于书籍：1. <a href="https://book.douban.com/subject/24849591/" target="_blank" rel="noopener">OpenGL ES应用开发实践指南：iOS卷</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/25/iOS-OpenGL-ES入门教程（二）最简单的纹理Demo/" rel="next" title="iOS-OpenGL-ES入门教程（二）最简单的纹理Demo">
+                <i class="fa fa-chevron-left"></i> iOS-OpenGL-ES入门教程（二）最简单的纹理Demo
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/14/iOS-OpenGL-ES入门教程（四）光照/" rel="prev" title="iOS-OpenGL-ES入门教程（四）光照">
+                iOS-OpenGL-ES入门教程（四）光照 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Ace Dong" />
+            
+              <p class="site-author-name" itemprop="name">Ace Dong</p>
+              <p class="site-description motion-element" itemprop="description">iOS开发者，爱生活，爱编程</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#纹理取样，循环"><span class="nav-number">2.</span> <span class="nav-text">纹理取样，循环</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#纹理混合"><span class="nav-number">3.</span> <span class="nav-text">纹理混合</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#多重纹理"><span class="nav-number">4.</span> <span class="nav-text">多重纹理</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ace Dong</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

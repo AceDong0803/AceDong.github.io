@@ -232,7 +232,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/06/03/iOS多线程编程之GCD详解（一）/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/03/算法练习四/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Ace Dong">
@@ -251,7 +251,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/06/03/iOS多线程编程之GCD详解（一）/" itemprop="url">iOS多线程编程之GCD详解（一）</a></h1>
+                <a class="post-title-link" href="/2018/07/03/算法练习四/" itemprop="url">算法练习四</a></h1>
         
 
         <div class="post-meta">
@@ -263,8 +263,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-06-03T15:04:46+08:00">
-                2015-06-03
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-03T22:08:05+08:00">
+                2018-07-03
               </time>
             
 
@@ -303,26 +303,1588 @@
       
         
           
-          GCD简介iOS开发中多线程的API主要有pthread，NSThread，NSOperation和GCD，前两者在现在开发过程中已经不常用，NSOperation是面向对象封装的一套API，而GCD则是一套纯C语言API。
+            <h1 id="7-反转整数"><a href="#7-反转整数" class="headerlink" title="7. 反转整数"></a>7. 反转整数</h1><p>给定一个 32 位有符号整数，将整数中的数字进行反转。</p>
+<p>示例 1:</p>
+<p>输入: 123<br>输出: 321<br> 示例 2:</p>
+<p>输入: -123<br>输出: -321<br>示例 3:</p>
+<p>输入: 120<br>输出: 21<br>注意:</p>
+<p>假设我们的环境只能存储 32 位有符号整数，其数值范围是 [−231,  231 − 1]。根据这个假设，如果反转后的整数溢出，则返回 0。</p>
+<blockquote>
+<p>常规思路解题，求余数，需要注意的是溢出判断。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    int reverse(int x) &#123;</span><br><span class="line">        int t = 0;</span><br><span class="line">        while (x != 0)</span><br><span class="line">        &#123;</span><br><span class="line">            //溢出判断</span><br><span class="line">            if (t &gt;INT_MAX / 10 || t &lt;(INT_MIN) / 10)</span><br><span class="line">                return 0;</span><br><span class="line">            t= t * 10 + x % 10;</span><br><span class="line">            x /= 10;</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        return t;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="8-字符串转整数-atoi"><a href="#8-字符串转整数-atoi" class="headerlink" title="8. 字符串转整数 (atoi)"></a>8. 字符串转整数 (atoi)</h1><p>实现 atoi，将字符串转为整数。</p>
+<p>在找到第一个非空字符之前，需要移除掉字符串中的空格字符。如果第一个非空字符是正号或负号，选取该符号，并将其与后面尽可能多的连续的数字组合起来，这部分字符即为整数的值。如果第一个非空字符是数字，则直接将其与之后连续的数字字符组合起来，形成整数。</p>
+<p>字符串可以在形成整数的字符后面包括多余的字符，这些字符可以被忽略，它们对于函数没有影响。</p>
+<p>当字符串中的第一个非空字符序列不是个有效的整数；或字符串为空；或字符串仅包含空白字符时，则不进行转换。</p>
+<p>若函数不能执行有效的转换，返回 0。</p>
+<p>说明：</p>
+<p>假设我们的环境只能存储 32 位有符号整数，其数值范围是 [−231,  231 − 1]。如果数值超过可表示的范围，则返回  INT_MAX (231 − 1) 或 INT_MIN (−231) 。</p>
+<p>示例 1:</p>
+<p>输入: “42”<br>输出: 42<br>示例 2:</p>
+<p>输入: “   -42”<br>输出: -42<br>解释: 第一个非空白字符为 ‘-‘, 它是一个负号。<br>     我们尽可能将负号与后面所有连续出现的数字组合起来，最后得到 -42 。<br>示例 3:</p>
+<p>输入: “4193 with words”<br>输出: 4193<br>解释: 转换截止于数字 ‘3’ ，因为它的下一个字符不为数字。<br>示例 4:</p>
+<p>输入: “words and 987”<br>输出: 0<br>解释: 第一个非空字符是 ‘w’, 但它不是数字或正、负号。<br>     因此无法执行有效的转换。<br>示例 5:</p>
+<p>输入: “-91283472332”<br>输出: -2147483648<br>解释: 数字 “-91283472332” 超过 32 位有符号整数范围。<br>     因此返回 INT_MIN (−231) 。</p>
+<blockquote>
+<p>其实就是atoi的函数实现，依然较为简单，依次判断所有条件即可。空格，正负号，溢出，是否为数字</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    int myAtoi(string str) &#123;</span><br><span class="line">        if (str.empty()) &#123;</span><br><span class="line">            return 0;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        int sign = 1, base = 0, i = 0,n = str.size();</span><br><span class="line">        while (i &lt; n &amp;&amp; str[i] == &apos; &apos;) &#123;</span><br><span class="line">            I++;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        if (str[i] == &apos;+&apos; || str[i] == &apos;-&apos;) &#123;</span><br><span class="line">            sign = (str[i] == &apos;+&apos;) ? 1: -1;</span><br><span class="line">            I++;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        while (i &lt;n &amp;&amp; str[i] &gt;= &apos;0&apos; &amp;&amp; str[i] &lt;= &apos;9&apos;) &#123;</span><br><span class="line">            if (base &gt; INT_MAX/10 || (base == INT_MAX/10 &amp;&amp; str[i] - &apos;0&apos; &gt;7)) &#123;</span><br><span class="line">                return (sign ==1) ? INT_MAX : INT_MIN;</span><br><span class="line">            &#125;</span><br><span class="line">            base = 10 * base + (str[i] - &apos;0&apos;);</span><br><span class="line">            I++;</span><br><span class="line">        &#125;</span><br><span class="line">        return sign *base;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="62-不同路径"><a href="#62-不同路径" class="headerlink" title="62. 不同路径"></a>62. 不同路径</h1><p>一个机器人位于一个 <em>m x n </em>网格的左上角 （起始点在下图中标记为“Start” ）。</p>
+<p>机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为“Finish”）。</p>
+<p>问总共有多少条不同的路径？</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1320629-0197c322b85120ff.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><small style="box-sizing: border-box; font-size: 12px;">例如，上图是一个7 x 3 的网格。有多少可能的路径？</small></p>
+<p><strong>说明：*</strong>m<em> 和 </em>n *的值均不超过 100。</p>
+<p><strong>示例 1:</strong></p>
+<p>输入: m = 3, n = 2<br>输出: 3<br>解释:<br>从左上角开始，总共有 3 条路径可以到达右下角。</p>
+<ol>
+<li>向右 -&gt; 向右 -&gt; 向下</li>
+<li>向右 -&gt; 向下 -&gt; 向右</li>
+<li>向下 -&gt; 向右 -&gt; 向右</li>
+</ol>
+<p><strong>示例 2:</strong></p>
+<p>输入: m = 7, n = 3<br>输出: 28</p>
+<blockquote>
+<p>除了DFS和BFS搜索算法，这题其实典型的动态规划。我们可以假设dp[i][j]的值就是第i行，j列的路径数，很明显i = 0.的所有值都是1，j = 0的所有值都为1，只有一条路径。而除此之外dp[i][j] = dp[i-1][j] + dp[i][j-1];时间复杂度O(nm),空间复杂度O(nm)</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    int uniquePaths(int m, int n) &#123;</span><br><span class="line">        int dp[m][n];</span><br><span class="line">        for (int i = 0; i&lt;m; i++) &#123;</span><br><span class="line">            for (int j = 0; j &lt;n; j++) &#123;</span><br><span class="line">                if (i == 0 || j == 0) &#123;</span><br><span class="line">                    //只有一种</span><br><span class="line">                    dp[i][j] = 1;</span><br><span class="line">                &#125;</span><br><span class="line">                else&#123;</span><br><span class="line">                    dp[i][j] = dp[i-1][j] + dp[i][j-1];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        return dp[m-1][n-1];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="19-删除链表的倒数第N个节点"><a href="#19-删除链表的倒数第N个节点" class="headerlink" title="19. 删除链表的倒数第N个节点"></a>19. 删除链表的倒数第N个节点</h1><p>给定一个链表，删除链表的倒数第 n 个节点，并且返回链表的头结点。</p>
+<p>示例：</p>
+<p>给定一个链表: 1-&gt;2-&gt;3-&gt;4-&gt;5, 和 n = 2.</p>
+<p>当删除了倒数第二个节点后，链表变为 1-&gt;2-&gt;3-&gt;5.<br>说明：</p>
+<p>给定的 n 保证是有效的。</p>
+<p>进阶：</p>
+<p>你能尝试使用一趟扫描实现吗？</p>
+<blockquote>
+<p>思路一趟扫描，使用双指针，可以指定两个相差n的节点指针遍历链表，这样前面的指针遍历到链表尾部的时候，后面的指针正好在倒数第n+1个节点的位置,删除节点只需要改变next指向即可。代码并不复杂。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    ListNode* removeNthFromEnd(ListNode* head, int n) &#123;</span><br><span class="line">        struct ListNode *headCache = new ListNode(0);</span><br><span class="line">        headCache-&gt;next = head;</span><br><span class="line">        ListNode *end = headCache;</span><br><span class="line">        for (int i = 0; i &lt;n; i++) &#123;</span><br><span class="line">            head = head-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        while (head != NULL) &#123;</span><br><span class="line">            head = head-&gt;next;</span><br><span class="line">            end = end-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        //删除结点</span><br><span class="line">        end-&gt;next = end-&gt;next-&gt;next;</span><br><span class="line">        </span><br><span class="line">        return headCache-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-引用下百度的介绍GCD为Grand Central Dispatch的缩写。Grand Central Dispatch (GCD)是Apple开发的一个多核编程的较新的解决方法。它主要用于优化应用程序以支持多核处理器以及其他对称多处理系统。它是一个在线程池模式的基础上执行的并行任务。在Mac OS X 10.6雪豹中首次推出，也可在IOS 4及以上版本使用。
+          
+        
+      
+    </div>
+    
+    
+    
 
-GCD有哪些优点:
+    
 
-提供了易于使用的并发模型而不仅仅只是锁和线程，可以让我们轻松的进行多线程编程。
-自动利用更多的CPU内核。
-自动管理线程的生命周期，以及多线程调度。
-提供了简单创建单例的接口等等。
+    
 
-Dispatch_Queue（队列）概念队列GCD中的队列和数据结构中的队列特性上一致，都是受限制的线性表，遵循FIFO(First In First Out),即新的任务需要在队尾加入，读取任务则从
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2015/06/03/iOS多线程编程之GCD详解（一）/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/02/VideoToolbox硬解码H264流播放/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ace Dong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安东的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/02/VideoToolbox硬解码H264流播放/" itemprop="url">VideoToolbox硬解码H264流播放</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-02T22:08:05+08:00">
+                2018-07-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="VideoToolBox硬解码H264"><a href="#VideoToolBox硬解码H264" class="headerlink" title="VideoToolBox硬解码H264"></a>VideoToolBox硬解码H264</h1><p>对于H264和VideoToolBox还不熟悉的童鞋一定下先看下</p>
+<p><a href="https://www.jianshu.com/p/8edb448cf22e" target="_blank" rel="noopener">H264基础简介</a><br><a href="https://www.jianshu.com/p/67d0dd931ed6" target="_blank" rel="noopener">iOS-VideoToolbox硬编码H264</a></p>
+<p>我们先看下demo效果<img src="https://upload-images.jianshu.io/upload_images/1320629-21198db101163ed7.gif?imageMogr2/auto-orient/strip" alt="demo效果"></p>
+<p>整体的流程是：</p>
+<p>从摄像头获取视频裸数据-&gt;使用VideoToolBox编码成H264-&gt;使用VideoToolBox解码成image-&gt;使用openGLES绘制展示</p>
+<p>demo中上面的是实时摄像头的预览图，下方的是解码后渲染图，gif不能显示完整，可以下载demo代码看详细效果。</p>
+<h1 id="VideoToolbox解码主要流程"><a href="#VideoToolbox解码主要流程" class="headerlink" title="VideoToolbox解码主要流程"></a>VideoToolbox解码主要流程</h1><p>编码部分可以看上一篇的文章。这里重点讲一下解码流程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//解码nalu裸数据</span><br><span class="line">-(void) decodeNalu:(uint8_t *)frame size:(uint32_t)frameSize</span><br></pre></td></tr></table></figure>
+<p>传入nalu的裸数据和数据frameSize</p>
+<p>我们知道</p>
+<p>一个原始的NALU单元结构如下<br>[StartCode][NALU Header][NALU Payload]三部分。</p>
+<blockquote>
+<p>StartCode，是一个NALU单元开始，必须是00 00 00 01 或者00 00 01。</p>
+</blockquote>
+<p><strong>对于VideoToolBox的NALU前四个字节并不是StartCode，而是FrameSize，所以这里我们写入frameSize到前四个字节中</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//填充nalu size 去掉start code 替换成nalu size</span><br><span class="line">    uint32_t nalSize = (uint32_t)(frameSize - 4);</span><br><span class="line">    uint8_t *pNalSize = (uint8_t*)(&amp;nalSize);</span><br><span class="line">    frame[0] = *(pNalSize + 3);</span><br><span class="line">    frame[1] = *(pNalSize + 2);</span><br><span class="line">    frame[2] = *(pNalSize + 1);</span><br><span class="line">    frame[3] = *(pNalSize);</span><br></pre></td></tr></table></figure>
+<p>再次之前我们先读取NALU Header判断类型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//获取nalu type</span><br><span class="line">int nalu_type = (frame[4] &amp; 0x1F);</span><br></pre></td></tr></table></figure>
+<p>区分关键帧还是sps和pps，已经B，P其他帧</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">switch (nalu_type)</span><br><span class="line">    &#123;</span><br><span class="line">        case 0x05:</span><br><span class="line">            //关键帧</span><br><span class="line">            if([self initH264Decoder])</span><br><span class="line">            &#123;</span><br><span class="line">                pixelBuffer = [self decode:frame size:frameSize];</span><br><span class="line">            &#125;</span><br><span class="line">            break;</span><br><span class="line">        case 0x07:</span><br><span class="line">            //sps</span><br><span class="line">            _spsSize = frameSize - 4;</span><br><span class="line">            _sps = malloc(_spsSize);</span><br><span class="line">            memcpy(_sps, &amp;frame[4], _spsSize);</span><br><span class="line">            break;</span><br><span class="line">        case 0x08:</span><br><span class="line">        &#123;</span><br><span class="line">            //pps</span><br><span class="line">            _ppsSize = frameSize - 4;</span><br><span class="line">            _pps = malloc(_ppsSize);</span><br><span class="line">            memcpy(_pps, &amp;frame[4], _ppsSize);</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line">        default:</span><br><span class="line">        &#123;</span><br><span class="line">            // B/P frame</span><br><span class="line">            if([self initH264Decoder])</span><br><span class="line">            &#123;</span><br><span class="line">                pixelBuffer = [self decode:frame size:frameSize];</span><br><span class="line">            &#125;</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>这里我们可以看到读到关键帧或者B/P其他视频帧的时候我们才去initH264Decoder，初始化VideoToolBox解码，这是因为sps和pps里面包含了视频宽高，以及解码相关参数，必须先获取到sps和pps构建CMVideoFormatDescriptionRef，才能初始化VideoToolBox解码session</p>
+<p>封装CMVideoFormatDescriptionRef</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">@interface H264DecodeTool()&#123;</span><br><span class="line">    </span><br><span class="line">    //解码session</span><br><span class="line">    VTDecompressionSessionRef _decoderSession;</span><br><span class="line">    </span><br><span class="line">    //解码format 封装了sps和pps</span><br><span class="line">    CMVideoFormatDescriptionRef _decoderFormatDescription;</span><br><span class="line">    </span><br><span class="line">    //sps &amp; pps</span><br><span class="line">    uint8_t *_sps;</span><br><span class="line">    NSInteger _spsSize;</span><br><span class="line">    uint8_t *_pps;</span><br><span class="line">    NSInteger _ppsSize;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"> const uint8_t* const parameterSetPointers[2] = &#123; _sps, _pps &#125;;</span><br><span class="line">    const size_t parameterSetSizes[2] = &#123; _spsSize, _ppsSize &#125;;</span><br><span class="line">    </span><br><span class="line">    //用sps 和pps 实例化_decoderFormatDescription</span><br><span class="line">    OSStatus status = CMVideoFormatDescriptionCreateFromH264ParameterSets(kCFAllocatorDefault,</span><br><span class="line">                                                                          2, //参数个数</span><br><span class="line">                                                                          parameterSetPointers,</span><br><span class="line">                                                                          parameterSetSizes,</span><br><span class="line">                                                                          4, //nal startcode开始的size</span><br><span class="line">                                                                          &amp;_decoderFormatDescription);</span><br></pre></td></tr></table></figure>
+<p>初始化VideoToolBox Session</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">NSDictionary* destinationPixelBufferAttributes = @&#123;</span><br><span class="line">                                                           (id)kCVPixelBufferPixelFormatTypeKey : [NSNumber numberWithInt:kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange],</span><br><span class="line">                                                           //硬解必须是 kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange</span><br><span class="line">                                                           //                                                           或者是kCVPixelFormatType_420YpCbCr8Planar</span><br><span class="line">                                                           //因为iOS是  nv12  其他是nv21</span><br><span class="line">                                                           (id)kCVPixelBufferWidthKey : [NSNumber numberWithInt:1280],</span><br><span class="line">                                                           (id)kCVPixelBufferHeightKey : [NSNumber numberWithInt:960],</span><br><span class="line">                                                           //这里宽高和编码反的 两倍关系</span><br><span class="line">                                                           (id)kCVPixelBufferOpenGLCompatibilityKey : [NSNumber numberWithBool:YES]</span><br><span class="line">                                                           &#125;;</span><br><span class="line"></span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        VTDecompressionOutputCallbackRecord callBackRecord;</span><br><span class="line">        callBackRecord.decompressionOutputCallback = didDecompress;</span><br><span class="line">        callBackRecord.decompressionOutputRefCon = (__bridge void *)self;</span><br><span class="line">        status = VTDecompressionSessionCreate(kCFAllocatorDefault,</span><br><span class="line">                                              _decoderFormatDescription,</span><br><span class="line">                                              NULL,</span><br><span class="line">                                              (__bridge CFDictionaryRef)destinationPixelBufferAttributes,</span><br><span class="line">                                              &amp;callBackRecord,</span><br><span class="line">                                              &amp;_decoderSession);</span><br><span class="line">        VTSessionSetProperty(_decoderSession, kVTDecompressionPropertyKey_ThreadCount, (__bridge CFTypeRef)[NSNumber numberWithInt:1]);</span><br><span class="line">        VTSessionSetProperty(_decoderSession, kVTDecompressionPropertyKey_RealTime, kCFBooleanTrue);</span><br></pre></td></tr></table></figure>
+<p>iOS下硬解码只可以使用:<br>kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange:YUV420P<br>kCVPixelFormatType_420YpCbCr8Planar:NV12</p>
+<blockquote>
+<p>YUV420P和NV12是两种不同的图像数据格式，有兴趣的童鞋可以自行查阅下资料。</p>
+</blockquote>
+<p>需要注意的是kCVPixelBufferWidthKey，kCVPixelBufferHeightKey这里指定的宽和高，和实际视频的宽高是反的，两倍关系。<br>我们录制的视频是640 * 480，所以这里传入1280和960</p>
+<p>解码回调</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">//解码回调</span><br><span class="line">static void didDecompress( void *decompressionOutputRefCon, void *sourceFrameRefCon, OSStatus status, VTDecodeInfoFlags infoFlags, CVImageBufferRef pixelBuffer, CMTime presentationTimeStamp, CMTime presentationDuration )&#123;</span><br><span class="line">    CVPixelBufferRef *outputPixelBuffer = (CVPixelBufferRef *)sourceFrameRefCon;</span><br><span class="line">    </span><br><span class="line">    //持有pixelBuffer数据，否则会被释放</span><br><span class="line">    *outputPixelBuffer = CVPixelBufferRetain(pixelBuffer);</span><br><span class="line">    H264DecodeTool *decoder = (__bridge H264DecodeTool *)decompressionOutputRefCon;</span><br><span class="line">    if (decoder.delegate)</span><br><span class="line">    &#123;</span><br><span class="line">        [decoder.delegate gotDecodedFrame:pixelBuffer];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里retain一次回调的pixelBuffer，也就是图像裸数据。然后回调。</p>
+<h1 id="渲染"><a href="#渲染" class="headerlink" title="渲染"></a>渲染</h1><p>渲染部分使用了APPLE的一个demo Layer，渲染CVImageBufferRef，原理是使用opengl。这块后面在OpenGL专题再做详解，这里不再累述。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>H264编码是很复杂的，但是由于框架的封装，事实上平时我们项目中使用的现有API硬件编解码也还是很方便的。理解了流程和原理是最重要的。当然demo仅仅是实现了基本编解码，很多异常处理，例如退到后台，session报错异常，前台恢复等在实际商业项目中是必然需要考虑的。</p>
+<p>demo下载地址:<a href="https://github.com/AceDong0803/iOS-VideoToolBox-demo" target="_blank" rel="noopener">iOS-VideoToolBox-demo</a><br>也来练习下吧。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/02/算法练习三/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ace Dong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安东的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/02/算法练习三/" itemprop="url">算法练习三</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-02T22:08:05+08:00">
+                2018-07-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>5. 最长回文子串</strong></p>
+<p>给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为1000。</p>
+<p>示例 1：</p>
+<p>输入: “babad”<br>输出: “bab”<br>注意: “aba”也是一个有效答案。<br>示例 2：</p>
+<p>输入: “cbbd”<br>输出: “bb”</p>
+<blockquote>
+<p>思路：常规暴力法：求所有子串，逐个验证是否是回文子串，n的平方*n，时间复杂度O(n3);<br>动态规划：动态规划是一个不错的思路，首先，一个首尾索引分别为i和j的字符串是不是回文，只需要比对i和j是否相等，并且i+1到j-1的字符串是否为回文子串。这样我们记忆dp[i][j]是否为回文字符串的所有结果。如果是一个字符肯定是回文子串，如果是两个字符，相等就是回文子串。由于保存了dp[i][j]的结果，时间复杂度O(n2),空间复杂度O(n2)</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    string longestPalindrome(string s) &#123;</span><br><span class="line">        //字符串长度</span><br><span class="line">        int size=s.size();</span><br><span class="line">        bool dp[size][size];</span><br><span class="line">        // fill_n(&amp;dp[size][size],size*size,false);</span><br><span class="line">        int max_len=1; //保存最长回文子串长度</span><br><span class="line">        int start=0;   //保存最长回文子串起点</span><br><span class="line">        </span><br><span class="line">        //i是右标，开始遍历i</span><br><span class="line">        for(int i=0;i&lt;size;++i)</span><br><span class="line">        &#123;</span><br><span class="line">            //j是左标</span><br><span class="line">            for(int j=0;j&lt;=i;++j)</span><br><span class="line">            &#123;</span><br><span class="line">                if(i-j&lt;2)&#123;</span><br><span class="line">                    //两个字符的时候，直接比对值 一个字符就是true</span><br><span class="line">                    dp[j][i]=(s[i]==s[j]);</span><br><span class="line">                &#125;</span><br><span class="line">                else&#123;</span><br><span class="line">                    //动态规划思路，j+1的和i-1一定是已经填充过得值，因为i是从左往右遍历的</span><br><span class="line">                    dp[j][i]=(s[i]==s[j] &amp;&amp; dp[j+1][i-1]);</span><br><span class="line">                &#125;</span><br><span class="line">                if(dp[j][i] &amp;&amp; max_len&lt;(i-j+1))</span><br><span class="line">                &#123;</span><br><span class="line">                    max_len=i-j+1;</span><br><span class="line">                    start=j;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return s.substr(start,max_len);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>小思考：空间复杂度还是可以优化的，因为只需要输出最大回文子串，可以只保存上一轮的结果值。不保存全部。</p>
+</blockquote>
+<p><strong>6. Z字形变换</strong></p>
+<p>将字符串 “PAYPALISHIRING” 以Z字形排列成给定的行数：</p>
+<p>P   A   H   N<br>A P L S I I G<br>Y   I   R<br>之后从左往右，逐行读取字符：”PAHNAPLSIIGYIR”</p>
+<p>实现一个将字符串进行指定行数变换的函数:</p>
+<p>string convert(string s, int numRows);<br>示例 1:</p>
+<p>输入: s = “PAYPALISHIRING”, numRows = 3<br>输出: “PAHNAPLSIIGYIR”<br>示例 2:</p>
+<p>输入: s = “PAYPALISHIRING”, numRows = 4<br>输出: “PINALSIGYAHRPI”<br>解释:</p>
+<p>P     I    N<br>A   L S  I G<br>Y A   H R<br>P     I</p>
+<blockquote>
+<p>这是一道常规找规律的题目，我们按行遍历即可，时间复杂度O(n),空间复杂度O(n)</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    string convert(string s, int numRows) &#123;</span><br><span class="line"></span><br><span class="line">        if (numRows == 1) return s;</span><br><span class="line"></span><br><span class="line">        string ret;</span><br><span class="line">        int n = s.size();</span><br><span class="line">        int cycleLen = 2 * numRows - 2;</span><br><span class="line"></span><br><span class="line">        for (int i = 0; i &lt; numRows; i++) &#123;</span><br><span class="line">            for (int j = 0; j + i &lt; n; j += cycleLen) &#123;</span><br><span class="line">                ret += s[j + i];</span><br><span class="line">                //不是第一行也不是最后一行，中间的字符</span><br><span class="line">                if (i != 0 &amp;&amp; i != numRows - 1 &amp;&amp; j + cycleLen - i &lt; n)</span><br><span class="line">                    ret += s[j + cycleLen - i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/29/理解iOS中深浅拷贝-为什么NSString使用copy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ace Dong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安东的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/29/理解iOS中深浅拷贝-为什么NSString使用copy/" itemprop="url">理解iOS中深浅拷贝-为什么NSString使用copy</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-29T22:08:05+08:00">
+                2018-06-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>一直以为对深浅拷贝理解很透彻，最近面试中被问到这样一个问题，</p>
+<blockquote>
+<p>一个可变字符串调用copy会怎么样，不假思索的我当时就指出是指针拷贝，也就是浅拷贝，回来认真调试了一下发现是不对的。</p>
+</blockquote>
+<h1 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h1><p>这个概念相比很好理解，直接看图吧。<br><img src="https://upload-images.jianshu.io/upload_images/1320629-2cf368f1015920b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="浅拷贝"></p>
+<p><strong>浅拷贝</strong>：指针拷贝，复制一个新的指针，只想同一块内存区域。实际内存并没有发生拷贝</p>
+<h1 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h1><p><img src="https://upload-images.jianshu.io/upload_images/1320629-d3bb8db4759630e3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="深拷贝"></p>
+<p><strong>深拷贝</strong>：内容拷贝，拷贝数据到一块新内存区域，指针指向拷贝的数据区</p>
+<p>#iOS中的深浅拷贝，strong，copy，mutableCopy</p>
+<p><strong>strong: 浅拷贝，也就是指针引用，很明显的。我们来测试一下</strong></p>
+<ol>
+<li>新建两个类A和B，用strong声明属性testString</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@interface A : NSObject</span><br><span class="line"></span><br><span class="line">@property (nonatomic,strong)NSMutableString *testString;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@interface B : NSObject</span><br><span class="line"></span><br><span class="line">@property (nonatomic,strong)NSMutableString *testString;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>创建一个NSMutableString，然后赋值和A和B对象</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">A *a = [[A alloc]init];</span><br><span class="line">NSMutableString *string = [NSMutableString stringWithFormat:@&quot;name&quot;];</span><br><span class="line">NSLog(@&quot;原始string的地址:%p&quot;,string);</span><br><span class="line">a.testString = string;</span><br><span class="line">NSLog(@&quot;A对象string的地址:%p&quot;,a.testString);</span><br><span class="line">B *b = [[B alloc]init];</span><br><span class="line">b.testString = a.testString ;</span><br><span class="line">NSLog(@&quot;B对象string的地址:%p&quot;,b.testString);</span><br></pre></td></tr></table></figure>
+<p>运行结果如下，实际对象是一致的。</p>
+<blockquote>
+<p>2018-06-29 17:17:36.669945+0800 testArray[31561:804923] 原始string的地址:0x600000249480<br>2018-06-29 17:17:36.670097+0800 testArray[31561:804923] A对象string的地址:0x600000249480<br>2018-06-29 17:17:36.670192+0800 testArray[31561:804923] B对象string的地址:0x600000249480</p>
+</blockquote>
+<p>这意味着A使用属性对可变字符串做出了appendstring这样的操作，B中的值也会发生修改。</p>
+<blockquote>
+<p>这里就不测试了，有兴趣的可以自行测试一下。</p>
+</blockquote>
+<p><strong>copy：这里我们研究系统的NSstring，NSArray对象copy之后是怎么样的</strong></p>
+<p>先看一个有意思的现象，我们新建一个NSMutableString，然后copy，接着用这个copy对象调用MutableString特有的appendstring修改字符串</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">NSMutableString *string = [NSMutableString stringWithFormat:@&quot;name&quot;];</span><br><span class="line">NSLog(@&quot;原始string的地址:%p&quot;,string);</span><br><span class="line"></span><br><span class="line">NSMutableString *copyString = [string copy];</span><br><span class="line">NSLog(@&quot;拷贝string的地址:%p&quot;,copyString);</span><br><span class="line"></span><br><span class="line">[copyString appendString:@&quot;test&quot;];</span><br></pre></td></tr></table></figure>
+<p>结果呢？<br><img src="https://upload-images.jianshu.io/upload_images/1320629-507b1e411b8d3a78.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="结果图"></p>
+<p>闪退了！这是为什么？<br>细看一下，我们的MutableString对象调用了copy之后，拷贝出来的字符串内存地址发生了变化，也就是说这里是发生了深拷贝。</p>
+<p>接着我们使用copyString调用appendString方法发生了很常规的闪退，日志显示我们拷贝出来的是NSTaggedPointerString，这是个不可变字符串。</p>
+<p><strong>也就是说可变字符串在copy之后会发生深拷贝，拷贝出来的是一个不可变字符串！</strong></p>
+<p>接下来我们测试下如果copy一个NSString对象是怎样的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">NSString *string = [NSString stringWithFormat:@&quot;name&quot;];</span><br><span class="line">NSLog(@&quot;原始string的地址:%p&quot;,string);</span><br><span class="line"></span><br><span class="line">NSString *copyString = [string copy];</span><br><span class="line">NSLog(@&quot;拷贝string的地址:%p&quot;,copyString);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>2018-06-29 17:30:51.985051+0800 testArray[31672:813638] 原始string的地址:0xa000000656d616e4<br>2018-06-29 17:30:51.985173+0800 testArray[31672:813638] 拷贝string的地址:0xa000000656d616e4</p>
+</blockquote>
+<p>结果是这里是浅拷贝，地址没有发生变化。</p>
+<blockquote>
+<p>NSArray也是同样的验证结果，这边就不贴出来了，有兴趣的童鞋可以自行尝试</p>
+</blockquote>
+<p>我们从这得出了结论：<br>copy并不一定是浅拷贝，copy出来的一定是不可变字符串或者数组，如果被拷贝的对象是不可变数组或者字符串，这时候会发生深拷贝，反之则是浅拷贝。</p>
+<p>MutableCopy<br>这里就不贴验证了，直接上结果，对于字符串和数组MutableCopy一定是深拷贝，而且拷贝出来对象一定是可变字符串或者数组。即使被拷贝对象是不可变字符串。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p><strong>1. copy出来的字符串一定是不可变字符串，如果传入的是可变字符串，会发生深拷贝为不可变字符串，否则为浅拷贝。</strong><br><strong>2. mutablecopy，一定是深拷贝，拷贝出来的一定是可变字符串或者数组，即使传入的是不可变字符串或者数组。</strong></p>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><ol>
+<li><p>为什么NSString使用copy修饰也就可以理解了。使用copy修饰之后，即使属性拷贝来自可变字符串，也会被深拷贝成不可变字符串，也就是源字符串修改之后不会影响到属性字符串，增强了代码的健壮性。</p>
+</li>
+<li><p>关于不可变字符串和数组的copy是浅拷贝也很好理解，既然数据源本身是不可变的，也就是具备安全性，那么系统默认浅拷贝其中数据，显然是合理的做法。</p>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/29/算法练习二/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ace Dong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安东的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/29/算法练习二/" itemprop="url">算法练习二</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-29T22:08:05+08:00">
+                2018-06-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ol start="3">
+<li>无重复字符的最长子串</li>
+</ol>
+<p>给定一个字符串，找出不含有重复字符的最长子串的长度。<br>示例：<br>给定 “abcabcbb” ，没有重复字符的最长子串是 “abc” ，那么长度就是3。<br>给定 “bbbbb” ，最长的子串就是 “b” ，长度是1。<br>给定 “pwwkew” ，最长子串是 “wke” ，长度是3。请注意答案必须是一个子串，”pwke” 是 子序列  而不是子串。</p>
+<blockquote>
+<p>分析思路：</p>
+<ol>
+<li>暴力法：取出所有的子串，校验没有重复的最大值，显然这种算法是有很多重复操作的。比如遍历abc的时候已经知道abc没有重复，后面没必要再进行这段的比对。</li>
+<li>使用滑动窗口，初始窗口左值为0，右值为1，右值开始遍历字符串每个字符的同时，存入hash表，如果hash表中已经有了改字符的索引，那么久移动窗口的左值为该位置的下一个位置，继续滑动窗口，直到遍历完字符串，思路并不算复杂。时间复杂度和空间复杂度都是O(n)</li>
+</ol>
+</blockquote>
+<p>代码如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    int lengthOfLongestSubstring(string s) &#123;</span><br><span class="line">        if (s.empty()) &#123;</span><br><span class="line">            return 0;</span><br><span class="line">        &#125;</span><br><span class="line">        int left = 0,right =1, string_length = s.size(),max_length = 0;</span><br><span class="line">        unordered_map&lt;char, int&gt; hashMap;</span><br><span class="line">        hashMap[s[left]] = left;</span><br><span class="line">        max_length = 1;</span><br><span class="line">        while (right &lt; string_length) &#123;</span><br><span class="line">            auto it = hashMap.find(s[right]);</span><br><span class="line">            if (it == hashMap.end()) &#123;</span><br><span class="line">                //没有重复</span><br><span class="line">                hashMap[s[right]] = right;</span><br><span class="line">            &#125;</span><br><span class="line">            else&#123;</span><br><span class="line">                //有重复</span><br><span class="line">                //更改滑动窗口的左值为重复值的索引+1，先判断下重复值是不是再当前left的右边</span><br><span class="line">                left = max(left, it-&gt;second+1);</span><br><span class="line">                hashMap[s[right]] = right;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            max_length = max(max_length,right -left+1);</span><br><span class="line">            right++;</span><br><span class="line">        &#125;</span><br><span class="line">        return max_length;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>两个排序数组的中位数</li>
+</ol>
+<p>给定两个大小为 m 和 n 的有序数组 nums1 和 nums2 。<br>请找出这两个有序数组的中位数。要求算法的时间复杂度为 O(log (m+n)) 。<br>示例 1:<br>nums1 = [1, 3]<br>nums2 = [2]<br>中位数是 2.0<br>示例 2:<br>nums1 = [1, 2]<br>nums2 = [3, 4]<br>中位数是 (2 + 3)/2 = 2.5</p>
+<blockquote>
+<p>分析核心思路，中位数的数学定义就是该位置左边的数和右边的数数量一致。我们抽象s1数组存在位置i，s2的数组存在位置j，s1的数组i左边的数加上s2数组j左边的数正好是两个数组总长度的一半。这样i和j就存在数学关系i+j= （m+n）/2。我们同时假设n是大于等于m的。这样我们再s1数组中搜索位置i，j的位置根据数学关系也是对应的，采用二分法搜索合适i的位置保证时间复杂度要求到O(log (m+n))</p>
+</blockquote>
+<p>代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    double findMedianSortedArrays(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2) &#123;</span><br><span class="line">        int m = nums1.size(),n = nums2.size();</span><br><span class="line">        //先确保m&lt;=n 如果不是先交换一次指针</span><br><span class="line">        if (m&gt;n) &#123;</span><br><span class="line">            // 因为是C++引用，这里交换一下使用两个临时变量</span><br><span class="line">            vector&lt;int&gt; tem1 = nums1;</span><br><span class="line">            vector&lt;int&gt; tem2 = nums2;</span><br><span class="line">            nums2 = tem1;</span><br><span class="line">            nums1 = tem2;</span><br><span class="line">            int tmpValue = m; m = n; n = tmpValue;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        //先确定好i的值和中值</span><br><span class="line">        int iMin = 0,iMax = m,halfLen = (m+n+1)/2;</span><br><span class="line">        </span><br><span class="line">        //开始遍历</span><br><span class="line">        while (iMin &lt;= iMax) &#123;</span><br><span class="line">            //给定中值</span><br><span class="line">            int i = (iMin + iMax) / 2;</span><br><span class="line">            int j = halfLen -i;  //对应关系 因为i + j = (m+n+1)/2;</span><br><span class="line">            if (i &lt; iMax &amp;&amp; nums2[j-1]&gt;nums1[i] ) &#123;</span><br><span class="line">                //i的值太小了，要加大i区间</span><br><span class="line">                iMin = iMin+1;</span><br><span class="line">            &#125;</span><br><span class="line">            else if (i &gt; iMin &amp;&amp; nums1[i-1] &gt;nums2[j])&#123;</span><br><span class="line">                //i的值太大了，减少i区间</span><br><span class="line">                iMax = iMax-1;</span><br><span class="line">            &#125;</span><br><span class="line">            else&#123;</span><br><span class="line">                //完美匹配</span><br><span class="line">                int maxLeft = 0;</span><br><span class="line">                //边界值判断</span><br><span class="line">                if (i == 0) &#123;</span><br><span class="line">                    maxLeft = nums2[j-1];</span><br><span class="line">                &#125;</span><br><span class="line">                else if(j == 0)&#123;</span><br><span class="line">                    maxLeft = nums1[i-1];</span><br><span class="line">                &#125;</span><br><span class="line">                else&#123;</span><br><span class="line">                    maxLeft = max(nums1[i-1], nums2[j-1]);</span><br><span class="line">                &#125;</span><br><span class="line">                //奇数直接return左边边界值</span><br><span class="line">                if ( (m + n) % 2 == 1 ) &#123; return maxLeft; &#125;</span><br><span class="line">                int minRight = 0;</span><br><span class="line">                if (i == m) &#123;</span><br><span class="line">                    minRight = nums2[j];</span><br><span class="line">                &#125;</span><br><span class="line">                else if (j == n)&#123;</span><br><span class="line">                    minRight = nums1[i];</span><br><span class="line">                &#125;</span><br><span class="line">                else &#123;</span><br><span class="line">                    minRight = min(nums2[j], nums1[i]);</span><br><span class="line">                &#125;</span><br><span class="line">                return (maxLeft + minRight) / 2.0;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return 0.0f;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/28/腾讯社招iOS面试记录/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ace Dong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安东的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/28/腾讯社招iOS面试记录/" itemprop="url">腾讯社招iOS面试记录</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-28T22:08:05+08:00">
+                2018-06-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>毕业好几年了，上周发送了简历给腾讯，参加了腾讯面试。具体部门这边就不说了。这次面试还是收获到了很多。</p>
+<h1 id="一面电话面试："><a href="#一面电话面试：" class="headerlink" title="一面电话面试："></a>一面电话面试：</h1><p>面试官主要是针对iOS相关的基础问题。</p>
+<ol>
+<li>先简单自我介绍一下自己</li>
+<li>对mrc和arc的理解</li>
+<li>谈谈对自动释放池的理解</li>
+<li>自动释放池在mrc和arc区别</li>
+<li>多层自动释放池嵌套的对象在哪一层释放</li>
+<li>对于block，理解，mrc和arc下有什么区别，使用注意事项</li>
+<li>对于深拷贝和浅拷贝的理解</li>
+<li>对于strong weak，atomic等等理解</li>
+<li>weak原理</li>
+<li>如果属性完全不加修饰词入weak，atomic，系统会怎么处理</li>
+<li>简述下block的实现</li>
+<li>描述下IM系统如何保证消息不丢</li>
+<li>IM数据库如何设计表</li>
+<li>C++引用和指针有什么区别</li>
+<li>Http协议30x的错误是什么</li>
+<li>谈谈你懂runloop得理解：由浅入深</li>
+<li>谈谈对多线程理解:由浅入深</li>
+<li>谈谈category和extension区别，系统如何底层实现category</li>
+<li>谈谈消息转发机制实现</li>
+<li>谈谈事件响应链，如何响应view之外的事件</li>
+<li>界面性能优化</li>
+</ol>
+<blockquote>
+<p>整个面试大约1个半小时。整体上，回答的还算OK，自动释放池这块，不够清楚底层实现。另外atomic是在属性没有写的情况下系统默认的。Block的底层实现也表达的不够准确。</p>
+</blockquote>
+<p>一面之后过了几天，给了二面通知。</p>
+<h1 id="二面视频面试："><a href="#二面视频面试：" class="headerlink" title="二面视频面试："></a>二面视频面试：</h1><p>这次面试官相对于一面，更加侧重于过往项目。</p>
+<p>1.开头都是简短的自我介绍<br>2.聊一聊过往项目中你觉得收获最大的一个模块。</p>
+<blockquote>
+<p>突然遇到这个问题，心理是有点懵逼的呀，我不禁反想了一下，过去这些个项目，零零散散收获了不少知识和经验，可是具体到哪一个模块，完整的思考还是没有过的。</p>
+</blockquote>
+<p>答: 就说了上个项目做类似朋友圈的优化思路，谈到了空间换时间，缓存，渲染相关的技术点。</p>
+<p>不得不惊叹腾讯的面试官的逻辑条理，很快抓住了问题的本质。</p>
+<p>需求痛点：界面卡顿，体验不好<br>解决方案：探索的思路-》解决方案。</p>
+<p>该模块引申到的新话题还涉及到了增量更新，内存缓存，本地缓存。</p>
+<p>细节上还谈到了富文本绘制，Coretext框架的使用，哎，说来惭愧，上次使用coretext已经是两年前，连框架的核心API都已经不记得了。再加上项目中使用的是YYLabel的开源框架。最后只能凭借印象大概说了下绘制的流程，其实面试官都是由浅入深的，如果这边回答的不够深入。那么后面也就不会有更深入的探讨了。</p>
+<ol start="3">
+<li><p>上个项目中存在视频裁剪，录制等功能。<br>面试官对这块有些兴趣，就聊到了视频裁剪的实现，因为我们项目中使用了ffmpeg做的裁剪功能。包括视频下载，数据裁剪封装，引申聊到了边预览边裁剪，因为我之前的项目并没有做到预览裁剪这块。也就没有深入聊下去了。期间简单谈到了rstp协议，和HLS，rtmp等协议的对比，信令协议。虽然之前都有看过协议的大致实现和预览，但是实际使用的是SDK，没有实践加持。这部分知识是很容易忘记的。大致聊了下总体差别。</p>
+</li>
+<li><p>项目中有用到过DLNA投屏协议<br>说来又是惭愧，自己完整做过的项目，过去了两年，居然连流程，协议都只是零零散散的记起来了，很勉强的说出了大概实现流程。知道最后才记起来是soap协议。当初为了做这个可是研究了整整两周的。面试官应该也实现过这个需求，提到了视频盒子断线如何检测做处理，什么原因导致的。由于之前我们的产品需求比较简单，没有特别完善。这里我也只能说了大概。</p>
+</li>
+<li><p>项目做过视频播放需求，使用的AVPlayer框架（重点聊）<br>面试官问到，AVPlayer怎么监听视频缓冲状态的，有哪几种状态。说来又是惭愧，我只记得是KVO监听的。具体的API已经记不清了。<br>接着面试官问到这个需求遇到过哪些坑，怎么解决的。<br>这个还真的有，首先是回调播放进度在拖动时候错乱，加载某些小视频的适配，首帧出图很慢。KVO的模式不灵活。缓冲进度不受我们控制。短视频可能直接迅速缓冲到底。<br>还是之前的思路<br>需求痛点有了<br>解决方案：探索的思路-》解决方案。<br>不得不说之前做的产品，都是需求驱动，解决了需求，很多时候就没有极客精神，在深入的去探讨。这块真的是差！</p>
+</li>
+</ol>
+<p>发散问到了：如果网络不好，首帧出图之后，如何优化后续播放不卡顿<br>当时已经一脸懵逼了：就提到了可以适当加大缓冲区，等到足够的I帧数据再开始播放。</p>
+<blockquote>
+<p>甚至连常规的码率切换思路都没想到。作为做音视频相关产品的我太不应该了。</p>
+</blockquote>
+<p>6.项目聊完了之后，又追问了iOS的一些基础问题，属性和成员变量区别，strong，atomic关键字，怎么理解runloop，runloop有几种状态等等。</p>
+<p>7.最后给出了一个非常有意思的算法题</p>
+<blockquote>
+<p>有15个瓶子，其中最多有一瓶有毒，现在有四只老鼠，喝了有毒的水之后，第二天就会死。如何在第二天就可以判断出哪个瓶子有毒<br>答：开始我想到的是常规思路二分法，717，和面试官说了，发现四只老鼠根本不够，面试官友好的提示从老鼠面去想，这时候很快想到了一个老鼠有死和不死，也就0和1两个状态，四只老鼠有16个组合，正好是足够的。但是怎么分配瓶子，还没想好，演算了一会儿，因为面试官这边时间有限，就说思路是正确的。下面有兴趣在看怎么分哈。面试就到此结束了。</p>
+</blockquote>
+<p>二面持续了大约一个小时多一点。<br>二面自己感觉了很多欠缺，不够深入。</p>
+<h1 id="面试总结"><a href="#面试总结" class="headerlink" title="面试总结"></a>面试总结</h1><p>腾讯的面试官都非常的友好，逻辑性非常强。综合素质很高。面试过程中虽然针对的都是技术问题，但是考察的包含了逻辑思维和产品思维以及沟通能力等综合素质。特别是二面。</p>
+<p><strong>认识到了自己的不足：</strong></p>
+<p><strong>1. 不够极客精神：还是需求驱动，之前的项目很多设计优化因为对产品的需求没有那么高精度，遇到痛点的时候：仅仅做了初步的探讨，没有形成完整的闭环，</strong></p>
+<blockquote>
+<p>往往是做了一定的优化满足了需求就结束整个过程了。这对于自我的成长是很不好的。比如一个API了解到百分之70，没有到100.</p>
+</blockquote>
+<p><strong>2. 已有项目知识面深度不够：项目中使用到了某些API，第一反应是先去看Demo，完成需求，事实上例如仅仅是一个简单视频播放，可能调用API很简单就可以做到，但是中间包含的却很多，从网络协议，到视频解封装，编解码，渲染。音频编解码播放。</strong></p>
+<blockquote>
+<p>虽然每个环节都有去学习，也都知道流程，但是这是不够。要深入进去。即使自己的项目没有这块实践需求。也要自我驱动去做。</p>
+</blockquote>
+<p><strong>3.自我总结欠缺：以前都是浑浑噩噩的快乐开发，也自学了不少。每个项目，或者每个自我学习的过程走一段，都应该站在更高点去总结一下。</strong></p>
+<blockquote>
+<p>例如项目，要站在产品角度，自我学习，要站在整体框架角度。否则学习到的东西一段时间不用就忘记了。高度也不够。没有完全消化透。感觉什么都懂一些，但是什么都差一点火候</p>
+</blockquote>
+<h1 id="怎么改善提高"><a href="#怎么改善提高" class="headerlink" title="怎么改善提高"></a>怎么改善提高</h1><ol>
+<li>多写Blog分享，东西会做，和能写出来是两个层面。即使网上已经有很多实现了。消化好之后，用自己的思路表达出来，也有很大提高</li>
+<li>遇到问题，无论是项目还是自己实践，都要多问几个为什么，不能浅尝辄止，站在产品角度。从原理层面理解问题，最重要是给出解决问题方案。demo不等于工程。</li>
+<li>阶段性总结知识点。古语: 学而时习之。</li>
+</ol>
+<blockquote>
+<p>反思了很多：也清楚认识到自己的一些优点，有技术热情，爱好学习。很好的逻辑思维。沟通能力。相信只要坚持努力。一定能获得好的结果。也给自己打打气。共勉之。</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/26/算法练习(一)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ace Dong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安东的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/26/算法练习(一)/" itemprop="url">算法练习(一)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-26T22:08:05+08:00">
+                2018-06-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="从刷Leetcode开始"><a href="#从刷Leetcode开始" class="headerlink" title="从刷Leetcode开始"></a>从刷Leetcode开始</h1><ol>
+<li>两数之和<br>给定一个整数数组和一个目标值，找出数组中和为目标值的两个数。<br>你可以假设每个输入只对应一种答案，且同样的元素不能被重复利用。<br>示例:<br>给定 nums = [2, 7, 11, 15], target = 9<br>因为 nums[0] + nums[1] = 2 + 7 = 9<br>所以返回 [0, 1]</li>
+</ol>
+<blockquote>
+<p>分析思路：<br>1.暴力遍历，依次遍历数组每个元素x，然后查找是否存在目标值-x的值，如果存在，就返回。时间复杂度O(n2),空间复杂度O(1).<br>2.利用hash表查找的时间复杂度是O(1)优化算法，先遍历一次，存入hash表，下标作为hash的value，数组元素值作为hash的key。再一次遍历每个元素，查找hash表中是否有对应值。时间复杂度O(n2),空间复杂度O(n).<br>3.遍历两次可以优化为一次即可，存储之前先查找hashmap中有没有对应的值。如果有直接返回，没有，再存入。</p>
+</blockquote>
+<p>算法实现如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; nums, int target) &#123;</span><br><span class="line">        unordered_map&lt;int, int&gt; map;</span><br><span class="line">        for (int i = 0; i &lt; nums.size(); i++) &#123;</span><br><span class="line">            int differ = target - nums[i];</span><br><span class="line">            auto result  = map.find(nums[i]);</span><br><span class="line">            if (result != map.end()) &#123;</span><br><span class="line">                return &#123;result-&gt;second,i&#125;;</span><br><span class="line">            &#125;</span><br><span class="line">            else&#123;</span><br><span class="line">                map[differ] = i;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return &#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>使用C++11的unordered_map进一步提高了算法效率</p>
+</blockquote>
+<ol start="2">
+<li>两数相加<br>给定两个非空链表来表示两个非负整数。位数按照逆序方式存储，它们的每个节点只存储单个数字。将两数相加返回一个新的链表。<br>你可以假设除了数字 0 之外，这两个数字都不会以零开头。<br>示例：<br>输入：(2 -&gt; 4 -&gt; 3) + (5 -&gt; 6 -&gt; 4)<br>输出：7 -&gt; 0 -&gt; 8<br>原因：342 + 465 = 807</li>
+</ol>
+<blockquote>
+<p>常规思路：初始化一条新的链表Result。使用单指针同步遍历两个非空链表。使用临时标志位表示进位。每一次遍历求和结果就给Result链表拓展一个该值的节点，并且求和的时候把进位值加上。</p>
+</blockquote>
+<p>算法实现如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">struct ListNode &#123;</span><br><span class="line">    int val;</span><br><span class="line">    ListNode *next;</span><br><span class="line">    ListNode(int x) : val(x), next(NULL) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) &#123;</span><br><span class="line">        struct ListNode* res = new ListNode(0);</span><br><span class="line">        struct ListNode* current = res;</span><br><span class="line">        </span><br><span class="line">        int carry = 0;</span><br><span class="line">        </span><br><span class="line">        while (l1 || l2) &#123;</span><br><span class="line">            int sum = carry;</span><br><span class="line">            if (l1 != NULL) &#123;</span><br><span class="line">                sum += l1-&gt;val;</span><br><span class="line">                l1 = l1-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">            if (l2 != NULL) &#123;</span><br><span class="line">                sum += l2-&gt;val;</span><br><span class="line">                l2 = l2-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            current-&gt;val = sum%10;</span><br><span class="line">            carry = sum/10;</span><br><span class="line">            </span><br><span class="line">            if (l1 || l2 || carry!= 0) &#123;</span><br><span class="line">                current-&gt;next = new ListNode(0);</span><br><span class="line">                current = current-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if (carry != 0) &#123;</span><br><span class="line">            current-&gt;val = carry;</span><br><span class="line">        &#125;</span><br><span class="line">        return res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>需要注意的是1: 给定的两个链表长度不一致，2：最终有进位的情况</p>
+<p>时间复杂度: O(max(m,n));  空间复杂度:O(max(m,n))+1;</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/26/iOS-VideoToolbox硬编码H264/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ace Dong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安东的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/26/iOS-VideoToolbox硬编码H264/" itemprop="url">iOS-VideoToolbox硬编码H264</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-26T22:08:05+08:00">
+                2018-06-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>VideoToolBox是iOS8之后，苹果开发的用于硬解码编码H264/H265(iOS11以后支持)的API。</p>
+<p>对于H264还不了解的童鞋一定要先看下这边的H264的简介。<br><a href="https://www.jianshu.com/p/8edb448cf22e" target="_blank" rel="noopener">H.264基础简介</a></p>
+<h1 id="编码流程"><a href="#编码流程" class="headerlink" title="编码流程"></a>编码流程</h1><p> 我们实现一个简单的Demo，从摄像头获取到视频数据，然后再编码成H264裸数据保存在沙盒中。</p>
+<p><strong>1. 创建初始化VideoToolBox</strong></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1320629-3b0698b0a85da9b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="VideoToolBox创建初始化"><br>核心代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">- (void)initVideoToolBox &#123;</span><br><span class="line">    dispatch_sync(encodeQueue  , ^&#123;</span><br><span class="line">        frameNO = 0;</span><br><span class="line">        int width = 480, height = 640;</span><br><span class="line">        OSStatus status = VTCompressionSessionCreate(NULL, width, height, kCMVideoCodecType_H264, NULL, NULL, NULL, didCompressH264, (__bridge void *)(self),  &amp;encodingSession);</span><br><span class="line">        NSLog(@&quot;H264: VTCompressionSessionCreate %d&quot;, (int)status);</span><br><span class="line">        if (status != 0)</span><br><span class="line">        &#123;</span><br><span class="line">            NSLog(@&quot;H264: Unable to create a H264 session&quot;);</span><br><span class="line">            return ;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        // 设置实时编码输出（避免延迟）</span><br><span class="line">        VTSessionSetProperty(encodingSession, kVTCompressionPropertyKey_RealTime, kCFBooleanTrue);</span><br><span class="line">        VTSessionSetProperty(encodingSession, kVTCompressionPropertyKey_ProfileLevel, kVTProfileLevel_H264_Baseline_AutoLevel);</span><br><span class="line">        </span><br><span class="line">        // 设置关键帧（GOPsize)间隔</span><br><span class="line">        int frameInterval = 24;</span><br><span class="line">        CFNumberRef  frameIntervalRef = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &amp;frameInterval);</span><br><span class="line">        VTSessionSetProperty(encodingSession, kVTCompressionPropertyKey_MaxKeyFrameInterval, frameIntervalRef);</span><br><span class="line">        </span><br><span class="line">        //设置期望帧率</span><br><span class="line">        int fps = 24;</span><br><span class="line">        CFNumberRef  fpsRef = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &amp;fps);</span><br><span class="line">        VTSessionSetProperty(encodingSession, kVTCompressionPropertyKey_ExpectedFrameRate, fpsRef);</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        //设置码率，均值，单位是byte</span><br><span class="line">        int bitRate = width * height * 3 * 4 * 8;</span><br><span class="line">        CFNumberRef bitRateRef = CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt32Type, &amp;bitRate);</span><br><span class="line">        VTSessionSetProperty(encodingSession, kVTCompressionPropertyKey_AverageBitRate, bitRateRef);</span><br><span class="line">        </span><br><span class="line">        //设置码率，上限，单位是bps</span><br><span class="line">        int bitRateLimit = width * height * 3 * 4;</span><br><span class="line">        CFNumberRef bitRateLimitRef = CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt32Type, &amp;bitRateLimit);</span><br><span class="line">        VTSessionSetProperty(encodingSession, kVTCompressionPropertyKey_DataRateLimits, bitRateLimitRef);</span><br><span class="line">        </span><br><span class="line">        //开始编码</span><br><span class="line">        VTCompressionSessionPrepareToEncodeFrames(encodingSession);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>初始化这里设置了编码类型kCMVideoCodecType_H264,<br>分辨率640 * 480，fps，GOP，码率。</p>
+</blockquote>
+<p><strong>2. 从摄像头获取视频数据丢给VideoToolBox编码成H264</strong><br><img src="https://upload-images.jianshu.io/upload_images/1320629-0c2b68336db7e6f4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="从摄像头获取视频数据丢给VideoToolBox编码"></p>
+<p>初始化视频采集端核心代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">//初始化摄像头采集端</span><br><span class="line">- (void)initCapture&#123;</span><br><span class="line">    </span><br><span class="line">    self.captureSession = [[AVCaptureSession alloc]init];</span><br><span class="line">    </span><br><span class="line">    //设置录制640 * 480</span><br><span class="line">    self.captureSession.sessionPreset = AVCaptureSessionPreset640x480;</span><br><span class="line">    </span><br><span class="line">    AVCaptureDevice *inputCamera = [self cameraWithPostion:AVCaptureDevicePositionBack];</span><br><span class="line">  </span><br><span class="line">    self.captureDeviceInput = [[AVCaptureDeviceInput alloc] initWithDevice:inputCamera error:nil];</span><br><span class="line">    </span><br><span class="line">    if ([self.captureSession canAddInput:self.captureDeviceInput]) &#123;</span><br><span class="line">        [self.captureSession addInput:self.captureDeviceInput];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    self.captureDeviceOutput = [[AVCaptureVideoDataOutput alloc] init];</span><br><span class="line">    [self.captureDeviceOutput setAlwaysDiscardsLateVideoFrames:NO];</span><br><span class="line">    </span><br><span class="line">    //设置YUV420p输出</span><br><span class="line">    [self.captureDeviceOutput setVideoSettings:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:kCVPixelFormatType_420YpCbCr8BiPlanarFullRange] forKey:(id)kCVPixelBufferPixelFormatTypeKey]];</span><br><span class="line">    </span><br><span class="line">    [self.captureDeviceOutput setSampleBufferDelegate:self queue:captureQueue];</span><br><span class="line">    </span><br><span class="line">    if ([self.captureSession canAddOutput:self.captureDeviceOutput]) &#123;</span><br><span class="line">        [self.captureSession addOutput:self.captureDeviceOutput];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //建立连接</span><br><span class="line">    AVCaptureConnection *connection = [self.captureDeviceOutput connectionWithMediaType:AVMediaTypeVideo];</span><br><span class="line">    [connection setVideoOrientation:AVCaptureVideoOrientationPortrait];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里需要注意设置的视频分辨率和编码器一致640 * 480. AVCaptureVideoDataOutput类型选用YUV420p。</p>
+</blockquote>
+<p>摄像头数据回调部分</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">- (void)captureOutput:(AVCaptureOutput *)output didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection&#123;</span><br><span class="line">    dispatch_sync(encodeQueue, ^&#123;</span><br><span class="line">        [self encode:sampleBuffer];</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//编码sampleBuffer</span><br><span class="line">- (void) encode:(CMSampleBufferRef )sampleBuffer</span><br><span class="line">&#123;</span><br><span class="line">    CVImageBufferRef imageBuffer = (CVImageBufferRef)CMSampleBufferGetImageBuffer(sampleBuffer);</span><br><span class="line">    // 帧时间，如果不设置会导致时间轴过长。</span><br><span class="line">    CMTime presentationTimeStamp = CMTimeMake(frameNO++, 1000);</span><br><span class="line">    VTEncodeInfoFlags flags;</span><br><span class="line">    OSStatus statusCode = VTCompressionSessionEncodeFrame(encodingSession,</span><br><span class="line">                                                          imageBuffer,</span><br><span class="line">                                                          presentationTimeStamp,</span><br><span class="line">                                                          kCMTimeInvalid,</span><br><span class="line">                                                          NULL, NULL, &amp;flags);</span><br><span class="line">    if (statusCode != noErr) &#123;</span><br><span class="line">        NSLog(@&quot;H264: VTCompressionSessionEncodeFrame failed with %d&quot;, (int)statusCode);</span><br><span class="line">        </span><br><span class="line">        VTCompressionSessionInvalidate(encodingSession);</span><br><span class="line">        CFRelease(encodingSession);</span><br><span class="line">        encodingSession = NULL;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    NSLog(@&quot;H264: VTCompressionSessionEncodeFrame Success&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>3.框架中出现的数据结构</strong></p>
+<p><strong>CMSampleBufferRef</strong><br>存放一个或者多个压缩或未压缩的媒体数据；<br>下图列举了两种CMSampleBuffer。<img src="https://upload-images.jianshu.io/upload_images/1320629-f234ab8bfb02bae1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="CMSampleBuffer"></p>
+<p><strong>CMTime</strong><br>64位的value，32位的scale，media的时间格式；<br><img src="https://upload-images.jianshu.io/upload_images/1320629-c8d2a5e0f4ef5f26.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="CMTime"></p>
+<p><strong>CMBlockBuffer</strong><br>这里可以叫裸数据；</p>
+<p><strong>CVPixelBuffer</strong><br>包含未压缩的像素数据，图像宽度、高度等；</p>
+<p><strong>pixelBufferAttributes</strong><br>CFDictionary包括宽高、像素格式（RGBA、YUV）、使用场景（OpenGL ES、Core Animation）<br><img src="https://upload-images.jianshu.io/upload_images/1320629-47d9a703c948d008.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="pixelBufferAttributes"></p>
+<p><strong>CVPixelBufferPool</strong><br>CVPixelBuffer的缓冲池，因为CVPixelBuffer的创建和销毁开销很大<br><img src="https://upload-images.jianshu.io/upload_images/1320629-c965dea36ccab70e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="CVPixelBufferPool"></p>
+<p><strong>CMVideoFormatDescription</strong><br>video格式，包括宽高、颜色空间、编码格式信息等；对于H264，还包含sps和pps数据；<br><img src="https://upload-images.jianshu.io/upload_images/1320629-8972ae16fd053cac.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="CMVideoFormatDescription"></p>
+<h1 id="编码完成后的数据写入H264"><a href="#编码完成后的数据写入H264" class="headerlink" title="编码完成后的数据写入H264"></a>编码完成后的数据写入H264</h1><p><img src="https://upload-images.jianshu.io/upload_images/1320629-886c0df450ec14b4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="编码写入"></p>
+<p>这里编码完成我们先判断的是否为I帧，如果是需要读取sps和pps参数集，为什么要这样呢？</p>
+<p>我们先看一下一个裸数据H264（Elementary Stream）的NALU构成<br><img src="https://upload-images.jianshu.io/upload_images/1320629-82a145cc7fe4e2ed.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="NALU"></p>
+<p>H.264裸流中，不存在单独的SPS、PPS包或帧，而是附加在I帧前面，存储的一般形式为 </p>
+<blockquote>
+<p>00 00 00 01 SPS 00 00 00 01 PPS 00 00 00 01 I帧</p>
+</blockquote>
+<p>前面的这些00 00数据称为起始码（Start Code），它们不属于SPS、PPS的内容。</p>
+<blockquote>
+<p>SPS（Sequence Parameter Sets）和PPS（Picture Parameter Set）：H.264的SPS和PPS包含了初始化H.264解码器所需要的信息参数，包括编码所用的profile，level，图像的宽和高，deblock滤波器等。</p>
+</blockquote>
+<p>上面介绍了sps和pps是封装在CMFormatDescriptionRef中，所以我们得先CMFormatDescriptionRef中取出sps和pps写入h264裸流中。</p>
+<p>这就不难理解写入H264的流程了。</p>
+<p>代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line">// 编码完成回调</span><br><span class="line">void didCompressH264(void *outputCallbackRefCon, void *sourceFrameRefCon, OSStatus status, VTEncodeInfoFlags infoFlags, CMSampleBufferRef sampleBuffer) &#123;</span><br><span class="line">    NSLog(@&quot;didCompressH264 called with status %d infoFlags %d&quot;, (int)status, (int)infoFlags);</span><br><span class="line">    if (status != 0) &#123;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    if (!CMSampleBufferDataIsReady(sampleBuffer)) &#123;</span><br><span class="line">        NSLog(@&quot;didCompressH264 data is not ready &quot;);</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    ViewController* encoder = (__bridge ViewController*)outputCallbackRefCon;</span><br><span class="line">    bool keyframe = !CFDictionaryContainsKey( (CFArrayGetValueAtIndex(CMSampleBufferGetSampleAttachmentsArray(sampleBuffer, true), 0)), kCMSampleAttachmentKey_NotSync);</span><br><span class="line">    </span><br><span class="line">    // 判断当前帧是否为关键帧</span><br><span class="line">    // 获取sps &amp; pps数据</span><br><span class="line">    if (keyframe)</span><br><span class="line">    &#123;</span><br><span class="line">        CMFormatDescriptionRef format = CMSampleBufferGetFormatDescription(sampleBuffer);</span><br><span class="line">        size_t sparameterSetSize, sparameterSetCount;</span><br><span class="line">        const uint8_t *sparameterSet;</span><br><span class="line">        OSStatus statusCode = CMVideoFormatDescriptionGetH264ParameterSetAtIndex(format, 0, &amp;sparameterSet, &amp;sparameterSetSize, &amp;sparameterSetCount, 0 );</span><br><span class="line">        if (statusCode == noErr)</span><br><span class="line">        &#123;</span><br><span class="line">            // 获得了sps，再获取pps</span><br><span class="line">            size_t pparameterSetSize, pparameterSetCount;</span><br><span class="line">            const uint8_t *pparameterSet;</span><br><span class="line">            OSStatus statusCode = CMVideoFormatDescriptionGetH264ParameterSetAtIndex(format, 1, &amp;pparameterSet, &amp;pparameterSetSize, &amp;pparameterSetCount, 0 );</span><br><span class="line">            if (statusCode == noErr)</span><br><span class="line">            &#123;</span><br><span class="line">                // 获取SPS和PPS data</span><br><span class="line">                NSData *sps = [NSData dataWithBytes:sparameterSet length:sparameterSetSize];</span><br><span class="line">                NSData *pps = [NSData dataWithBytes:pparameterSet length:pparameterSetSize];</span><br><span class="line">                if (encoder)</span><br><span class="line">                &#123;</span><br><span class="line">                    [encoder gotSpsPps:sps pps:pps];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    CMBlockBufferRef dataBuffer = CMSampleBufferGetDataBuffer(sampleBuffer);</span><br><span class="line">    size_t length, totalLength;</span><br><span class="line">    char *dataPointer;</span><br><span class="line">    </span><br><span class="line">    //这里获取了数据指针，和NALU的帧总长度，前四个字节里面保存的</span><br><span class="line">    OSStatus statusCodeRet = CMBlockBufferGetDataPointer(dataBuffer, 0, &amp;length, &amp;totalLength, &amp;dataPointer);</span><br><span class="line">    if (statusCodeRet == noErr) &#123;</span><br><span class="line">        size_t bufferOffset = 0;</span><br><span class="line">        static const int AVCCHeaderLength = 4; // 返回的nalu数据前四个字节不是0001的startcode，而是大端模式的帧长度length</span><br><span class="line">        </span><br><span class="line">        // 循环获取nalu数据</span><br><span class="line">        while (bufferOffset &lt; totalLength - AVCCHeaderLength) &#123;</span><br><span class="line">            uint32_t NALUnitLength = 0;</span><br><span class="line">            // 读取NALU长度的数据</span><br><span class="line">            memcpy(&amp;NALUnitLength, dataPointer + bufferOffset, AVCCHeaderLength);</span><br><span class="line">            </span><br><span class="line">            // 从大端转系统端</span><br><span class="line">            NALUnitLength = CFSwapInt32BigToHost(NALUnitLength);</span><br><span class="line">            </span><br><span class="line">            NSData* data = [[NSData alloc] initWithBytes:(dataPointer + bufferOffset + AVCCHeaderLength) length:NALUnitLength];</span><br><span class="line">            [encoder gotEncodedData:data];</span><br><span class="line">            </span><br><span class="line">            // 移动到下一个NALU单元</span><br><span class="line">            bufferOffset += AVCCHeaderLength + NALUnitLength;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//填充SPS和PPS数据</span><br><span class="line">- (void)gotSpsPps:(NSData*)sps pps:(NSData*)pps</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;gotSpsPps %d %d&quot;, (int)[sps length], (int)[pps length]);</span><br><span class="line">    const char bytes[] = &quot;\x00\x00\x00\x01&quot;;</span><br><span class="line">    size_t length = (sizeof bytes) - 1; //string literals have implicit trailing &apos;\0&apos;</span><br><span class="line">    NSData *ByteHeader = [NSData dataWithBytes:bytes length:length];</span><br><span class="line">  //写入startcode</span><br><span class="line">    [self.h264FileHandle writeData:ByteHeader];</span><br><span class="line">    [self.h264FileHandle writeData:sps];</span><br><span class="line">  //写入startcode</span><br><span class="line">    [self.h264FileHandle writeData:ByteHeader];</span><br><span class="line">    [self.h264FileHandle writeData:pps];</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//填充NALU数据</span><br><span class="line">- (void)gotEncodedData:(NSData*)data</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;gotEncodedData %d&quot;, (int)[data length]);</span><br><span class="line">    if (self.h264FileHandle != NULL)</span><br><span class="line">    &#123;</span><br><span class="line">        const char bytes[] = &quot;\x00\x00\x00\x01&quot;;</span><br><span class="line">        size_t length = (sizeof bytes) - 1; //string literals have implicit trailing &apos;\0&apos;</span><br><span class="line">        NSData *ByteHeader = [NSData dataWithBytes:bytes length:length];</span><br><span class="line">        //写入startcode</span><br><span class="line">        [self.h264FileHandle writeData:ByteHeader];</span><br><span class="line">        //写入NALU数据</span><br><span class="line">        [self.h264FileHandle writeData:data];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结束编码后销毁session</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- (void)EndVideoToolBox</span><br><span class="line">&#123;</span><br><span class="line">    VTCompressionSessionCompleteFrames(encodingSession, kCMTimeInvalid);</span><br><span class="line">    VTCompressionSessionInvalidate(encodingSession);</span><br><span class="line">    CFRelease(encodingSession);</span><br><span class="line">    encodingSession = NULL;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样就完成了使用VideoToolbox 的H264编码。编码好的H264文件可以从沙盒中取出。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>仅仅看流程不看代码肯定是学不会框架的，自己动手编码试试吧！<br>Demo下载地址：<a href="https://github.com/AceDong0803/iOS-VideoToolBox-demo" target="_blank" rel="noopener">iOS-VideoToolBox-demo</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/25/H264基础简介/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ace Dong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安东的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/25/H264基础简介/" itemprop="url">H264基础简介</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-25T22:08:05+08:00">
+                2018-06-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>H264是属于视频的编码层的标准格式，视频编码显然是为了压缩大小。<br>我们看下一个完全没压缩的视频数据大小。假设视频是高清（1280 * 720），每秒30帧，也就是每秒的数据</p>
+<blockquote>
+<p>1280 <em> 720 </em>30 / 8(字节) /1024（KB）/1024(MB) = 3.11MB</p>
+</blockquote>
+<p>那么90分钟的电影就要16.7GB，这个数据量显然在当前网络下是不现实的。</p>
+<p><strong>视频压缩的原理就是去除视频冗余部分，下面列举下</strong></p>
+<ol>
+<li><p>时间冗余<br>时间冗余是序列图像(电视图像、动画)和语音数据中所经常包含的冗余。<br>图像序列中的两幅相邻的图像，后一幅图像与前一幅图像之间有较大的相关性，这反映为时间冗余。同理，在语言中，由于人在说话时发音的音频是一连续的渐变过程，而不是一个完全的在时间上独立的过程，因而存在时间冗余。</p>
+</li>
+<li><p>空间冗余<br>空间冗余是图像数据中经常存在的一种冗余。<br>在同一幅图像中，规则物体和规则背景(所谓规则是指表面颜色分布是有序的而不是杂乱无章的)的表面物理特性具有相关性，这些相关性的光成像结构在数字化图像中就表现为数据冗余。,</p>
+</li>
+<li><p>知识冗余<br>有许多图像的理解与某些基础知识有相当大的相关性,<br>例如：人脸的图像有固定的结构。比如，嘴的上方有鼻子。鼻子的上方有眼睛，鼻子位于正脸图像的中线上等等。这类规律性的结构可由先验知识相背景知识得到，我们称此类冗余为知识冗余。</p>
+</li>
+<li><p>结构冗余<br>有些图像从大域上看存在着非常强的纹理结构，例如布纹图像和草席图像，我们说它们在结构上存在冗余。 </p>
+</li>
+<li><p>视觉冗余<br>人类视觉系统对于图像场的任何变化，并不是都能感知的。例如，对于图像的编码和解码处理时，由于压缩或量比截断引入了噪声而使图像发生了一些变化，如果这些变化不能为视觉所感知，则仍认为图像足够好。事实上人类视觉系统一般的分辨能力约为26灰度等级，而一般图像量化采用28灰度等级，这类冗余我们称为视觉冗余。<br>通常情况下，人类视觉系统对亮度变化敏感，而对色度的变化相对不敏感；在高亮度区，人眼对亮度变化敏感度下降。<br>对物体边缘敏感，内部区域相对不敏感；对整体结构敏感，而对内部细节相对不敏感。</p>
+</li>
+<li><p>信息熵冗余<br>信息熵是指一组数据所携带的信息量。它一般定义为：H =<br>-∑pi×log2pi。其中N为码元个数，pi为码元yi发生的概率。由定义，为使单位数据量d接近于或等于H，应设d＝∑pi×b(yi)，其中b(yi)是分配给码元yi的比特数，理论上应取-log2pi。实际上在应用中很难估计出{Po，P1，…，PN—1}。因此一般取b(yo)＝b(y1)＝…＝b(yN—1)，例如，英文字母编码码元长为7比特，即b(yo)＝b(y1)＝…＝b(yN—1)＝7，这样所得的d必然大于H，由此带来的冗余称为信息墒冗余或编码冗余。</p>
+</li>
+</ol>
+<h1 id="H264原始码流结构"><a href="#H264原始码流结构" class="headerlink" title="H264原始码流结构"></a>H264原始码流结构</h1><p>组成：<br>H264功能分为两层，VCL(视频编码层)和 NAL(网络提取层).</p>
+<ol>
+<li>VCL：包括核心压缩引擎和块，宏块和片的语法级别定义，设计目标是尽可能地独立于网络进行高效的编码。</li>
+<li>NAL：负责将VCL产生的比特字符串适配到各种各样的网络和多元环境中，覆盖了所有片级以上的语法级别。</li>
+</ol>
+<p>VCL数据传输或者存储之前，会被映射到一个NALU中，H264数据包含一个个NALU。如下图<img src="https://upload-images.jianshu.io/upload_images/1320629-6d194a8a69620a6c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="NALU"></p>
+<blockquote>
+<p>一个NALU = 一组对应于视频编码的NALU头部信息 + 一个原始字节序列负荷(RBSP,Raw Byte Sequence Payload).</p>
+</blockquote>
+<p><img src="https://upload-images.jianshu.io/upload_images/1320629-49f50222d6902b3c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="NALU结构"></p>
+<p>一个原始的NALU单元结构如下<br>[StartCode][NALU Header][NALU Payload]三部分。</p>
+<blockquote>
+<p>StartCode，是一个NALU单元开始，必须是00 00 00 01 或者00 00 01。</p>
+</blockquote>
+<p><strong>1. NAL Header</strong></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1320629-82cd67c093c6767c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="NAL Header"></p>
+<p>头信息协议如上图。</p>
+<blockquote>
+<p>例如: 1 00 00 00 01 06:  SEI信息<br>2 00 00 00 01 67:  0x67&amp;0x1f = 0x07 :SPS<br>3 00 00 00 01 68:  0x68&amp;0x1f = 0x08 :PPS<br>4 00 00 00 01 65:  0x65&amp;0x1f = 0x05: IDR Slice</p>
+</blockquote>
+<ol start="2">
+<li>RBSP</li>
+</ol>
+<p><img src="https://upload-images.jianshu.io/upload_images/1320629-32ff30a24e4a17d8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RBSP序列举例"></p>
+<p>下面是RBSP序列的描述</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1320629-5e25e9c7c73e7c0f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RBSP序列"></p>
+<h1 id="H264的码流分层结构"><a href="#H264的码流分层结构" class="headerlink" title="H264的码流分层结构"></a>H264的码流分层结构</h1><p><img src="https://upload-images.jianshu.io/upload_images/1320629-a32ef719177466df.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>下面我们挨个来看每层的结构.</p>
+<ol>
+<li><p>Slice(片)</p>
+<p>可以看到NALU的主体是slice。<br>slice是H264提出的新概念，编码图片后切分高效整合而成。<br>一个图片有一个或者多个slice。通过NALU装载网络传输。</p>
+<blockquote>
+<p>设置片的目的是为了限制误码的扩散和传输，编码片是项目独立的，一个片的预测不能以其他片中的宏块为参考图像。保证了某一片的预测误差不会传播到别的片。</p>
+</blockquote>
+</li>
+</ol>
+<p>一个slice同样包含Slice Header  + Slice Data</p>
+<p>slice有以下五种类型</p>
+<p>(1) I -slice: slice的全部MB（宏块）都采用intra-prediction（帧内预测）的方式来编码；</p>
+<p>(2) P-slice: slice中的MB（宏块）使用intra-prediction（帧内预测）和inter-prediction（帧间预测）的方式来编码，但每一个inter-prediction block最多只能使用一个移动向量；</p>
+<p>(3) B-slice:与P-slice类似，但每一个inter-prediction block可以使用二个移动向量。B-slice的‘B’是指Bi-predictive（双向预测），除了可由前一张和后一张影像的I(或P、B)-slice外，也能从前二张不同影像的I(或P、B)-slice来做inter- prediction。</p>
+<p>(4) SP-slice:即所谓的Switching P slice，为P-slice的一种特殊类型，用来串接两个不同bitrate的bitstream；</p>
+<p>(5) SI-slice: 即所谓的Switching I slice，为I-slice的一种特殊类型，除了用来串接两个不同content的bitstream外，也可用来执行随机存取(random access)来达到网络VCR的功能</p>
+<ol start="2">
+<li>宏块(Macroblock,MB)<br>从上面结构图中可以看到片中包含宏块。那什么是宏块呢？</li>
+</ol>
+<p>宏块是视频信息的主要承载者。一个编码图像通常划分为多个宏块组成.包含着每一个像素的亮度和色度信息。视频解码最主要的工作则是提供高效的方式从码流中获得宏块中像素阵列。</p>
+<blockquote>
+<p>一个宏块 = 一个16*16的亮度像素 + 一个8×8Cb + 一个8×8Cr彩色像素块组成。(YCbCr 是属于 YUV 家族的一员,在YCbCr 中 Y 是指亮度分量，Cb 指蓝色色度分量，而 Cr 指红色色度分量)</p>
+</blockquote>
+<p>宏块分类:</p>
+<p>I宏块:  帧内预测</p>
+<p>P宏块: 利用前帧作为参考进行帧内预测，一个帧内编码的宏块可进一步作宏块的分割</p>
+<p>B宏块: 双向参考图像（前帧和后帧）进行帧内预测</p>
+<p><strong>简单总结下帧和片和宏块的概念</strong></p>
+<p> 1帧 = 1个或n个片<br> 1片 = n个宏块<br> 1宏块 = 16x16yuv数据</p>
+<p>如下图所示<br><img src="https://upload-images.jianshu.io/upload_images/1320629-a74cb9fa27625d00.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>宏块的结构如下图所示</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1320629-b3546ca8fdd5b0ce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="slice结构"></p>
+<blockquote>
+<p>mb_type 确定该 MB 是帧内或帧间(P 或 B)编码模式，确定该 MB 分割的尺寸<br>mb_pred    确定帧内预测模式(帧内宏块)确定表 0 或表 1 参考图 像，和每一宏块分割的差分编码的运动矢量(帧间宏块，除 8×8 宏块分割的帧内 MB)<br>sub_mb_pred    (只对 8×8MB 分割的帧内 MB)确定每一子宏块的子宏 块分割，每一宏块分割的表 0 和/或表 1 的参考图象;每一 宏块子分割的差分编码运动矢量。<br>coded_block_pattern    指出哪个 8×8 块(亮度和彩色)包 编码变换系数<br>mb_qp_delta    量化参数的改变值<br>esidual    预测后对应于残差图象取样的编码变换系数</p>
+</blockquote>
+<h1 id="I-P-B-IDR帧，DTS和PTS，GOP"><a href="#I-P-B-IDR帧，DTS和PTS，GOP" class="headerlink" title="I,P,B,IDR帧，DTS和PTS，GOP"></a>I,P,B,IDR帧，DTS和PTS，GOP</h1><p>I帧: 帧内编码帧，I帧通常是每个GOP的第一帧，适度压缩，类似于图片jpg压缩一样的原理。大约可以得到6：1的压缩比。</p>
+<p>P帧: 前向预测编码帧，通过图像序列前面已经编码帧的时间冗余信息压缩，称为预测帧，大约可以得到20：1的压缩比</p>
+<p>B帧：双向预测内插编码帧,通过前帧和后帧的时间冗余信息压缩，也叫双向预测帧。大约可以得到50:1的压缩比</p>
+<p>IDR帧: I帧的一种特殊帧，一个序列的第一个图像叫做 IDR 图像（立即刷新图像）</p>
+<blockquote>
+<p>当解码器解码到 IDR 图像时，立即将参考帧队列清空，将已解码的数据全部输出或抛弃，重新查找参数集，开始一个新的序列。这样可以避免前一个序列出现重大错误的问题。</p>
+</blockquote>
+<p>DTS: (Decode Time Stamp) 用于视频的解码序列<br>PTS: (Presentation Time Stamp)用于视频的显示序列。</p>
+<p>正因为有B帧这样的双向预测帧的存在，某一帧的解码序列和实际的显示序列是不一样的。如下图所示</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1320629-f25df45735e36bc8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="DTS和PTS"></p>
+<p>GOP: （Group of Picture）两个I帧之间形成的一组图片，就是GOP。一般为编码器设置参数的时候，必须设置gop_size的值，表示两个I帧之间的帧数目，相对来说GOP_size设置越小，画面质量越好。但是相应的容量越大。</p>
+<blockquote>
+<p>由于解码必须先获取到I帧，才能获得第一张图像，所以直播秒开的原理就是在CDN缓存一个GOP图片组，这样迅速解码出第一帧图。</p>
+</blockquote>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料:"></a>参考资料:</h1><ol>
+<li><a href="http://www.iosxxx.com/blog/2017-08-09-%E4%BB%8E%E9%9B%B6%E4%BA%86%E8%A7%A3H264%E7%BB%93%E6%9E%84.html" title="从零了解H264结构" target="_blank" rel="noopener">从零了解H264结构</a></li>
+</ol>
+<ol start="2">
+<li><a href="https://www.jianshu.com/p/8de09a551a66" target="_blank" rel="noopener">H.264学习笔记</a></li>
+</ol>
+<p>关于H264的介绍网络上已经有很多，本文主要是用做笔记记录。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/14/iOS-OpenGL-ES入门教程（四）光照/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ace Dong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安东的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/14/iOS-OpenGL-ES入门教程（四）光照/" itemprop="url">iOS-OpenGL-ES入门教程（四）光照</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-14T22:08:05+08:00">
+                2018-06-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>前面的基础文章列表</p>
+<ol>
+<li>iOS-零基础学习OpenGL ES入门教程（一）</li>
+<li>iOS-OpenGL ES入门教程（二）最简单的纹理Demo</li>
+<li>iOS-OpenGL ES入门教程（三）纹理取样，混合，多重纹理</li>
+</ol>
+<p>下面来讲一下光照</p>
+<h1 id="光照"><a href="#光照" class="headerlink" title="光照"></a>光照</h1><p>先直观看下使用3D灯光模拟技术和不使用的对比图<br><img src="https://upload-images.jianshu.io/upload_images/1320629-fc26cb8c36ddad7b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="灯光效果"></p>
+<p>可以看到使用灯光模拟会让图形更加立体真实。</p>
+<p>计算机模拟光照的通俗原理:GPU为每个三角形的顶点进行光线计算，再把结果进行插值，得出每个片元的最终颜色。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1320629-dd27ecf1ac79ab76.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="模拟光照"></p>
+<p>OpenGL ES的灯光模拟包括：环境光、漫反射光、镜面反射光。如上图所示。</p>
+<p>一个渲染三角形中每个光线的组成部分取决于三个互相关联的因素</p>
+<ol>
+<li>光线的设置</li>
+<li>三角形相对于光线方向</li>
+<li>三角形的材质</li>
+</ol>
+<p>光线的计算依赖于表面法向量，法向量可以通过矢量积进行计算。</p>
+<blockquote>
+<p>由于表面法向量决定了平面的方向。通过光线和法向量的角度则<br>可以计算出漫反射光，环境光，镜面反射光的模拟。这里主要是几何部分内容，不做细讲，使用GLkit，系统会内置模拟计算出灯光效果。</p>
+</blockquote>
+<p><strong>OpenGL ES程序为每个顶点指定了单独的法向量，和顶点的位置，纹理坐标一起保存起来，从而实现模拟灯光的效果</strong></p>
+<p>如果一个三角形的三个顶点赋予相同的法向量，则叫平面法线。<br>如果每个顶点使用包含该顶点的平均值，灯光模拟会创建三角形轻微弯曲感，如下图。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1320629-f3437342f6b4a239.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="平面法线和平均法线"></p>
+<p>#实例Demo<br>我们做一个Demo来直观的看一下灯光和法向量，依然使用GLkit框架为我们简化步骤。</p>
+<p>先看一下demo效果<img src="https://upload-images.jianshu.io/upload_images/1320629-c306066cc4a047b9.gif?imageMogr2/auto-orient/strip" alt="demo"></p>
+<blockquote>
+<p>绿色线是顶点法线，而黄色线是灯光方向。图中可以直观看到法向量随着顶点变化。</p>
+</blockquote>
+<p>下面看下核心代码部分</p>
+<h2 id="数据部分"><a href="#数据部分" class="headerlink" title="数据部分"></a>数据部分</h2><p><img src="https://upload-images.jianshu.io/upload_images/1320629-e3625ccb2d8932f8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="顶点"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">//顶点</span><br><span class="line">typedef struct &#123;</span><br><span class="line">    GLKVector3  position; //顶点</span><br><span class="line">    GLKVector3  normal; //法线</span><br><span class="line">&#125;</span><br><span class="line">SceneVertex;</span><br><span class="line"></span><br><span class="line">//三角形</span><br><span class="line">typedef struct &#123;</span><br><span class="line">    SceneVertex vertices[3];</span><br><span class="line">&#125;</span><br><span class="line">SceneTriangle;</span><br><span class="line"></span><br><span class="line">//9个数据顶点</span><br><span class="line">static const SceneVertex vertexA =</span><br><span class="line">&#123;&#123;-0.5,  0.5, -0.5&#125;, &#123;0.0, 0.0, 1.0&#125;&#125;;</span><br><span class="line">static const SceneVertex vertexB =</span><br><span class="line">&#123;&#123;-0.5,  0.0, -0.5&#125;, &#123;0.0, 0.0, 1.0&#125;&#125;;</span><br><span class="line">static const SceneVertex vertexC =</span><br><span class="line">&#123;&#123;-0.5, -0.5, -0.5&#125;, &#123;0.0, 0.0, 1.0&#125;&#125;;</span><br><span class="line">static const SceneVertex vertexD =</span><br><span class="line">&#123;&#123; 0.0,  0.5, -0.5&#125;, &#123;0.0, 0.0, 1.0&#125;&#125;;</span><br><span class="line">static const SceneVertex vertexE =</span><br><span class="line">&#123;&#123; 0.0,  0.0, -0.5&#125;, &#123;0.0, 0.0, 1.0&#125;&#125;;</span><br><span class="line">static const SceneVertex vertexF =</span><br><span class="line">&#123;&#123; 0.0, -0.5, -0.5&#125;, &#123;0.0, 0.0, 1.0&#125;&#125;;</span><br><span class="line">static const SceneVertex vertexG =</span><br><span class="line">&#123;&#123; 0.5,  0.5, -0.5&#125;, &#123;0.0, 0.0, 1.0&#125;&#125;;</span><br><span class="line">static const SceneVertex vertexH =</span><br><span class="line">&#123;&#123; 0.5,  0.0, -0.5&#125;, &#123;0.0, 0.0, 1.0&#125;&#125;;</span><br><span class="line">static const SceneVertex vertexI =</span><br><span class="line">&#123;&#123; 0.5, -0.5, -0.5&#125;, &#123;0.0, 0.0, 1.0&#125;&#125;;</span><br></pre></td></tr></table></figure>
+<p>对应的九个数据顶点。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//8 triangles</span><br><span class="line">#define NUM_FACES (8)</span><br><span class="line"></span><br><span class="line">//48个法线顶点</span><br><span class="line">#define NUM_NORMAL_LINE_VERTS (48)</span><br><span class="line"></span><br><span class="line">//48法线顶点+两个灯光方向顶点</span><br><span class="line">#define NUM_LINE_VERTS (NUM_NORMAL_LINE_VERTS + 2)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>8个数据源三角形，每个三角形有三个顶点。也就是法线24条。每条法线绘制需要起始和终止两个顶点，也就是48个数据源顶点，额外两个顶点用于绘制灯光方向。这里宏定义出来。</p>
+</blockquote>
+<p>属性部分</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">@interface OpenGLES_LightDemoViewController ()&#123;</span><br><span class="line">    </span><br><span class="line">    //8个三角形</span><br><span class="line">    SceneTriangle triangles[NUM_FACES];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@property (strong, nonatomic) GLKBaseEffect *baseEffect;</span><br><span class="line">@property (strong, nonatomic) GLKBaseEffect *extraEffect;</span><br><span class="line"></span><br><span class="line">//顶点buffer</span><br><span class="line">@property (nonatomic,assign)  GLuint vertexBufferID;</span><br><span class="line"></span><br><span class="line">//用于绘制法线方向的buffer</span><br><span class="line">@property (nonatomic,assign)  GLuint extraBufferID;</span><br><span class="line"></span><br><span class="line">@property (nonatomic) GLfloat centerVertexHeight;</span><br><span class="line">@property (nonatomic) BOOL shouldUseFaceNormals;</span><br><span class="line">@property (nonatomic) BOOL shouldDrawNormals;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>下面列举下矢量的计算函数<br>给定两个顶点求出法向量函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//法向量</span><br><span class="line">GLKVector3 SceneVector3UnitNormal(</span><br><span class="line">                                  const GLKVector3 vectorA,</span><br><span class="line">                                  const GLKVector3 vectorB)</span><br><span class="line">&#123;</span><br><span class="line">    return GLKVector3Normalize(</span><br><span class="line">                               GLKVector3CrossProduct(vectorA, vectorB));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>triangle的法向量函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">//triangle的法向量</span><br><span class="line">static GLKVector3 SceneTriangleFaceNormal(</span><br><span class="line">                                          const SceneTriangle triangle)</span><br><span class="line">&#123;</span><br><span class="line">    GLKVector3 vectorA = GLKVector3Subtract(</span><br><span class="line">                                            triangle.vertices[1].position,</span><br><span class="line">                                            triangle.vertices[0].position);</span><br><span class="line">    GLKVector3 vectorB = GLKVector3Subtract(</span><br><span class="line">                                            triangle.vertices[2].position,</span><br><span class="line">                                            triangle.vertices[0].position);</span><br><span class="line">    </span><br><span class="line">    return SceneVector3UnitNormal(</span><br><span class="line">                                  vectorA,</span><br><span class="line">                                  vectorB);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>构造triangle</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//生成triangle</span><br><span class="line">static SceneTriangle SceneTriangleMake(</span><br><span class="line">                                       const SceneVertex vertexA,</span><br><span class="line">                                       const SceneVertex vertexB,</span><br><span class="line">                                       const SceneVertex vertexC)</span><br><span class="line">&#123;</span><br><span class="line">    SceneTriangle   result;</span><br><span class="line">    </span><br><span class="line">    result.vertices[0] = vertexA;</span><br><span class="line">    result.vertices[1] = vertexB;</span><br><span class="line">    result.vertices[2] = vertexC;</span><br><span class="line">    </span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果采用顶点计算法向量，函数如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">//计算8个三角形的法向量，并且赋值更新</span><br><span class="line">static void SceneTrianglesUpdateFaceNormals(</span><br><span class="line">                                            SceneTriangle someTriangles[NUM_FACES])</span><br><span class="line">&#123;</span><br><span class="line">    int                i;</span><br><span class="line">    </span><br><span class="line">    for (i=0; i&lt;NUM_FACES; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        GLKVector3 faceNormal = SceneTriangleFaceNormal(</span><br><span class="line">                                                        someTriangles[i]);</span><br><span class="line">        someTriangles[i].vertices[0].normal = faceNormal;</span><br><span class="line">        someTriangles[i].vertices[1].normal = faceNormal;</span><br><span class="line">        someTriangles[i].vertices[2].normal = faceNormal;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果使用顶点所包含的所有三角形的平均法向量，函数计算如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line">//更新三角形法向量 顶点采用平均法向量</span><br><span class="line">static void SceneTrianglesUpdateVertexNormals(</span><br><span class="line">                                              SceneTriangle someTriangles[NUM_FACES])</span><br><span class="line">&#123;</span><br><span class="line">    SceneVertex newVertexA = vertexA;</span><br><span class="line">    SceneVertex newVertexB = vertexB;</span><br><span class="line">    SceneVertex newVertexC = vertexC;</span><br><span class="line">    SceneVertex newVertexD = vertexD;</span><br><span class="line">    SceneVertex newVertexE = someTriangles[3].vertices[0];</span><br><span class="line">    SceneVertex newVertexF = vertexF;</span><br><span class="line">    SceneVertex newVertexG = vertexG;</span><br><span class="line">    SceneVertex newVertexH = vertexH;</span><br><span class="line">    SceneVertex newVertexI = vertexI;</span><br><span class="line">    GLKVector3 faceNormals[NUM_FACES];</span><br><span class="line">    </span><br><span class="line">    // Calculate the face normal of each triangle</span><br><span class="line">    for (int i=0; i&lt;NUM_FACES; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        faceNormals[i] = SceneTriangleFaceNormal(</span><br><span class="line">                                                 someTriangles[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //每个顶点的平均法向量</span><br><span class="line">    newVertexA.normal = faceNormals[0];</span><br><span class="line">    newVertexB.normal = GLKVector3MultiplyScalar(</span><br><span class="line">                                                 GLKVector3Add(</span><br><span class="line">                                                               GLKVector3Add(</span><br><span class="line">                                                                             GLKVector3Add(</span><br><span class="line">                                                                                           faceNormals[0],</span><br><span class="line">                                                                                           faceNormals[1]),</span><br><span class="line">                                                                             faceNormals[2]),</span><br><span class="line">                                                               faceNormals[3]), 0.25);</span><br><span class="line">    newVertexC.normal = faceNormals[1];</span><br><span class="line">    newVertexD.normal = GLKVector3MultiplyScalar(</span><br><span class="line">                                                 GLKVector3Add(</span><br><span class="line">                                                               GLKVector3Add(</span><br><span class="line">                                                                             GLKVector3Add(</span><br><span class="line">                                                                                           faceNormals[0],</span><br><span class="line">                                                                                           faceNormals[2]),</span><br><span class="line">                                                                             faceNormals[4]),</span><br><span class="line">                                                               faceNormals[6]), 0.25);</span><br><span class="line">    newVertexE.normal = GLKVector3MultiplyScalar(</span><br><span class="line">                                                 GLKVector3Add(</span><br><span class="line">                                                               GLKVector3Add(</span><br><span class="line">                                                                             GLKVector3Add(</span><br><span class="line">                                                                                           faceNormals[2],</span><br><span class="line">                                                                                           faceNormals[3]),</span><br><span class="line">                                                                             faceNormals[4]),</span><br><span class="line">                                                               faceNormals[5]), 0.25);</span><br><span class="line">    newVertexF.normal = GLKVector3MultiplyScalar(</span><br><span class="line">                                                 GLKVector3Add(</span><br><span class="line">                                                               GLKVector3Add(</span><br><span class="line">                                                                             GLKVector3Add(</span><br><span class="line">                                                                                           faceNormals[1],</span><br><span class="line">                                                                                           faceNormals[3]),</span><br><span class="line">                                                                             faceNormals[5]),</span><br><span class="line">                                                               faceNormals[7]), 0.25);</span><br><span class="line">    newVertexG.normal = faceNormals[6];</span><br><span class="line">    newVertexH.normal = GLKVector3MultiplyScalar(</span><br><span class="line">                                                 GLKVector3Add(</span><br><span class="line">                                                               GLKVector3Add(</span><br><span class="line">                                                                             GLKVector3Add(</span><br><span class="line">                                                                                           faceNormals[4],</span><br><span class="line">                                                                                           faceNormals[5]),</span><br><span class="line">                                                                             faceNormals[6]),</span><br><span class="line">                                                               faceNormals[7]), 0.25);</span><br><span class="line">    newVertexI.normal = faceNormals[7];</span><br><span class="line">    </span><br><span class="line">    //更新triangles</span><br><span class="line">    someTriangles[0] = SceneTriangleMake(</span><br><span class="line">                                         newVertexA,</span><br><span class="line">                                         newVertexB,</span><br><span class="line">                                         newVertexD);</span><br><span class="line">    someTriangles[1] = SceneTriangleMake(</span><br><span class="line">                                         newVertexB,</span><br><span class="line">                                         newVertexC,</span><br><span class="line">                                         newVertexF);</span><br><span class="line">    someTriangles[2] = SceneTriangleMake(</span><br><span class="line">                                         newVertexD,</span><br><span class="line">                                         newVertexB,</span><br><span class="line">                                         newVertexE);</span><br><span class="line">    someTriangles[3] = SceneTriangleMake(</span><br><span class="line">                                         newVertexE,</span><br><span class="line">                                         newVertexB,</span><br><span class="line">                                         newVertexF);</span><br><span class="line">    someTriangles[4] = SceneTriangleMake(</span><br><span class="line">                                         newVertexD,</span><br><span class="line">                                         newVertexE,</span><br><span class="line">                                         newVertexH);</span><br><span class="line">    someTriangles[5] = SceneTriangleMake(</span><br><span class="line">                                         newVertexE,</span><br><span class="line">                                         newVertexF,</span><br><span class="line">                                         newVertexH);</span><br><span class="line">    someTriangles[6] = SceneTriangleMake(</span><br><span class="line">                                         newVertexG,</span><br><span class="line">                                         newVertexD,</span><br><span class="line">                                         newVertexH);</span><br><span class="line">    someTriangles[7] = SceneTriangleMake(</span><br><span class="line">                                         newVertexH,</span><br><span class="line">                                         newVertexF,</span><br><span class="line">                                         newVertexI);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>法线和灯光方向顶点数据源update函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">//更新三角形法线 还有灯光方向线</span><br><span class="line">static  void SceneTrianglesNormalLinesUpdate(</span><br><span class="line">                                             const SceneTriangle someTriangles[NUM_FACES],</span><br><span class="line">                                             GLKVector3 lightPosition,</span><br><span class="line">                                             GLKVector3 someNormalLineVertices[NUM_LINE_VERTS])</span><br><span class="line">&#123;</span><br><span class="line">    int                       trianglesIndex;</span><br><span class="line">    int                       lineVetexIndex = 0;</span><br><span class="line">    </span><br><span class="line">    // 每条法向量的顶点确定，用于绘制法线</span><br><span class="line">    for (trianglesIndex = 0; trianglesIndex &lt; NUM_FACES;</span><br><span class="line">         trianglesIndex++)</span><br><span class="line">    &#123;</span><br><span class="line">        someNormalLineVertices[lineVetexIndex++] =</span><br><span class="line">        someTriangles[trianglesIndex].vertices[0].position;</span><br><span class="line">        someNormalLineVertices[lineVetexIndex++] =</span><br><span class="line">        GLKVector3Add(</span><br><span class="line">                      someTriangles[trianglesIndex].vertices[0].position,</span><br><span class="line">                      GLKVector3MultiplyScalar(</span><br><span class="line">                                               someTriangles[trianglesIndex].vertices[0].normal,</span><br><span class="line">                                               0.5));</span><br><span class="line">        someNormalLineVertices[lineVetexIndex++] =</span><br><span class="line">        someTriangles[trianglesIndex].vertices[1].position;</span><br><span class="line">        someNormalLineVertices[lineVetexIndex++] =</span><br><span class="line">        GLKVector3Add(</span><br><span class="line">                      someTriangles[trianglesIndex].vertices[1].position,</span><br><span class="line">                      GLKVector3MultiplyScalar(</span><br><span class="line">                                               someTriangles[trianglesIndex].vertices[1].normal,</span><br><span class="line">                                               0.5));</span><br><span class="line">        someNormalLineVertices[lineVetexIndex++] =</span><br><span class="line">        someTriangles[trianglesIndex].vertices[2].position;</span><br><span class="line">        someNormalLineVertices[lineVetexIndex++] =</span><br><span class="line">        GLKVector3Add(</span><br><span class="line">                      someTriangles[trianglesIndex].vertices[2].position,</span><br><span class="line">                      GLKVector3MultiplyScalar(</span><br><span class="line">                                               someTriangles[trianglesIndex].vertices[2].normal,</span><br><span class="line">                                               0.5));</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    // 添加法线顶点</span><br><span class="line">    someNormalLineVertices[lineVetexIndex++] =</span><br><span class="line">    lightPosition;</span><br><span class="line">    </span><br><span class="line">    someNormalLineVertices[lineVetexIndex] = GLKVector3Make(</span><br><span class="line">                                                            0.0,</span><br><span class="line">                                                            0.0,</span><br><span class="line">                                                            -0.5);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>虽然计算部分函数比较繁琐，但是相对其实是简单的，因为这一块主要还是线性代数相关的。搞懂了gpu模拟灯光的原理，那么对应计算也就好理解了。</p>
+</blockquote>
+<h2 id="渲染部分代码"><a href="#渲染部分代码" class="headerlink" title="渲染部分代码"></a>渲染部分代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    GLKView *view = (GLKView *)self.view;</span><br><span class="line">    NSAssert([view isKindOfClass:[GLKView class]],</span><br><span class="line">             @&quot;View controller&apos;s view is not a GLKView&quot;);</span><br><span class="line">    view.context = [[EAGLContext alloc]</span><br><span class="line">                    initWithAPI:kEAGLRenderingAPIOpenGLES2];</span><br><span class="line">    [EAGLContext setCurrentContext:view.context];</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    self.baseEffect = [[GLKBaseEffect alloc] init];</span><br><span class="line">    self.baseEffect.light0.enabled = GL_TRUE;</span><br><span class="line">    </span><br><span class="line">    //设置灯光漫反射颜色</span><br><span class="line">    self.baseEffect.light0.diffuseColor = GLKVector4Make(</span><br><span class="line">                                                         0.7f, // Red</span><br><span class="line">                                                         0.7f, // Green</span><br><span class="line">                                                         0.7f, // Blue</span><br><span class="line">                                                         1.0f);// Alpha</span><br><span class="line">    //灯光位置</span><br><span class="line">    self.baseEffect.light0.position = GLKVector4Make(</span><br><span class="line">                                                     1.0f,</span><br><span class="line">                                                     1.0f,</span><br><span class="line">                                                     0.5f,</span><br><span class="line">                                                     0.0f);</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    //设置绘制法线的baseEffect</span><br><span class="line">    self.extraEffect = [[GLKBaseEffect alloc] init];</span><br><span class="line">    self.extraEffect.useConstantColor = GL_TRUE;</span><br><span class="line">    self.extraEffect.constantColor = GLKVector4Make(</span><br><span class="line">                                                    0.0f, // Red</span><br><span class="line">                                                    1.0f, // Green</span><br><span class="line">                                                    0.0f, // Blue</span><br><span class="line">                                                    1.0f);// Alpha</span><br><span class="line">    </span><br><span class="line">    &#123;</span><br><span class="line">        //这里是视点变换，暂时不做解释，用于下一章在讲解</span><br><span class="line">        GLKMatrix4 modelViewMatrix = GLKMatrix4MakeRotation(</span><br><span class="line">                                                            GLKMathDegreesToRadians(-60.0f), 1.0f, 0.0f, 0.0f);</span><br><span class="line">        modelViewMatrix = GLKMatrix4Rotate(</span><br><span class="line">                                           modelViewMatrix,</span><br><span class="line">                                           GLKMathDegreesToRadians(-30.0f), 0.0f, 0.0f, 1.0f);</span><br><span class="line">        modelViewMatrix = GLKMatrix4Translate(</span><br><span class="line">                                              modelViewMatrix,</span><br><span class="line">                                              0.0f, 0.0f, 0.25f);</span><br><span class="line">        </span><br><span class="line">        self.baseEffect.transform.modelviewMatrix = modelViewMatrix;</span><br><span class="line">        self.extraEffect.transform.modelviewMatrix = modelViewMatrix;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);</span><br><span class="line">    //使用顶点初始化八个三角形数据</span><br><span class="line">    triangles[0] = SceneTriangleMake(vertexA, vertexB, vertexD);</span><br><span class="line">    triangles[1] = SceneTriangleMake(vertexB, vertexC, vertexF);</span><br><span class="line">    triangles[2] = SceneTriangleMake(vertexD, vertexB, vertexE);</span><br><span class="line">    triangles[3] = SceneTriangleMake(vertexE, vertexB, vertexF);</span><br><span class="line">    triangles[4] = SceneTriangleMake(vertexD, vertexE, vertexH);</span><br><span class="line">    triangles[5] = SceneTriangleMake(vertexE, vertexF, vertexH);</span><br><span class="line">    triangles[6] = SceneTriangleMake(vertexG, vertexD, vertexH);</span><br><span class="line">    triangles[7] = SceneTriangleMake(vertexH, vertexF, vertexI);</span><br><span class="line">    </span><br><span class="line">    //Bind vertexBuffer</span><br><span class="line">    glGenBuffers(1, &amp;_vertexBufferID);</span><br><span class="line">    glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferID);</span><br><span class="line">    glBufferData(GL_ARRAY_BUFFER, sizeof(triangles), triangles, GL_DYNAMIC_DRAW);</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    //Bind 法线绘制的Buffer 默认是不绘制的</span><br><span class="line">    glGenBuffers(1, &amp;_extraBufferID);</span><br><span class="line">    glBindBuffer(GL_ARRAY_BUFFER, _extraBufferID);</span><br><span class="line">    glBufferData(GL_ARRAY_BUFFER, 0, NULL, GL_DYNAMIC_DRAW);</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    //默认展示效果</span><br><span class="line">    self.centerVertexHeight = 0.0f;</span><br><span class="line">    self.shouldUseFaceNormals = YES;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>依然使用GLkit框架的baseEffect帮我们简化灯光操作<br>light0.diffuseColor和light0.position指定了灯光位置和漫反射颜色。<br>transform.modelviewMatrix这里是绕着x和z轴做了变换，方便观看，下一章视点会详细讲这里。这里不做多解释<br>_vertexBufferID 生成三角形的缓存<br>_extraBufferID 生产法线缓存<br>同理baseEffect也对应的创建两个，用于绘制不同效果。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">- (void)glkView:(GLKView *)view drawInRect:(CGRect)rect&#123;</span><br><span class="line">    </span><br><span class="line">    [self.baseEffect prepareToDraw];</span><br><span class="line">    </span><br><span class="line">    glClear(GL_COLOR_BUFFER_BIT);</span><br><span class="line">    </span><br><span class="line">    //位置缓存</span><br><span class="line">    glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferID);</span><br><span class="line">    glEnableVertexAttribArray(GLKVertexAttribPosition);</span><br><span class="line">    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(SceneVertex), NULL + offsetof(SceneVertex, position));</span><br><span class="line">    </span><br><span class="line">    //法线缓存</span><br><span class="line">    glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferID);</span><br><span class="line">    glEnableVertexAttribArray(GLKVertexAttribNormal);</span><br><span class="line">    glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, sizeof(SceneVertex), NULL + offsetof(SceneVertex, normal));</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    //绘制</span><br><span class="line">    glDrawArrays(GL_TRIANGLES, 0, sizeof(triangles) / sizeof(SceneVertex));</span><br><span class="line">    </span><br><span class="line">    if(self.shouldDrawNormals)</span><br><span class="line">    &#123;</span><br><span class="line">        [self drawNormals];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>绘制部分依然是常规的绘制步骤。这里不做累述。指定指针偏移，绘制。</p>
+</blockquote>
+<p>法线绘制</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">//绘制法线</span><br><span class="line">- (void)drawNormals</span><br><span class="line">&#123;</span><br><span class="line">    GLKVector3  normalLineVertices[NUM_LINE_VERTS];</span><br><span class="line">    </span><br><span class="line">    //更新48个法向量顶点和两个灯光方向顶点</span><br><span class="line">    SceneTrianglesNormalLinesUpdate(triangles,</span><br><span class="line">                                    GLKVector3MakeWithArray(self.baseEffect.light0.position.v),</span><br><span class="line">                                    normalLineVertices);</span><br><span class="line">    </span><br><span class="line">    glBindBuffer(GL_ARRAY_BUFFER, _extraBufferID);</span><br><span class="line">    glBufferData(GL_ARRAY_BUFFER, NUM_LINE_VERTS * sizeof(GLKVector3), normalLineVertices, GL_DYNAMIC_DRAW);</span><br><span class="line">    glEnableVertexAttribArray(GLKVertexAttribPosition);</span><br><span class="line">    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(GLKVector3), NULL);</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    //绘制每条顶点法线</span><br><span class="line">    self.extraEffect.useConstantColor = GL_TRUE;</span><br><span class="line">    self.extraEffect.constantColor =</span><br><span class="line">    GLKVector4Make(0.0, 1.0, 0.0, 1.0); // Green</span><br><span class="line">    </span><br><span class="line">    [self.extraEffect prepareToDraw];</span><br><span class="line">    glDrawArrays(GL_LINES, 0, NUM_NORMAL_LINE_VERTS);</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    //绘制灯光方向</span><br><span class="line">    self.extraEffect.constantColor =</span><br><span class="line">    GLKVector4Make(1.0, 1.0, 0.0, 1.0); // Yellow</span><br><span class="line">    </span><br><span class="line">    [self.extraEffect prepareToDraw];</span><br><span class="line">    glDrawArrays(GL_LINES, NUM_NORMAL_LINE_VERTS, NUM_LINE_VERTS);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用绿色绘制法线。黄色绘制灯光方向。<br>可以自行代码调节灯光的位置和光线属性，查看对应的效果变化。</p>
+<blockquote>
+<p>小思考：1. 我们仅仅使用了顶点的法向量模拟灯光效果，那么相应的是不是可以给每个片元都缓存法向量呢。这样更加真实。<br>答：是可以的，这里的偏远计算，在每个RGB纹素编码的过程中加入x,y,z的法向量分量，这样的纹理叫做法线贴图。（或者凹凸贴图，DOT3灯光，这三个名词本质都是一种描述)</p>
+</blockquote>
+<h1 id="灯光烘焙到纹理"><a href="#灯光烘焙到纹理" class="headerlink" title="灯光烘焙到纹理"></a>灯光烘焙到纹理</h1><p>同样我们可以把灯光烘焙到纹理中，GPU模拟灯光需要做出的运算量非常大，烘焙到纹理则可以避开模拟灯光的矢量运算。但是相应的光烘焙进纹理仅仅适用于静态场景。在灯光位置会改变，动态场景下显然是不适用的。</p>
+<p>Demo代码地址：<a href="https://github.com/AceDong0803/LearnOpenGLESDemo/tree/master" target="_blank" rel="noopener">LearnOpenGLESDemo</a></p>
+<p>源码来源于书籍：1. <a href="https://book.douban.com/subject/24849591/" target="_blank" rel="noopener">OpenGL ES应用开发实践指南：iOS卷</a></p>
+
+          
         
       
     </div>
@@ -359,6 +1921,10 @@ Dispatch_Queue（队列）概念队列GCD中的队列和数据结构中的队列
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -406,7 +1972,7 @@ Dispatch_Queue（队列）概念队列GCD中的队列和数据结构中的队列
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

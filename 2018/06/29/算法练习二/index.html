@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="无重复字符的最长子串  给定一个字符串，找出不含有重复字符的最长子串的长度。示例：给定 “abcabcbb” ，没有重复字符的最长子串是 “abc” ，那么长度就是3。给定 “bbbbb” ，最长的子串就是 “b” ，长度是1。给定 “pwwkew” ，最长子串是 “wke” ，长度是3。请注意答案必须是一个子串，”pwke” 是 子序列  而不是子串。  分析思路：  暴力法：取出所有的子串，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法练习二">
+<meta property="og:url" content="http://yoursite.com/2018/06/29/算法练习二/index.html">
+<meta property="og:site_name" content="安东的博客">
+<meta property="og:description" content="无重复字符的最长子串  给定一个字符串，找出不含有重复字符的最长子串的长度。示例：给定 “abcabcbb” ，没有重复字符的最长子串是 “abc” ，那么长度就是3。给定 “bbbbb” ，最长的子串就是 “b” ，长度是1。给定 “pwwkew” ，最长子串是 “wke” ，长度是3。请注意答案必须是一个子串，”pwke” 是 子序列  而不是子串。  分析思路：  暴力法：取出所有的子串，">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-14T15:46:27.191Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="算法练习二">
+<meta name="twitter:description" content="无重复字符的最长子串  给定一个字符串，找出不含有重复字符的最长子串的长度。示例：给定 “abcabcbb” ，没有重复字符的最长子串是 “abc” ，那么长度就是3。给定 “bbbbb” ，最长的子串就是 “b” ，长度是1。给定 “pwwkew” ，最长子串是 “wke” ，长度是3。请注意答案必须是一个子串，”pwke” 是 子序列  而不是子串。  分析思路：  暴力法：取出所有的子串，">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/29/算法练习二/"/>
+
+
+
+
+
+  <title>算法练习二 | 安东的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">安东的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不忘初心，方得始终</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/29/算法练习二/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ace Dong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安东的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">算法练习二</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-29T22:08:05+08:00">
+                2018-06-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ol start="3">
+<li>无重复字符的最长子串</li>
+</ol>
+<p>给定一个字符串，找出不含有重复字符的最长子串的长度。<br>示例：<br>给定 “abcabcbb” ，没有重复字符的最长子串是 “abc” ，那么长度就是3。<br>给定 “bbbbb” ，最长的子串就是 “b” ，长度是1。<br>给定 “pwwkew” ，最长子串是 “wke” ，长度是3。请注意答案必须是一个子串，”pwke” 是 子序列  而不是子串。</p>
+<blockquote>
+<p>分析思路：</p>
+<ol>
+<li>暴力法：取出所有的子串，校验没有重复的最大值，显然这种算法是有很多重复操作的。比如遍历abc的时候已经知道abc没有重复，后面没必要再进行这段的比对。</li>
+<li>使用滑动窗口，初始窗口左值为0，右值为1，右值开始遍历字符串每个字符的同时，存入hash表，如果hash表中已经有了改字符的索引，那么久移动窗口的左值为该位置的下一个位置，继续滑动窗口，直到遍历完字符串，思路并不算复杂。时间复杂度和空间复杂度都是O(n)</li>
+</ol>
+</blockquote>
+<p>代码如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    int lengthOfLongestSubstring(string s) &#123;</span><br><span class="line">        if (s.empty()) &#123;</span><br><span class="line">            return 0;</span><br><span class="line">        &#125;</span><br><span class="line">        int left = 0,right =1, string_length = s.size(),max_length = 0;</span><br><span class="line">        unordered_map&lt;char, int&gt; hashMap;</span><br><span class="line">        hashMap[s[left]] = left;</span><br><span class="line">        max_length = 1;</span><br><span class="line">        while (right &lt; string_length) &#123;</span><br><span class="line">            auto it = hashMap.find(s[right]);</span><br><span class="line">            if (it == hashMap.end()) &#123;</span><br><span class="line">                //没有重复</span><br><span class="line">                hashMap[s[right]] = right;</span><br><span class="line">            &#125;</span><br><span class="line">            else&#123;</span><br><span class="line">                //有重复</span><br><span class="line">                //更改滑动窗口的左值为重复值的索引+1，先判断下重复值是不是再当前left的右边</span><br><span class="line">                left = max(left, it-&gt;second+1);</span><br><span class="line">                hashMap[s[right]] = right;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            max_length = max(max_length,right -left+1);</span><br><span class="line">            right++;</span><br><span class="line">        &#125;</span><br><span class="line">        return max_length;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>两个排序数组的中位数</li>
+</ol>
+<p>给定两个大小为 m 和 n 的有序数组 nums1 和 nums2 。<br>请找出这两个有序数组的中位数。要求算法的时间复杂度为 O(log (m+n)) 。<br>示例 1:<br>nums1 = [1, 3]<br>nums2 = [2]<br>中位数是 2.0<br>示例 2:<br>nums1 = [1, 2]<br>nums2 = [3, 4]<br>中位数是 (2 + 3)/2 = 2.5</p>
+<blockquote>
+<p>分析核心思路，中位数的数学定义就是该位置左边的数和右边的数数量一致。我们抽象s1数组存在位置i，s2的数组存在位置j，s1的数组i左边的数加上s2数组j左边的数正好是两个数组总长度的一半。这样i和j就存在数学关系i+j= （m+n）/2。我们同时假设n是大于等于m的。这样我们再s1数组中搜索位置i，j的位置根据数学关系也是对应的，采用二分法搜索合适i的位置保证时间复杂度要求到O(log (m+n))</p>
+</blockquote>
+<p>代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    double findMedianSortedArrays(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2) &#123;</span><br><span class="line">        int m = nums1.size(),n = nums2.size();</span><br><span class="line">        //先确保m&lt;=n 如果不是先交换一次指针</span><br><span class="line">        if (m&gt;n) &#123;</span><br><span class="line">            // 因为是C++引用，这里交换一下使用两个临时变量</span><br><span class="line">            vector&lt;int&gt; tem1 = nums1;</span><br><span class="line">            vector&lt;int&gt; tem2 = nums2;</span><br><span class="line">            nums2 = tem1;</span><br><span class="line">            nums1 = tem2;</span><br><span class="line">            int tmpValue = m; m = n; n = tmpValue;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        //先确定好i的值和中值</span><br><span class="line">        int iMin = 0,iMax = m,halfLen = (m+n+1)/2;</span><br><span class="line">        </span><br><span class="line">        //开始遍历</span><br><span class="line">        while (iMin &lt;= iMax) &#123;</span><br><span class="line">            //给定中值</span><br><span class="line">            int i = (iMin + iMax) / 2;</span><br><span class="line">            int j = halfLen -i;  //对应关系 因为i + j = (m+n+1)/2;</span><br><span class="line">            if (i &lt; iMax &amp;&amp; nums2[j-1]&gt;nums1[i] ) &#123;</span><br><span class="line">                //i的值太小了，要加大i区间</span><br><span class="line">                iMin = iMin+1;</span><br><span class="line">            &#125;</span><br><span class="line">            else if (i &gt; iMin &amp;&amp; nums1[i-1] &gt;nums2[j])&#123;</span><br><span class="line">                //i的值太大了，减少i区间</span><br><span class="line">                iMax = iMax-1;</span><br><span class="line">            &#125;</span><br><span class="line">            else&#123;</span><br><span class="line">                //完美匹配</span><br><span class="line">                int maxLeft = 0;</span><br><span class="line">                //边界值判断</span><br><span class="line">                if (i == 0) &#123;</span><br><span class="line">                    maxLeft = nums2[j-1];</span><br><span class="line">                &#125;</span><br><span class="line">                else if(j == 0)&#123;</span><br><span class="line">                    maxLeft = nums1[i-1];</span><br><span class="line">                &#125;</span><br><span class="line">                else&#123;</span><br><span class="line">                    maxLeft = max(nums1[i-1], nums2[j-1]);</span><br><span class="line">                &#125;</span><br><span class="line">                //奇数直接return左边边界值</span><br><span class="line">                if ( (m + n) % 2 == 1 ) &#123; return maxLeft; &#125;</span><br><span class="line">                int minRight = 0;</span><br><span class="line">                if (i == m) &#123;</span><br><span class="line">                    minRight = nums2[j];</span><br><span class="line">                &#125;</span><br><span class="line">                else if (j == n)&#123;</span><br><span class="line">                    minRight = nums1[i];</span><br><span class="line">                &#125;</span><br><span class="line">                else &#123;</span><br><span class="line">                    minRight = min(nums2[j], nums1[i]);</span><br><span class="line">                &#125;</span><br><span class="line">                return (maxLeft + minRight) / 2.0;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return 0.0f;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/28/腾讯社招iOS面试记录/" rel="next" title="腾讯社招iOS面试记录">
+                <i class="fa fa-chevron-left"></i> 腾讯社招iOS面试记录
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/29/理解iOS中深浅拷贝-为什么NSString使用copy/" rel="prev" title="理解iOS中深浅拷贝-为什么NSString使用copy">
+                理解iOS中深浅拷贝-为什么NSString使用copy <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Ace Dong" />
+            
+              <p class="site-author-name" itemprop="name">Ace Dong</p>
+              <p class="site-description motion-element" itemprop="description">iOS开发者，爱生活，爱编程</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ace Dong</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

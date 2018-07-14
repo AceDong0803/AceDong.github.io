@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Lame开源库Lame是一款优秀的mp3开源跨平台编码库，可以将音频裸PCM数据编码成mp3。先去官方下载Lame源代码: Lame下载地址然后编译静态库，这里呢不再累述，可以自己写编译脚本，也可以去Github上下载编译脚本。脚本下载链接: lame-build-script 这里呢我已经编译好了Lame静态库，包含了x86，arm64架构，需要的童鞋可以直接下载，Lame版本是最新的V3.10">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS实时录音编码保存Mp3-使用Lame实现">
+<meta property="og:url" content="http://yoursite.com/2018/03/27/iOS实时录音编码保存Mp3-Demo-使用Lame实现/index.html">
+<meta property="og:site_name" content="安东的博客">
+<meta property="og:description" content="Lame开源库Lame是一款优秀的mp3开源跨平台编码库，可以将音频裸PCM数据编码成mp3。先去官方下载Lame源代码: Lame下载地址然后编译静态库，这里呢不再累述，可以自己写编译脚本，也可以去Github上下载编译脚本。脚本下载链接: lame-build-script 这里呢我已经编译好了Lame静态库，包含了x86，arm64架构，需要的童鞋可以直接下载，Lame版本是最新的V3.10">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1320629-2cdc6c84b50fc9e0.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1320629-7d53231eb3d41f0e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-07-14T15:15:01.082Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS实时录音编码保存Mp3-使用Lame实现">
+<meta name="twitter:description" content="Lame开源库Lame是一款优秀的mp3开源跨平台编码库，可以将音频裸PCM数据编码成mp3。先去官方下载Lame源代码: Lame下载地址然后编译静态库，这里呢不再累述，可以自己写编译脚本，也可以去Github上下载编译脚本。脚本下载链接: lame-build-script 这里呢我已经编译好了Lame静态库，包含了x86，arm64架构，需要的童鞋可以直接下载，Lame版本是最新的V3.10">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/1320629-2cdc6c84b50fc9e0.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/27/iOS实时录音编码保存Mp3-Demo-使用Lame实现/"/>
+
+
+
+
+
+  <title>iOS实时录音编码保存Mp3-使用Lame实现 | 安东的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">安东的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不忘初心，方得始终</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/27/iOS实时录音编码保存Mp3-Demo-使用Lame实现/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ace Dong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安东的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS实时录音编码保存Mp3-使用Lame实现</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-27T20:08:05+08:00">
+                2018-03-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Lame开源库"><a href="#Lame开源库" class="headerlink" title="Lame开源库"></a>Lame开源库</h1><p>Lame是一款优秀的mp3开源跨平台编码库，可以将音频裸PCM数据编码成mp3。<br>先去官方下载Lame源代码: <a href="http://lame.sourceforge.net" target="_blank" rel="noopener">Lame下载地址</a><br>然后编译静态库，这里呢不再累述，可以自己写编译脚本，也可以去Github上下载编译脚本。脚本下载链接: <a href="https://github.com/kewlbear/lame-ios-build" target="_blank" rel="noopener">lame-build-script</a></p>
+<p>这里呢我已经编译好了Lame静态库，包含了x86，arm64架构，需要的童鞋可以直接下载，Lame版本是最新的V3.100。网盘下载地址: <a href="https://pan.baidu.com/s/1aSna386D8RXY9aGhfoHUfQ" target="_blank" rel="noopener">iOSLame静态库</a></p>
+<h1 id="PCM"><a href="#PCM" class="headerlink" title="PCM"></a>PCM</h1><p>PCM(Pulse Code Modulation)：脉码编码调制。是没有压缩的音频数据，也可以叫音频裸数据。我们经常可以看到音频参数中有44100HZ 16bit，或者是22050HZ 8bit。<br>这里呢其实是两个参数<br>采样率：自然界的音频即声波转换为数字数据保存，即模-》数，单位时间采样个数即采样率。很明显，采样率越高，精确度越大。人对频率的识别范围是 20HZ - 20000HZ。所以22050的采样频率是常用的音频采样率，而44100采样率即是CD级别。</p>
+<p>16bit pcm意味着使用两个字节去保存采样值。<br> 采样数据记录的是振幅, 采样精度取决于储存空间的大小:<br> 1 字节(也就是8bit) 256, 也就是只能将振幅划分成 256 个等级;<br> 2 字节(也就是16bit) 65536个等级 , CD级别，16bit pcm就是最常见的。<br> 4 字节(也就是32bit) 能把振幅细分到 4294967296 个等级, 一般不常用。</p>
+<p>双声道<br>裸数据的音频存在双声道，即左右耳，我们看下PCM双声道的存储结构。<img src="https://upload-images.jianshu.io/upload_images/1320629-2cdc6c84b50fc9e0.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="PCM存储结构"></p>
+<p>我们可与看到16bit的PCM和8Bit的PCM双声道都是左右声道交替存储的，所不同的是，16位是每两个字节存储一个声道数据，而8位是一个字节，然后再交替存储。</p>
+<blockquote>
+<p>这里了解下PCM存储结构是为了后面我们从文件流取出对应声道数据。</p>
+</blockquote>
+<h1 id="本地PCM文件转码为Mp3文件"><a href="#本地PCM文件转码为Mp3文件" class="headerlink" title="本地PCM文件转码为Mp3文件"></a>本地PCM文件转码为Mp3文件</h1><p>本地PCM文件，我在上面的网盘保存了一份，需要的可以下载，也可以自己通过FFMpeg指令生成PCM裸数据，以MP3转PCM为例</p>
+<blockquote>
+<p>ffmpeg -i test.mp3 -f s16le -ar 8000 test.pcm</p>
+</blockquote>
+<p>实际项目中音视频相关的底层接口通常是跨平台设计的，为了兼容iOS/Android/Windows/Linux等，通常底层接口使用C++编写封装。</p>
+<p>这里我们写一个简单的C++类 Mp3Encoder</p>
+<blockquote>
+<p>使用Objective-C也是同样的接口调用，在Demo中也存放了一个OC封装类，需要的可以下载查看。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">class Mp3Encoder &#123;</span><br><span class="line">    private:</span><br><span class="line">    FILE* pcmFile;</span><br><span class="line">    FILE* mp3File;</span><br><span class="line">    lame_t lameClient;</span><br><span class="line">    </span><br><span class="line">    public:</span><br><span class="line">    </span><br><span class="line">    Mp3Encoder();</span><br><span class="line">    ~Mp3Encoder();</span><br><span class="line">    /**</span><br><span class="line">     pcm编码成Mp3文件</span><br><span class="line">     @param pcmFilePath pcm源文件路径</span><br><span class="line">     @param mp3FilePath 编码完成mp3文件路径</span><br><span class="line">     @param sampleRate 采样率</span><br><span class="line">     @param channels 通道数</span><br><span class="line">     @param bitRate 码率</span><br><span class="line">     */</span><br><span class="line">    //每个任务都需要初始化一次</span><br><span class="line">    int Init(const char* pcmFilePath,const char *mp3FilePath,int sampleRate,int channels,int bitRate);</span><br><span class="line">    </span><br><span class="line">    //编码本地文件</span><br><span class="line">    void EncodeLocalFile();</span><br><span class="line">    </span><br><span class="line">    //销毁资源</span><br><span class="line">    void Destroy();</span><br><span class="line">    </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>初始化Mp3Encoder类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">int Mp3Encoder::Init(const char *pcmFilePath, const char *mp3FilePath, int sampleRate, int channels, int bitRate)&#123;</span><br><span class="line">    encodeEnd = false;</span><br><span class="line">    int ret = -1;</span><br><span class="line">    //只读文件流，读取原PCM数据路径</span><br><span class="line">    pcmFile = fopen(pcmFilePath, &quot;rb&quot;);</span><br><span class="line">    if(pcmFile)&#123;</span><br><span class="line">         //读写文件流，目标Mp3写入生成路径</span><br><span class="line">        mp3File = fopen(mp3FilePath, &quot;wb+&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    if(mp3File)&#123;</span><br><span class="line">        //初始化Lame</span><br><span class="line">        lameClient = lame_init();</span><br><span class="line">        lame_set_in_samplerate(lameClient,sampleRate); //设置输入采样率</span><br><span class="line">        lame_set_out_samplerate(lameClient, sampleRate); //设置输出采样率</span><br><span class="line">        lame_set_num_channels(lameClient, channels); //设置声道数</span><br><span class="line">        lame_set_brate(lameClient, bitRate); //设置码率</span><br><span class="line">        lame_set_quality(lameClient,2);  //设置转码质量高</span><br><span class="line">        lame_init_params(lameClient);   //完成设置</span><br><span class="line">  </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>转码Mp3</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">void Mp3Encoder::EncodeLocalFile()&#123;</span><br><span class="line">    //跳过 PCM header 否者会有一些噪音在MP3开始播放处</span><br><span class="line">    fseek(pcmFile, 4*1024,  SEEK_CUR);</span><br><span class="line">    int bufferSize = 256 * 1024;</span><br><span class="line">    short *buffer = new short[bufferSize/2];</span><br><span class="line">    short *leftBuffer = new short[bufferSize/4];</span><br><span class="line">    short *rightBuffer = new short[bufferSize/4];</span><br><span class="line">    unsigned char* mp3_buffer = new unsigned char[bufferSize];</span><br><span class="line">    size_t readBufferSize = 0;</span><br><span class="line">    //双声道获取比特率的数据</span><br><span class="line">    while ((readBufferSize = fread(buffer, 2, bufferSize/2, pcmFile))&gt;0) &#123;</span><br><span class="line">        for(int i = 0;i &lt; readBufferSize;i++)&#123;</span><br><span class="line">            if(i % 2 == 0)&#123;</span><br><span class="line">                leftBuffer[i/2] = buffer[I];</span><br><span class="line">            &#125;</span><br><span class="line">            else&#123;</span><br><span class="line">                rightBuffer[i/2] = buffer[I];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        size_t wroteSize = lame_encode_buffer(lameClient, (short int *)leftBuffer, (short int *)rightBuffer, (int)(readBufferSize / 2), mp3_buffer, bufferSize);</span><br><span class="line">        fwrite(mp3_buffer, 1, wroteSize, mp3File);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //写入Mp3 VBR Tag，不是必须的步骤</span><br><span class="line">    lame_mp3_tags_fid(lameClient, mp3File);</span><br><span class="line">    delete []buffer;</span><br><span class="line">    delete []leftBuffer;</span><br><span class="line">    delete []rightBuffer;</span><br><span class="line">    delete []mp3_buffer;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>转码Mp3这里有几点注意事项</p>
+<ol>
+<li>PCM数据头有四个字节的头信息，这里我们跳过，避免编码产生头噪音</li>
+<li>我们设置了一个Buffer 为256 *1024大小，从文件流每次读取一定数量buffer转码MP3写入，直到全部读取完文件流</li>
+<li>需要特别注意的是下面我们从文件流每次读取两个字节的数据，依次存入buffer，这里由于demo处理的是16位PCM数据，所以左右声道各占两个字节，如果是8bit或者32bit则需要分别读取1个字节和4个字节数据。这样才能分离出左右声道数据<br><code>readBufferSize = fread(buffer, 2, bufferSize/2, pcmFile)</code></li>
+<li>编码Mp3区分左右声道<br><code>lame_encode_buffer(lameClient, (short int *)leftBuffer, (short int *)rightBuffer, (int)(readBufferSize / 2), mp3_buffer, bufferSize)</code></li>
+<li>编码完成之后，写入Mp3的VBR tag,如果不写入的话，可能会导致某些播放器播放时获取时长出现问题，所以建议写入。（VBR Tag这里不再介绍，需要了解的可以自行查阅Mp3封装格式哈）<br><code>//写入Mp3 VBR Tag，不是必须的步骤
+ lame_mp3_tags_fid(lameClient, mp3File);</code></li>
+</ol>
+<p>最后外部调用编码接口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">     //异步转换本地PCM文件</span><br><span class="line">    dispatch_async(localMp3EncodeQueue(), ^&#123;</span><br><span class="line">        [self testLocalPCMToMp3];</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">- (void)testLocalPCMToMp3&#123;</span><br><span class="line">    //获取原PCM路径 需要PCM，自己放一段，或者在我的blog网盘上面获取下载Demo PCM</span><br><span class="line">    NSString *pcmPath = [[NSBundle mainBundle] pathForResource:@&quot;test&quot; ofType:@&quot;pcm&quot;];</span><br><span class="line">    </span><br><span class="line">    //输出目标MP3路径</span><br><span class="line">    NSString *mp3Path = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:[NSString stringWithFormat:@&quot;%@/LoacalTest.mp3&quot;,MP3SaveFilePath]];</span><br><span class="line">    </span><br><span class="line">    NSLog(@&quot;%@&quot;,mp3Path);</span><br><span class="line">    </span><br><span class="line">    //编码Mp3  sampleRate使用标准Mp3 44.1khz 双声道 码率使用128kb</span><br><span class="line">    Mp3Encoder encode;</span><br><span class="line">    encode.Init([pcmPath cStringUsingEncoding:NSUTF8StringEncoding], [mp3Path cStringUsingEncoding:NSUTF8StringEncoding], 44100, 2, 128);</span><br><span class="line">    </span><br><span class="line">    //开始编码</span><br><span class="line">    encode.EncodeLocalFile();</span><br><span class="line">    </span><br><span class="line">    //释放资源</span><br><span class="line">    encode.Destroy();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>至此我们就实现了简单的PCM文件本地编码成Mp3文件</p>
+</blockquote>
+<h1 id="实时录音编码Mp3实现"><a href="#实时录音编码Mp3实现" class="headerlink" title="实时录音编码Mp3实现"></a>实时录音编码Mp3实现</h1><p>其实实时录音实现流程如下<br><img src="https://upload-images.jianshu.io/upload_images/1320629-7d53231eb3d41f0e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="实时录音编码Mp3保存流程图"></p>
+<p>其实和本地编码保存不同的是，我们需要循环读取源文件的PCM数据，直到录音结束，停止循环，保存最终mp3,核心代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br></pre></td><td class="code"><pre><span class="line">class Mp3Encoder &#123;</span><br><span class="line">    private:</span><br><span class="line">    FILE* pcmFile;</span><br><span class="line">    FILE* mp3File;</span><br><span class="line">    lame_t lameClient;</span><br><span class="line">    </span><br><span class="line">    public:</span><br><span class="line">    </span><br><span class="line">    //标志位，用于编录音编解码的录音结束标识符</span><br><span class="line">    bool encodeEnd;</span><br><span class="line">    </span><br><span class="line">    Mp3Encoder();</span><br><span class="line">    ~Mp3Encoder();</span><br><span class="line">    /**</span><br><span class="line">     pcm编码成Mp3文件</span><br><span class="line">     @param pcmFilePath pcm源文件路径</span><br><span class="line">     @param mp3FilePath 编码完成mp3文件路径</span><br><span class="line">     @param sampleRate 采样率</span><br><span class="line">     @param channels 通道数</span><br><span class="line">     @param bitRate 码率</span><br><span class="line">     */</span><br><span class="line">    //每个任务都需要初始化一次</span><br><span class="line">    int Init(const char* pcmFilePath,const char *mp3FilePath,int sampleRate,int channels,int bitRate);</span><br><span class="line">    </span><br><span class="line">    //编码本地文件</span><br><span class="line">    void EncodeLocalFile();</span><br><span class="line">    </span><br><span class="line">    //边录制边解码</span><br><span class="line">    void EncodeStreamFile();</span><br><span class="line">    </span><br><span class="line">    //销毁资源</span><br><span class="line">    void Destroy();</span><br><span class="line">    </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">int Mp3Encoder::Init(const char *pcmFilePath, const char *mp3FilePath, int sampleRate, int channels, int bitRate)&#123;</span><br><span class="line">    encodeEnd = false;</span><br><span class="line">    int ret = -1;</span><br><span class="line">    //只读文件流，读取原PCM数据路径</span><br><span class="line">    pcmFile = fopen(pcmFilePath, &quot;rb&quot;);</span><br><span class="line">    if(pcmFile)&#123;</span><br><span class="line">         //读写文件流，目标Mp3写入生成路径</span><br><span class="line">        mp3File = fopen(mp3FilePath, &quot;wb+&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    if(mp3File)&#123;</span><br><span class="line">        //初始化Lame</span><br><span class="line">        lameClient = lame_init();</span><br><span class="line">        lame_set_in_samplerate(lameClient,sampleRate); //设置输入采样率</span><br><span class="line">        lame_set_out_samplerate(lameClient, sampleRate); //设置输出采样率</span><br><span class="line">        lame_set_num_channels(lameClient, channels); //设置声道数</span><br><span class="line">        lame_set_brate(lameClient, bitRate); //设置码率</span><br><span class="line">        lame_set_quality(lameClient,2);  //设置转码质量高</span><br><span class="line">        lame_init_params(lameClient);   //完成设置</span><br><span class="line">  </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return ret;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void Mp3Encoder::EncodeStreamFile()&#123;</span><br><span class="line">    </span><br><span class="line">    //双声道获取比特率的数据</span><br><span class="line">    int bufferSize = 256 * 1024;</span><br><span class="line">    short *buffer = new short[bufferSize/2];</span><br><span class="line">    short *leftBuffer = new short[bufferSize/4];</span><br><span class="line">    short *rightBuffer = new short[bufferSize/4];</span><br><span class="line">    unsigned char* mp3_buffer = new unsigned char[bufferSize];</span><br><span class="line">    size_t readBufferSize = 0;</span><br><span class="line">    </span><br><span class="line">    bool isSkipPcmHeader = false;</span><br><span class="line">    long curPos;</span><br><span class="line">    </span><br><span class="line">    //循环读取数据编码</span><br><span class="line">    do &#123;</span><br><span class="line">            curPos = ftell(pcmFile);</span><br><span class="line">            long startPos = ftell(pcmFile);</span><br><span class="line">            fseek(pcmFile, 0, SEEK_END);</span><br><span class="line">            long endPos = ftell(pcmFile);</span><br><span class="line">            long totalDataLength = endPos - startPos;</span><br><span class="line">            fseek(pcmFile, curPos, SEEK_SET);</span><br><span class="line">            if (totalDataLength &gt; bufferSize) &#123;</span><br><span class="line">                if (!isSkipPcmHeader) &#123;</span><br><span class="line">                    //跳过 PCM header 否者会有一些噪音在MP3开始播放处</span><br><span class="line">                    fseek(pcmFile, 4*1024,  SEEK_CUR);</span><br><span class="line">                    isSkipPcmHeader = true;</span><br><span class="line">                &#125;</span><br><span class="line">                readBufferSize = fread(buffer, 2, bufferSize/2, pcmFile);</span><br><span class="line">                //双声道的处理</span><br><span class="line">                for(int i = 0;i &lt; readBufferSize;i++)&#123;</span><br><span class="line">                    if(i % 2 == 0)&#123;</span><br><span class="line">                        leftBuffer[i/2] = buffer[i];</span><br><span class="line">                    &#125;</span><br><span class="line">                    else&#123;</span><br><span class="line">                        rightBuffer[i/2] = buffer[i];</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                size_t wroteSize = lame_encode_buffer(lameClient, (short int *)leftBuffer, (short int *)rightBuffer, (int)(readBufferSize / 2), mp3_buffer, bufferSize);</span><br><span class="line">                fwrite(mp3_buffer, 1, wroteSize, mp3File);</span><br><span class="line">            &#125;</span><br><span class="line">        //sleep 0.05s</span><br><span class="line">        sleep(0.05);</span><br><span class="line">        </span><br><span class="line">    &#125; while (!encodeEnd);</span><br><span class="line">    </span><br><span class="line">    //这里需要注意的是，一旦录音结束encodeEnd就会导致上面的函数结束，有可能出现解码慢，导致录音结束，仍然没有解码完所有数据的可能</span><br><span class="line">    //循环读取剩余数据进行编码</span><br><span class="line">    while ((readBufferSize = fread(buffer, 2, bufferSize/2, pcmFile))&gt;0) &#123;</span><br><span class="line">        for(int i = 0;i &lt; readBufferSize;i++)&#123;</span><br><span class="line">            if(i % 2 == 0)&#123;</span><br><span class="line">                leftBuffer[i/2] = buffer[i];</span><br><span class="line">            &#125;</span><br><span class="line">            else&#123;</span><br><span class="line">                rightBuffer[i/2] = buffer[i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        size_t wroteSize = lame_encode_buffer(lameClient, (short int *)leftBuffer, (short int *)rightBuffer, (int)(readBufferSize / 2), mp3_buffer, bufferSize);</span><br><span class="line">        fwrite(mp3_buffer, 1, wroteSize, mp3File);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //写入Mp3 VBR Tag，不是必须的步骤</span><br><span class="line">    lame_mp3_tags_fid(lameClient, mp3File);</span><br><span class="line">    delete []buffer;</span><br><span class="line">    delete []leftBuffer;</span><br><span class="line">    delete []rightBuffer;</span><br><span class="line">    delete []mp3_buffer;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里使用AVAudioRecord录制音频<br>录音核心参数如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> *  录音参数设置</span><br><span class="line"> */</span><br><span class="line">- (NSDictionary *)getAudioSetting&#123;</span><br><span class="line">    NSMutableDictionary *dicM = [NSMutableDictionary dictionary];</span><br><span class="line">    [dicM setObject:@(kAudioFormatLinearPCM) forKey:AVFormatIDKey];</span><br><span class="line">    [dicM setObject:@(sampleRate) forKey:AVSampleRateKey]; //44.1khz的采样率</span><br><span class="line">    [dicM setObject:@(2) forKey:AVNumberOfChannelsKey];</span><br><span class="line">    [dicM setObject:@(16) forKey:AVLinearPCMBitDepthKey]; //16bit的PCM数据</span><br><span class="line">    [dicM setObject:[NSNumber numberWithInt:AVAudioQualityMax] forKey:AVEncoderAudioQualityKey];</span><br><span class="line">    return dicM;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h1><p> 项目源代码github地址：<a href="https://github.com/AceDong0803/iOS-Record-Transcoding-mp3-lameDemo" target="_blank" rel="noopener">iOS-Record-Transcoding-mp3-lameDemo</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/27/iOS-零基础学习OpenGL-ES入门教程（一）/" rel="next" title="iOS-OpenGL-ES入门教程（一）">
+                <i class="fa fa-chevron-left"></i> iOS-OpenGL-ES入门教程（一）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/25/iOS-OpenGL-ES入门教程（二）最简单的纹理Demo/" rel="prev" title="iOS-OpenGL-ES入门教程（二）最简单的纹理Demo">
+                iOS-OpenGL-ES入门教程（二）最简单的纹理Demo <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Ace Dong" />
+            
+              <p class="site-author-name" itemprop="name">Ace Dong</p>
+              <p class="site-description motion-element" itemprop="description">iOS开发者，爱生活，爱编程</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Lame开源库"><span class="nav-number">1.</span> <span class="nav-text">Lame开源库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PCM"><span class="nav-number">2.</span> <span class="nav-text">PCM</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#本地PCM文件转码为Mp3文件"><span class="nav-number">3.</span> <span class="nav-text">本地PCM文件转码为Mp3文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实时录音编码Mp3实现"><span class="nav-number">4.</span> <span class="nav-text">实时录音编码Mp3实现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#源代码"><span class="nav-number">5.</span> <span class="nav-text">源代码</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ace Dong</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

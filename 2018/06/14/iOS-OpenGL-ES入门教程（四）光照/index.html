@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言前面的基础文章列表  iOS-零基础学习OpenGL ES入门教程（一） iOS-OpenGL ES入门教程（二）最简单的纹理Demo iOS-OpenGL ES入门教程（三）纹理取样，混合，多重纹理  下面来讲一下光照 光照先直观看下使用3D灯光模拟技术和不使用的对比图 可以看到使用灯光模拟会让图形更加立体真实。 计算机模拟光照的通俗原理:GPU为每个三角形的顶点进行光线计算，再把结果进行插">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS-OpenGL-ES入门教程（四）光照">
+<meta property="og:url" content="http://yoursite.com/2018/06/14/iOS-OpenGL-ES入门教程（四）光照/index.html">
+<meta property="og:site_name" content="安东的博客">
+<meta property="og:description" content="前言前面的基础文章列表  iOS-零基础学习OpenGL ES入门教程（一） iOS-OpenGL ES入门教程（二）最简单的纹理Demo iOS-OpenGL ES入门教程（三）纹理取样，混合，多重纹理  下面来讲一下光照 光照先直观看下使用3D灯光模拟技术和不使用的对比图 可以看到使用灯光模拟会让图形更加立体真实。 计算机模拟光照的通俗原理:GPU为每个三角形的顶点进行光线计算，再把结果进行插">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1320629-fc26cb8c36ddad7b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1320629-dd27ecf1ac79ab76.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1320629-f3437342f6b4a239.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1320629-c306066cc4a047b9.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1320629-e3625ccb2d8932f8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-07-14T15:55:49.198Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS-OpenGL-ES入门教程（四）光照">
+<meta name="twitter:description" content="前言前面的基础文章列表  iOS-零基础学习OpenGL ES入门教程（一） iOS-OpenGL ES入门教程（二）最简单的纹理Demo iOS-OpenGL ES入门教程（三）纹理取样，混合，多重纹理  下面来讲一下光照 光照先直观看下使用3D灯光模拟技术和不使用的对比图 可以看到使用灯光模拟会让图形更加立体真实。 计算机模拟光照的通俗原理:GPU为每个三角形的顶点进行光线计算，再把结果进行插">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/1320629-fc26cb8c36ddad7b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/14/iOS-OpenGL-ES入门教程（四）光照/"/>
+
+
+
+
+
+  <title>iOS-OpenGL-ES入门教程（四）光照 | 安东的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">安东的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不忘初心，方得始终</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/14/iOS-OpenGL-ES入门教程（四）光照/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ace Dong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安东的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS-OpenGL-ES入门教程（四）光照</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-14T22:08:05+08:00">
+                2018-06-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>前面的基础文章列表</p>
+<ol>
+<li>iOS-零基础学习OpenGL ES入门教程（一）</li>
+<li>iOS-OpenGL ES入门教程（二）最简单的纹理Demo</li>
+<li>iOS-OpenGL ES入门教程（三）纹理取样，混合，多重纹理</li>
+</ol>
+<p>下面来讲一下光照</p>
+<h1 id="光照"><a href="#光照" class="headerlink" title="光照"></a>光照</h1><p>先直观看下使用3D灯光模拟技术和不使用的对比图<br><img src="https://upload-images.jianshu.io/upload_images/1320629-fc26cb8c36ddad7b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="灯光效果"></p>
+<p>可以看到使用灯光模拟会让图形更加立体真实。</p>
+<p>计算机模拟光照的通俗原理:GPU为每个三角形的顶点进行光线计算，再把结果进行插值，得出每个片元的最终颜色。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1320629-dd27ecf1ac79ab76.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="模拟光照"></p>
+<p>OpenGL ES的灯光模拟包括：环境光、漫反射光、镜面反射光。如上图所示。</p>
+<p>一个渲染三角形中每个光线的组成部分取决于三个互相关联的因素</p>
+<ol>
+<li>光线的设置</li>
+<li>三角形相对于光线方向</li>
+<li>三角形的材质</li>
+</ol>
+<p>光线的计算依赖于表面法向量，法向量可以通过矢量积进行计算。</p>
+<blockquote>
+<p>由于表面法向量决定了平面的方向。通过光线和法向量的角度则<br>可以计算出漫反射光，环境光，镜面反射光的模拟。这里主要是几何部分内容，不做细讲，使用GLkit，系统会内置模拟计算出灯光效果。</p>
+</blockquote>
+<p><strong>OpenGL ES程序为每个顶点指定了单独的法向量，和顶点的位置，纹理坐标一起保存起来，从而实现模拟灯光的效果</strong></p>
+<p>如果一个三角形的三个顶点赋予相同的法向量，则叫平面法线。<br>如果每个顶点使用包含该顶点的平均值，灯光模拟会创建三角形轻微弯曲感，如下图。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1320629-f3437342f6b4a239.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="平面法线和平均法线"></p>
+<p>#实例Demo<br>我们做一个Demo来直观的看一下灯光和法向量，依然使用GLkit框架为我们简化步骤。</p>
+<p>先看一下demo效果<img src="https://upload-images.jianshu.io/upload_images/1320629-c306066cc4a047b9.gif?imageMogr2/auto-orient/strip" alt="demo"></p>
+<blockquote>
+<p>绿色线是顶点法线，而黄色线是灯光方向。图中可以直观看到法向量随着顶点变化。</p>
+</blockquote>
+<p>下面看下核心代码部分</p>
+<h2 id="数据部分"><a href="#数据部分" class="headerlink" title="数据部分"></a>数据部分</h2><p><img src="https://upload-images.jianshu.io/upload_images/1320629-e3625ccb2d8932f8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="顶点"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">//顶点</span><br><span class="line">typedef struct &#123;</span><br><span class="line">    GLKVector3  position; //顶点</span><br><span class="line">    GLKVector3  normal; //法线</span><br><span class="line">&#125;</span><br><span class="line">SceneVertex;</span><br><span class="line"></span><br><span class="line">//三角形</span><br><span class="line">typedef struct &#123;</span><br><span class="line">    SceneVertex vertices[3];</span><br><span class="line">&#125;</span><br><span class="line">SceneTriangle;</span><br><span class="line"></span><br><span class="line">//9个数据顶点</span><br><span class="line">static const SceneVertex vertexA =</span><br><span class="line">&#123;&#123;-0.5,  0.5, -0.5&#125;, &#123;0.0, 0.0, 1.0&#125;&#125;;</span><br><span class="line">static const SceneVertex vertexB =</span><br><span class="line">&#123;&#123;-0.5,  0.0, -0.5&#125;, &#123;0.0, 0.0, 1.0&#125;&#125;;</span><br><span class="line">static const SceneVertex vertexC =</span><br><span class="line">&#123;&#123;-0.5, -0.5, -0.5&#125;, &#123;0.0, 0.0, 1.0&#125;&#125;;</span><br><span class="line">static const SceneVertex vertexD =</span><br><span class="line">&#123;&#123; 0.0,  0.5, -0.5&#125;, &#123;0.0, 0.0, 1.0&#125;&#125;;</span><br><span class="line">static const SceneVertex vertexE =</span><br><span class="line">&#123;&#123; 0.0,  0.0, -0.5&#125;, &#123;0.0, 0.0, 1.0&#125;&#125;;</span><br><span class="line">static const SceneVertex vertexF =</span><br><span class="line">&#123;&#123; 0.0, -0.5, -0.5&#125;, &#123;0.0, 0.0, 1.0&#125;&#125;;</span><br><span class="line">static const SceneVertex vertexG =</span><br><span class="line">&#123;&#123; 0.5,  0.5, -0.5&#125;, &#123;0.0, 0.0, 1.0&#125;&#125;;</span><br><span class="line">static const SceneVertex vertexH =</span><br><span class="line">&#123;&#123; 0.5,  0.0, -0.5&#125;, &#123;0.0, 0.0, 1.0&#125;&#125;;</span><br><span class="line">static const SceneVertex vertexI =</span><br><span class="line">&#123;&#123; 0.5, -0.5, -0.5&#125;, &#123;0.0, 0.0, 1.0&#125;&#125;;</span><br></pre></td></tr></table></figure>
+<p>对应的九个数据顶点。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//8 triangles</span><br><span class="line">#define NUM_FACES (8)</span><br><span class="line"></span><br><span class="line">//48个法线顶点</span><br><span class="line">#define NUM_NORMAL_LINE_VERTS (48)</span><br><span class="line"></span><br><span class="line">//48法线顶点+两个灯光方向顶点</span><br><span class="line">#define NUM_LINE_VERTS (NUM_NORMAL_LINE_VERTS + 2)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>8个数据源三角形，每个三角形有三个顶点。也就是法线24条。每条法线绘制需要起始和终止两个顶点，也就是48个数据源顶点，额外两个顶点用于绘制灯光方向。这里宏定义出来。</p>
+</blockquote>
+<p>属性部分</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">@interface OpenGLES_LightDemoViewController ()&#123;</span><br><span class="line">    </span><br><span class="line">    //8个三角形</span><br><span class="line">    SceneTriangle triangles[NUM_FACES];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@property (strong, nonatomic) GLKBaseEffect *baseEffect;</span><br><span class="line">@property (strong, nonatomic) GLKBaseEffect *extraEffect;</span><br><span class="line"></span><br><span class="line">//顶点buffer</span><br><span class="line">@property (nonatomic,assign)  GLuint vertexBufferID;</span><br><span class="line"></span><br><span class="line">//用于绘制法线方向的buffer</span><br><span class="line">@property (nonatomic,assign)  GLuint extraBufferID;</span><br><span class="line"></span><br><span class="line">@property (nonatomic) GLfloat centerVertexHeight;</span><br><span class="line">@property (nonatomic) BOOL shouldUseFaceNormals;</span><br><span class="line">@property (nonatomic) BOOL shouldDrawNormals;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>下面列举下矢量的计算函数<br>给定两个顶点求出法向量函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//法向量</span><br><span class="line">GLKVector3 SceneVector3UnitNormal(</span><br><span class="line">                                  const GLKVector3 vectorA,</span><br><span class="line">                                  const GLKVector3 vectorB)</span><br><span class="line">&#123;</span><br><span class="line">    return GLKVector3Normalize(</span><br><span class="line">                               GLKVector3CrossProduct(vectorA, vectorB));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>triangle的法向量函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">//triangle的法向量</span><br><span class="line">static GLKVector3 SceneTriangleFaceNormal(</span><br><span class="line">                                          const SceneTriangle triangle)</span><br><span class="line">&#123;</span><br><span class="line">    GLKVector3 vectorA = GLKVector3Subtract(</span><br><span class="line">                                            triangle.vertices[1].position,</span><br><span class="line">                                            triangle.vertices[0].position);</span><br><span class="line">    GLKVector3 vectorB = GLKVector3Subtract(</span><br><span class="line">                                            triangle.vertices[2].position,</span><br><span class="line">                                            triangle.vertices[0].position);</span><br><span class="line">    </span><br><span class="line">    return SceneVector3UnitNormal(</span><br><span class="line">                                  vectorA,</span><br><span class="line">                                  vectorB);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>构造triangle</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//生成triangle</span><br><span class="line">static SceneTriangle SceneTriangleMake(</span><br><span class="line">                                       const SceneVertex vertexA,</span><br><span class="line">                                       const SceneVertex vertexB,</span><br><span class="line">                                       const SceneVertex vertexC)</span><br><span class="line">&#123;</span><br><span class="line">    SceneTriangle   result;</span><br><span class="line">    </span><br><span class="line">    result.vertices[0] = vertexA;</span><br><span class="line">    result.vertices[1] = vertexB;</span><br><span class="line">    result.vertices[2] = vertexC;</span><br><span class="line">    </span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果采用顶点计算法向量，函数如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">//计算8个三角形的法向量，并且赋值更新</span><br><span class="line">static void SceneTrianglesUpdateFaceNormals(</span><br><span class="line">                                            SceneTriangle someTriangles[NUM_FACES])</span><br><span class="line">&#123;</span><br><span class="line">    int                i;</span><br><span class="line">    </span><br><span class="line">    for (i=0; i&lt;NUM_FACES; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        GLKVector3 faceNormal = SceneTriangleFaceNormal(</span><br><span class="line">                                                        someTriangles[i]);</span><br><span class="line">        someTriangles[i].vertices[0].normal = faceNormal;</span><br><span class="line">        someTriangles[i].vertices[1].normal = faceNormal;</span><br><span class="line">        someTriangles[i].vertices[2].normal = faceNormal;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果使用顶点所包含的所有三角形的平均法向量，函数计算如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line">//更新三角形法向量 顶点采用平均法向量</span><br><span class="line">static void SceneTrianglesUpdateVertexNormals(</span><br><span class="line">                                              SceneTriangle someTriangles[NUM_FACES])</span><br><span class="line">&#123;</span><br><span class="line">    SceneVertex newVertexA = vertexA;</span><br><span class="line">    SceneVertex newVertexB = vertexB;</span><br><span class="line">    SceneVertex newVertexC = vertexC;</span><br><span class="line">    SceneVertex newVertexD = vertexD;</span><br><span class="line">    SceneVertex newVertexE = someTriangles[3].vertices[0];</span><br><span class="line">    SceneVertex newVertexF = vertexF;</span><br><span class="line">    SceneVertex newVertexG = vertexG;</span><br><span class="line">    SceneVertex newVertexH = vertexH;</span><br><span class="line">    SceneVertex newVertexI = vertexI;</span><br><span class="line">    GLKVector3 faceNormals[NUM_FACES];</span><br><span class="line">    </span><br><span class="line">    // Calculate the face normal of each triangle</span><br><span class="line">    for (int i=0; i&lt;NUM_FACES; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        faceNormals[i] = SceneTriangleFaceNormal(</span><br><span class="line">                                                 someTriangles[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //每个顶点的平均法向量</span><br><span class="line">    newVertexA.normal = faceNormals[0];</span><br><span class="line">    newVertexB.normal = GLKVector3MultiplyScalar(</span><br><span class="line">                                                 GLKVector3Add(</span><br><span class="line">                                                               GLKVector3Add(</span><br><span class="line">                                                                             GLKVector3Add(</span><br><span class="line">                                                                                           faceNormals[0],</span><br><span class="line">                                                                                           faceNormals[1]),</span><br><span class="line">                                                                             faceNormals[2]),</span><br><span class="line">                                                               faceNormals[3]), 0.25);</span><br><span class="line">    newVertexC.normal = faceNormals[1];</span><br><span class="line">    newVertexD.normal = GLKVector3MultiplyScalar(</span><br><span class="line">                                                 GLKVector3Add(</span><br><span class="line">                                                               GLKVector3Add(</span><br><span class="line">                                                                             GLKVector3Add(</span><br><span class="line">                                                                                           faceNormals[0],</span><br><span class="line">                                                                                           faceNormals[2]),</span><br><span class="line">                                                                             faceNormals[4]),</span><br><span class="line">                                                               faceNormals[6]), 0.25);</span><br><span class="line">    newVertexE.normal = GLKVector3MultiplyScalar(</span><br><span class="line">                                                 GLKVector3Add(</span><br><span class="line">                                                               GLKVector3Add(</span><br><span class="line">                                                                             GLKVector3Add(</span><br><span class="line">                                                                                           faceNormals[2],</span><br><span class="line">                                                                                           faceNormals[3]),</span><br><span class="line">                                                                             faceNormals[4]),</span><br><span class="line">                                                               faceNormals[5]), 0.25);</span><br><span class="line">    newVertexF.normal = GLKVector3MultiplyScalar(</span><br><span class="line">                                                 GLKVector3Add(</span><br><span class="line">                                                               GLKVector3Add(</span><br><span class="line">                                                                             GLKVector3Add(</span><br><span class="line">                                                                                           faceNormals[1],</span><br><span class="line">                                                                                           faceNormals[3]),</span><br><span class="line">                                                                             faceNormals[5]),</span><br><span class="line">                                                               faceNormals[7]), 0.25);</span><br><span class="line">    newVertexG.normal = faceNormals[6];</span><br><span class="line">    newVertexH.normal = GLKVector3MultiplyScalar(</span><br><span class="line">                                                 GLKVector3Add(</span><br><span class="line">                                                               GLKVector3Add(</span><br><span class="line">                                                                             GLKVector3Add(</span><br><span class="line">                                                                                           faceNormals[4],</span><br><span class="line">                                                                                           faceNormals[5]),</span><br><span class="line">                                                                             faceNormals[6]),</span><br><span class="line">                                                               faceNormals[7]), 0.25);</span><br><span class="line">    newVertexI.normal = faceNormals[7];</span><br><span class="line">    </span><br><span class="line">    //更新triangles</span><br><span class="line">    someTriangles[0] = SceneTriangleMake(</span><br><span class="line">                                         newVertexA,</span><br><span class="line">                                         newVertexB,</span><br><span class="line">                                         newVertexD);</span><br><span class="line">    someTriangles[1] = SceneTriangleMake(</span><br><span class="line">                                         newVertexB,</span><br><span class="line">                                         newVertexC,</span><br><span class="line">                                         newVertexF);</span><br><span class="line">    someTriangles[2] = SceneTriangleMake(</span><br><span class="line">                                         newVertexD,</span><br><span class="line">                                         newVertexB,</span><br><span class="line">                                         newVertexE);</span><br><span class="line">    someTriangles[3] = SceneTriangleMake(</span><br><span class="line">                                         newVertexE,</span><br><span class="line">                                         newVertexB,</span><br><span class="line">                                         newVertexF);</span><br><span class="line">    someTriangles[4] = SceneTriangleMake(</span><br><span class="line">                                         newVertexD,</span><br><span class="line">                                         newVertexE,</span><br><span class="line">                                         newVertexH);</span><br><span class="line">    someTriangles[5] = SceneTriangleMake(</span><br><span class="line">                                         newVertexE,</span><br><span class="line">                                         newVertexF,</span><br><span class="line">                                         newVertexH);</span><br><span class="line">    someTriangles[6] = SceneTriangleMake(</span><br><span class="line">                                         newVertexG,</span><br><span class="line">                                         newVertexD,</span><br><span class="line">                                         newVertexH);</span><br><span class="line">    someTriangles[7] = SceneTriangleMake(</span><br><span class="line">                                         newVertexH,</span><br><span class="line">                                         newVertexF,</span><br><span class="line">                                         newVertexI);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>法线和灯光方向顶点数据源update函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">//更新三角形法线 还有灯光方向线</span><br><span class="line">static  void SceneTrianglesNormalLinesUpdate(</span><br><span class="line">                                             const SceneTriangle someTriangles[NUM_FACES],</span><br><span class="line">                                             GLKVector3 lightPosition,</span><br><span class="line">                                             GLKVector3 someNormalLineVertices[NUM_LINE_VERTS])</span><br><span class="line">&#123;</span><br><span class="line">    int                       trianglesIndex;</span><br><span class="line">    int                       lineVetexIndex = 0;</span><br><span class="line">    </span><br><span class="line">    // 每条法向量的顶点确定，用于绘制法线</span><br><span class="line">    for (trianglesIndex = 0; trianglesIndex &lt; NUM_FACES;</span><br><span class="line">         trianglesIndex++)</span><br><span class="line">    &#123;</span><br><span class="line">        someNormalLineVertices[lineVetexIndex++] =</span><br><span class="line">        someTriangles[trianglesIndex].vertices[0].position;</span><br><span class="line">        someNormalLineVertices[lineVetexIndex++] =</span><br><span class="line">        GLKVector3Add(</span><br><span class="line">                      someTriangles[trianglesIndex].vertices[0].position,</span><br><span class="line">                      GLKVector3MultiplyScalar(</span><br><span class="line">                                               someTriangles[trianglesIndex].vertices[0].normal,</span><br><span class="line">                                               0.5));</span><br><span class="line">        someNormalLineVertices[lineVetexIndex++] =</span><br><span class="line">        someTriangles[trianglesIndex].vertices[1].position;</span><br><span class="line">        someNormalLineVertices[lineVetexIndex++] =</span><br><span class="line">        GLKVector3Add(</span><br><span class="line">                      someTriangles[trianglesIndex].vertices[1].position,</span><br><span class="line">                      GLKVector3MultiplyScalar(</span><br><span class="line">                                               someTriangles[trianglesIndex].vertices[1].normal,</span><br><span class="line">                                               0.5));</span><br><span class="line">        someNormalLineVertices[lineVetexIndex++] =</span><br><span class="line">        someTriangles[trianglesIndex].vertices[2].position;</span><br><span class="line">        someNormalLineVertices[lineVetexIndex++] =</span><br><span class="line">        GLKVector3Add(</span><br><span class="line">                      someTriangles[trianglesIndex].vertices[2].position,</span><br><span class="line">                      GLKVector3MultiplyScalar(</span><br><span class="line">                                               someTriangles[trianglesIndex].vertices[2].normal,</span><br><span class="line">                                               0.5));</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    // 添加法线顶点</span><br><span class="line">    someNormalLineVertices[lineVetexIndex++] =</span><br><span class="line">    lightPosition;</span><br><span class="line">    </span><br><span class="line">    someNormalLineVertices[lineVetexIndex] = GLKVector3Make(</span><br><span class="line">                                                            0.0,</span><br><span class="line">                                                            0.0,</span><br><span class="line">                                                            -0.5);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>虽然计算部分函数比较繁琐，但是相对其实是简单的，因为这一块主要还是线性代数相关的。搞懂了gpu模拟灯光的原理，那么对应计算也就好理解了。</p>
+</blockquote>
+<h2 id="渲染部分代码"><a href="#渲染部分代码" class="headerlink" title="渲染部分代码"></a>渲染部分代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    GLKView *view = (GLKView *)self.view;</span><br><span class="line">    NSAssert([view isKindOfClass:[GLKView class]],</span><br><span class="line">             @&quot;View controller&apos;s view is not a GLKView&quot;);</span><br><span class="line">    view.context = [[EAGLContext alloc]</span><br><span class="line">                    initWithAPI:kEAGLRenderingAPIOpenGLES2];</span><br><span class="line">    [EAGLContext setCurrentContext:view.context];</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    self.baseEffect = [[GLKBaseEffect alloc] init];</span><br><span class="line">    self.baseEffect.light0.enabled = GL_TRUE;</span><br><span class="line">    </span><br><span class="line">    //设置灯光漫反射颜色</span><br><span class="line">    self.baseEffect.light0.diffuseColor = GLKVector4Make(</span><br><span class="line">                                                         0.7f, // Red</span><br><span class="line">                                                         0.7f, // Green</span><br><span class="line">                                                         0.7f, // Blue</span><br><span class="line">                                                         1.0f);// Alpha</span><br><span class="line">    //灯光位置</span><br><span class="line">    self.baseEffect.light0.position = GLKVector4Make(</span><br><span class="line">                                                     1.0f,</span><br><span class="line">                                                     1.0f,</span><br><span class="line">                                                     0.5f,</span><br><span class="line">                                                     0.0f);</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    //设置绘制法线的baseEffect</span><br><span class="line">    self.extraEffect = [[GLKBaseEffect alloc] init];</span><br><span class="line">    self.extraEffect.useConstantColor = GL_TRUE;</span><br><span class="line">    self.extraEffect.constantColor = GLKVector4Make(</span><br><span class="line">                                                    0.0f, // Red</span><br><span class="line">                                                    1.0f, // Green</span><br><span class="line">                                                    0.0f, // Blue</span><br><span class="line">                                                    1.0f);// Alpha</span><br><span class="line">    </span><br><span class="line">    &#123;</span><br><span class="line">        //这里是视点变换，暂时不做解释，用于下一章在讲解</span><br><span class="line">        GLKMatrix4 modelViewMatrix = GLKMatrix4MakeRotation(</span><br><span class="line">                                                            GLKMathDegreesToRadians(-60.0f), 1.0f, 0.0f, 0.0f);</span><br><span class="line">        modelViewMatrix = GLKMatrix4Rotate(</span><br><span class="line">                                           modelViewMatrix,</span><br><span class="line">                                           GLKMathDegreesToRadians(-30.0f), 0.0f, 0.0f, 1.0f);</span><br><span class="line">        modelViewMatrix = GLKMatrix4Translate(</span><br><span class="line">                                              modelViewMatrix,</span><br><span class="line">                                              0.0f, 0.0f, 0.25f);</span><br><span class="line">        </span><br><span class="line">        self.baseEffect.transform.modelviewMatrix = modelViewMatrix;</span><br><span class="line">        self.extraEffect.transform.modelviewMatrix = modelViewMatrix;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);</span><br><span class="line">    //使用顶点初始化八个三角形数据</span><br><span class="line">    triangles[0] = SceneTriangleMake(vertexA, vertexB, vertexD);</span><br><span class="line">    triangles[1] = SceneTriangleMake(vertexB, vertexC, vertexF);</span><br><span class="line">    triangles[2] = SceneTriangleMake(vertexD, vertexB, vertexE);</span><br><span class="line">    triangles[3] = SceneTriangleMake(vertexE, vertexB, vertexF);</span><br><span class="line">    triangles[4] = SceneTriangleMake(vertexD, vertexE, vertexH);</span><br><span class="line">    triangles[5] = SceneTriangleMake(vertexE, vertexF, vertexH);</span><br><span class="line">    triangles[6] = SceneTriangleMake(vertexG, vertexD, vertexH);</span><br><span class="line">    triangles[7] = SceneTriangleMake(vertexH, vertexF, vertexI);</span><br><span class="line">    </span><br><span class="line">    //Bind vertexBuffer</span><br><span class="line">    glGenBuffers(1, &amp;_vertexBufferID);</span><br><span class="line">    glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferID);</span><br><span class="line">    glBufferData(GL_ARRAY_BUFFER, sizeof(triangles), triangles, GL_DYNAMIC_DRAW);</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    //Bind 法线绘制的Buffer 默认是不绘制的</span><br><span class="line">    glGenBuffers(1, &amp;_extraBufferID);</span><br><span class="line">    glBindBuffer(GL_ARRAY_BUFFER, _extraBufferID);</span><br><span class="line">    glBufferData(GL_ARRAY_BUFFER, 0, NULL, GL_DYNAMIC_DRAW);</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    //默认展示效果</span><br><span class="line">    self.centerVertexHeight = 0.0f;</span><br><span class="line">    self.shouldUseFaceNormals = YES;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>依然使用GLkit框架的baseEffect帮我们简化灯光操作<br>light0.diffuseColor和light0.position指定了灯光位置和漫反射颜色。<br>transform.modelviewMatrix这里是绕着x和z轴做了变换，方便观看，下一章视点会详细讲这里。这里不做多解释<br>_vertexBufferID 生成三角形的缓存<br>_extraBufferID 生产法线缓存<br>同理baseEffect也对应的创建两个，用于绘制不同效果。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">- (void)glkView:(GLKView *)view drawInRect:(CGRect)rect&#123;</span><br><span class="line">    </span><br><span class="line">    [self.baseEffect prepareToDraw];</span><br><span class="line">    </span><br><span class="line">    glClear(GL_COLOR_BUFFER_BIT);</span><br><span class="line">    </span><br><span class="line">    //位置缓存</span><br><span class="line">    glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferID);</span><br><span class="line">    glEnableVertexAttribArray(GLKVertexAttribPosition);</span><br><span class="line">    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(SceneVertex), NULL + offsetof(SceneVertex, position));</span><br><span class="line">    </span><br><span class="line">    //法线缓存</span><br><span class="line">    glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferID);</span><br><span class="line">    glEnableVertexAttribArray(GLKVertexAttribNormal);</span><br><span class="line">    glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, sizeof(SceneVertex), NULL + offsetof(SceneVertex, normal));</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    //绘制</span><br><span class="line">    glDrawArrays(GL_TRIANGLES, 0, sizeof(triangles) / sizeof(SceneVertex));</span><br><span class="line">    </span><br><span class="line">    if(self.shouldDrawNormals)</span><br><span class="line">    &#123;</span><br><span class="line">        [self drawNormals];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>绘制部分依然是常规的绘制步骤。这里不做累述。指定指针偏移，绘制。</p>
+</blockquote>
+<p>法线绘制</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">//绘制法线</span><br><span class="line">- (void)drawNormals</span><br><span class="line">&#123;</span><br><span class="line">    GLKVector3  normalLineVertices[NUM_LINE_VERTS];</span><br><span class="line">    </span><br><span class="line">    //更新48个法向量顶点和两个灯光方向顶点</span><br><span class="line">    SceneTrianglesNormalLinesUpdate(triangles,</span><br><span class="line">                                    GLKVector3MakeWithArray(self.baseEffect.light0.position.v),</span><br><span class="line">                                    normalLineVertices);</span><br><span class="line">    </span><br><span class="line">    glBindBuffer(GL_ARRAY_BUFFER, _extraBufferID);</span><br><span class="line">    glBufferData(GL_ARRAY_BUFFER, NUM_LINE_VERTS * sizeof(GLKVector3), normalLineVertices, GL_DYNAMIC_DRAW);</span><br><span class="line">    glEnableVertexAttribArray(GLKVertexAttribPosition);</span><br><span class="line">    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(GLKVector3), NULL);</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    //绘制每条顶点法线</span><br><span class="line">    self.extraEffect.useConstantColor = GL_TRUE;</span><br><span class="line">    self.extraEffect.constantColor =</span><br><span class="line">    GLKVector4Make(0.0, 1.0, 0.0, 1.0); // Green</span><br><span class="line">    </span><br><span class="line">    [self.extraEffect prepareToDraw];</span><br><span class="line">    glDrawArrays(GL_LINES, 0, NUM_NORMAL_LINE_VERTS);</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    //绘制灯光方向</span><br><span class="line">    self.extraEffect.constantColor =</span><br><span class="line">    GLKVector4Make(1.0, 1.0, 0.0, 1.0); // Yellow</span><br><span class="line">    </span><br><span class="line">    [self.extraEffect prepareToDraw];</span><br><span class="line">    glDrawArrays(GL_LINES, NUM_NORMAL_LINE_VERTS, NUM_LINE_VERTS);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用绿色绘制法线。黄色绘制灯光方向。<br>可以自行代码调节灯光的位置和光线属性，查看对应的效果变化。</p>
+<blockquote>
+<p>小思考：1. 我们仅仅使用了顶点的法向量模拟灯光效果，那么相应的是不是可以给每个片元都缓存法向量呢。这样更加真实。<br>答：是可以的，这里的偏远计算，在每个RGB纹素编码的过程中加入x,y,z的法向量分量，这样的纹理叫做法线贴图。（或者凹凸贴图，DOT3灯光，这三个名词本质都是一种描述)</p>
+</blockquote>
+<h1 id="灯光烘焙到纹理"><a href="#灯光烘焙到纹理" class="headerlink" title="灯光烘焙到纹理"></a>灯光烘焙到纹理</h1><p>同样我们可以把灯光烘焙到纹理中，GPU模拟灯光需要做出的运算量非常大，烘焙到纹理则可以避开模拟灯光的矢量运算。但是相应的光烘焙进纹理仅仅适用于静态场景。在灯光位置会改变，动态场景下显然是不适用的。</p>
+<p>Demo代码地址：<a href="https://github.com/AceDong0803/LearnOpenGLESDemo/tree/master" target="_blank" rel="noopener">LearnOpenGLESDemo</a></p>
+<p>源码来源于书籍：1. <a href="https://book.douban.com/subject/24849591/" target="_blank" rel="noopener">OpenGL ES应用开发实践指南：iOS卷</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/15/iOS-OpenGL-ES入门教程（三）纹理取样，混合，多重纹理/" rel="next" title="iOS-OpenGL-ES入门教程（三）纹理取样，混合，多重纹理">
+                <i class="fa fa-chevron-left"></i> iOS-OpenGL-ES入门教程（三）纹理取样，混合，多重纹理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/25/H264基础简介/" rel="prev" title="H264基础简介">
+                H264基础简介 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Ace Dong" />
+            
+              <p class="site-author-name" itemprop="name">Ace Dong</p>
+              <p class="site-description motion-element" itemprop="description">iOS开发者，爱生活，爱编程</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#光照"><span class="nav-number">2.</span> <span class="nav-text">光照</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据部分"><span class="nav-number">2.1.</span> <span class="nav-text">数据部分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#渲染部分代码"><span class="nav-number">2.2.</span> <span class="nav-text">渲染部分代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#灯光烘焙到纹理"><span class="nav-number">3.</span> <span class="nav-text">灯光烘焙到纹理</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ace Dong</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

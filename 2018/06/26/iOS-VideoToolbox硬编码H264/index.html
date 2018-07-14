@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言VideoToolBox是iOS8之后，苹果开发的用于硬解码编码H264/H265(iOS11以后支持)的API。 对于H264还不了解的童鞋一定要先看下这边的H264的简介。H.264基础简介 编码流程 我们实现一个简单的Demo，从摄像头获取到视频数据，然后再编码成H264裸数据保存在沙盒中。 1. 创建初始化VideoToolBox 核心代码如下 12345678910111213141">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS-VideoToolbox硬编码H264">
+<meta property="og:url" content="http://yoursite.com/2018/06/26/iOS-VideoToolbox硬编码H264/index.html">
+<meta property="og:site_name" content="安东的博客">
+<meta property="og:description" content="前言VideoToolBox是iOS8之后，苹果开发的用于硬解码编码H264/H265(iOS11以后支持)的API。 对于H264还不了解的童鞋一定要先看下这边的H264的简介。H.264基础简介 编码流程 我们实现一个简单的Demo，从摄像头获取到视频数据，然后再编码成H264裸数据保存在沙盒中。 1. 创建初始化VideoToolBox 核心代码如下 12345678910111213141">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1320629-3b0698b0a85da9b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1320629-0c2b68336db7e6f4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1320629-f234ab8bfb02bae1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1320629-c8d2a5e0f4ef5f26.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1320629-47d9a703c948d008.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1320629-c965dea36ccab70e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1320629-8972ae16fd053cac.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1320629-886c0df450ec14b4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1320629-82a145cc7fe4e2ed.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-07-14T15:41:30.056Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS-VideoToolbox硬编码H264">
+<meta name="twitter:description" content="前言VideoToolBox是iOS8之后，苹果开发的用于硬解码编码H264/H265(iOS11以后支持)的API。 对于H264还不了解的童鞋一定要先看下这边的H264的简介。H.264基础简介 编码流程 我们实现一个简单的Demo，从摄像头获取到视频数据，然后再编码成H264裸数据保存在沙盒中。 1. 创建初始化VideoToolBox 核心代码如下 12345678910111213141">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/1320629-3b0698b0a85da9b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/26/iOS-VideoToolbox硬编码H264/"/>
+
+
+
+
+
+  <title>iOS-VideoToolbox硬编码H264 | 安东的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">安东的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不忘初心，方得始终</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/26/iOS-VideoToolbox硬编码H264/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ace Dong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安东的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS-VideoToolbox硬编码H264</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-26T22:08:05+08:00">
+                2018-06-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>VideoToolBox是iOS8之后，苹果开发的用于硬解码编码H264/H265(iOS11以后支持)的API。</p>
+<p>对于H264还不了解的童鞋一定要先看下这边的H264的简介。<br><a href="https://www.jianshu.com/p/8edb448cf22e" target="_blank" rel="noopener">H.264基础简介</a></p>
+<h1 id="编码流程"><a href="#编码流程" class="headerlink" title="编码流程"></a>编码流程</h1><p> 我们实现一个简单的Demo，从摄像头获取到视频数据，然后再编码成H264裸数据保存在沙盒中。</p>
+<p><strong>1. 创建初始化VideoToolBox</strong></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1320629-3b0698b0a85da9b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="VideoToolBox创建初始化"><br>核心代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">- (void)initVideoToolBox &#123;</span><br><span class="line">    dispatch_sync(encodeQueue  , ^&#123;</span><br><span class="line">        frameNO = 0;</span><br><span class="line">        int width = 480, height = 640;</span><br><span class="line">        OSStatus status = VTCompressionSessionCreate(NULL, width, height, kCMVideoCodecType_H264, NULL, NULL, NULL, didCompressH264, (__bridge void *)(self),  &amp;encodingSession);</span><br><span class="line">        NSLog(@&quot;H264: VTCompressionSessionCreate %d&quot;, (int)status);</span><br><span class="line">        if (status != 0)</span><br><span class="line">        &#123;</span><br><span class="line">            NSLog(@&quot;H264: Unable to create a H264 session&quot;);</span><br><span class="line">            return ;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        // 设置实时编码输出（避免延迟）</span><br><span class="line">        VTSessionSetProperty(encodingSession, kVTCompressionPropertyKey_RealTime, kCFBooleanTrue);</span><br><span class="line">        VTSessionSetProperty(encodingSession, kVTCompressionPropertyKey_ProfileLevel, kVTProfileLevel_H264_Baseline_AutoLevel);</span><br><span class="line">        </span><br><span class="line">        // 设置关键帧（GOPsize)间隔</span><br><span class="line">        int frameInterval = 24;</span><br><span class="line">        CFNumberRef  frameIntervalRef = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &amp;frameInterval);</span><br><span class="line">        VTSessionSetProperty(encodingSession, kVTCompressionPropertyKey_MaxKeyFrameInterval, frameIntervalRef);</span><br><span class="line">        </span><br><span class="line">        //设置期望帧率</span><br><span class="line">        int fps = 24;</span><br><span class="line">        CFNumberRef  fpsRef = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &amp;fps);</span><br><span class="line">        VTSessionSetProperty(encodingSession, kVTCompressionPropertyKey_ExpectedFrameRate, fpsRef);</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        //设置码率，均值，单位是byte</span><br><span class="line">        int bitRate = width * height * 3 * 4 * 8;</span><br><span class="line">        CFNumberRef bitRateRef = CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt32Type, &amp;bitRate);</span><br><span class="line">        VTSessionSetProperty(encodingSession, kVTCompressionPropertyKey_AverageBitRate, bitRateRef);</span><br><span class="line">        </span><br><span class="line">        //设置码率，上限，单位是bps</span><br><span class="line">        int bitRateLimit = width * height * 3 * 4;</span><br><span class="line">        CFNumberRef bitRateLimitRef = CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt32Type, &amp;bitRateLimit);</span><br><span class="line">        VTSessionSetProperty(encodingSession, kVTCompressionPropertyKey_DataRateLimits, bitRateLimitRef);</span><br><span class="line">        </span><br><span class="line">        //开始编码</span><br><span class="line">        VTCompressionSessionPrepareToEncodeFrames(encodingSession);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>初始化这里设置了编码类型kCMVideoCodecType_H264,<br>分辨率640 * 480，fps，GOP，码率。</p>
+</blockquote>
+<p><strong>2. 从摄像头获取视频数据丢给VideoToolBox编码成H264</strong><br><img src="https://upload-images.jianshu.io/upload_images/1320629-0c2b68336db7e6f4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="从摄像头获取视频数据丢给VideoToolBox编码"></p>
+<p>初始化视频采集端核心代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">//初始化摄像头采集端</span><br><span class="line">- (void)initCapture&#123;</span><br><span class="line">    </span><br><span class="line">    self.captureSession = [[AVCaptureSession alloc]init];</span><br><span class="line">    </span><br><span class="line">    //设置录制640 * 480</span><br><span class="line">    self.captureSession.sessionPreset = AVCaptureSessionPreset640x480;</span><br><span class="line">    </span><br><span class="line">    AVCaptureDevice *inputCamera = [self cameraWithPostion:AVCaptureDevicePositionBack];</span><br><span class="line">  </span><br><span class="line">    self.captureDeviceInput = [[AVCaptureDeviceInput alloc] initWithDevice:inputCamera error:nil];</span><br><span class="line">    </span><br><span class="line">    if ([self.captureSession canAddInput:self.captureDeviceInput]) &#123;</span><br><span class="line">        [self.captureSession addInput:self.captureDeviceInput];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    self.captureDeviceOutput = [[AVCaptureVideoDataOutput alloc] init];</span><br><span class="line">    [self.captureDeviceOutput setAlwaysDiscardsLateVideoFrames:NO];</span><br><span class="line">    </span><br><span class="line">    //设置YUV420p输出</span><br><span class="line">    [self.captureDeviceOutput setVideoSettings:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:kCVPixelFormatType_420YpCbCr8BiPlanarFullRange] forKey:(id)kCVPixelBufferPixelFormatTypeKey]];</span><br><span class="line">    </span><br><span class="line">    [self.captureDeviceOutput setSampleBufferDelegate:self queue:captureQueue];</span><br><span class="line">    </span><br><span class="line">    if ([self.captureSession canAddOutput:self.captureDeviceOutput]) &#123;</span><br><span class="line">        [self.captureSession addOutput:self.captureDeviceOutput];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //建立连接</span><br><span class="line">    AVCaptureConnection *connection = [self.captureDeviceOutput connectionWithMediaType:AVMediaTypeVideo];</span><br><span class="line">    [connection setVideoOrientation:AVCaptureVideoOrientationPortrait];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里需要注意设置的视频分辨率和编码器一致640 * 480. AVCaptureVideoDataOutput类型选用YUV420p。</p>
+</blockquote>
+<p>摄像头数据回调部分</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">- (void)captureOutput:(AVCaptureOutput *)output didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection&#123;</span><br><span class="line">    dispatch_sync(encodeQueue, ^&#123;</span><br><span class="line">        [self encode:sampleBuffer];</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//编码sampleBuffer</span><br><span class="line">- (void) encode:(CMSampleBufferRef )sampleBuffer</span><br><span class="line">&#123;</span><br><span class="line">    CVImageBufferRef imageBuffer = (CVImageBufferRef)CMSampleBufferGetImageBuffer(sampleBuffer);</span><br><span class="line">    // 帧时间，如果不设置会导致时间轴过长。</span><br><span class="line">    CMTime presentationTimeStamp = CMTimeMake(frameNO++, 1000);</span><br><span class="line">    VTEncodeInfoFlags flags;</span><br><span class="line">    OSStatus statusCode = VTCompressionSessionEncodeFrame(encodingSession,</span><br><span class="line">                                                          imageBuffer,</span><br><span class="line">                                                          presentationTimeStamp,</span><br><span class="line">                                                          kCMTimeInvalid,</span><br><span class="line">                                                          NULL, NULL, &amp;flags);</span><br><span class="line">    if (statusCode != noErr) &#123;</span><br><span class="line">        NSLog(@&quot;H264: VTCompressionSessionEncodeFrame failed with %d&quot;, (int)statusCode);</span><br><span class="line">        </span><br><span class="line">        VTCompressionSessionInvalidate(encodingSession);</span><br><span class="line">        CFRelease(encodingSession);</span><br><span class="line">        encodingSession = NULL;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    NSLog(@&quot;H264: VTCompressionSessionEncodeFrame Success&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>3.框架中出现的数据结构</strong></p>
+<p><strong>CMSampleBufferRef</strong><br>存放一个或者多个压缩或未压缩的媒体数据；<br>下图列举了两种CMSampleBuffer。<img src="https://upload-images.jianshu.io/upload_images/1320629-f234ab8bfb02bae1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="CMSampleBuffer"></p>
+<p><strong>CMTime</strong><br>64位的value，32位的scale，media的时间格式；<br><img src="https://upload-images.jianshu.io/upload_images/1320629-c8d2a5e0f4ef5f26.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="CMTime"></p>
+<p><strong>CMBlockBuffer</strong><br>这里可以叫裸数据；</p>
+<p><strong>CVPixelBuffer</strong><br>包含未压缩的像素数据，图像宽度、高度等；</p>
+<p><strong>pixelBufferAttributes</strong><br>CFDictionary包括宽高、像素格式（RGBA、YUV）、使用场景（OpenGL ES、Core Animation）<br><img src="https://upload-images.jianshu.io/upload_images/1320629-47d9a703c948d008.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="pixelBufferAttributes"></p>
+<p><strong>CVPixelBufferPool</strong><br>CVPixelBuffer的缓冲池，因为CVPixelBuffer的创建和销毁开销很大<br><img src="https://upload-images.jianshu.io/upload_images/1320629-c965dea36ccab70e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="CVPixelBufferPool"></p>
+<p><strong>CMVideoFormatDescription</strong><br>video格式，包括宽高、颜色空间、编码格式信息等；对于H264，还包含sps和pps数据；<br><img src="https://upload-images.jianshu.io/upload_images/1320629-8972ae16fd053cac.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="CMVideoFormatDescription"></p>
+<h1 id="编码完成后的数据写入H264"><a href="#编码完成后的数据写入H264" class="headerlink" title="编码完成后的数据写入H264"></a>编码完成后的数据写入H264</h1><p><img src="https://upload-images.jianshu.io/upload_images/1320629-886c0df450ec14b4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="编码写入"></p>
+<p>这里编码完成我们先判断的是否为I帧，如果是需要读取sps和pps参数集，为什么要这样呢？</p>
+<p>我们先看一下一个裸数据H264（Elementary Stream）的NALU构成<br><img src="https://upload-images.jianshu.io/upload_images/1320629-82a145cc7fe4e2ed.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="NALU"></p>
+<p>H.264裸流中，不存在单独的SPS、PPS包或帧，而是附加在I帧前面，存储的一般形式为 </p>
+<blockquote>
+<p>00 00 00 01 SPS 00 00 00 01 PPS 00 00 00 01 I帧</p>
+</blockquote>
+<p>前面的这些00 00数据称为起始码（Start Code），它们不属于SPS、PPS的内容。</p>
+<blockquote>
+<p>SPS（Sequence Parameter Sets）和PPS（Picture Parameter Set）：H.264的SPS和PPS包含了初始化H.264解码器所需要的信息参数，包括编码所用的profile，level，图像的宽和高，deblock滤波器等。</p>
+</blockquote>
+<p>上面介绍了sps和pps是封装在CMFormatDescriptionRef中，所以我们得先CMFormatDescriptionRef中取出sps和pps写入h264裸流中。</p>
+<p>这就不难理解写入H264的流程了。</p>
+<p>代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line">// 编码完成回调</span><br><span class="line">void didCompressH264(void *outputCallbackRefCon, void *sourceFrameRefCon, OSStatus status, VTEncodeInfoFlags infoFlags, CMSampleBufferRef sampleBuffer) &#123;</span><br><span class="line">    NSLog(@&quot;didCompressH264 called with status %d infoFlags %d&quot;, (int)status, (int)infoFlags);</span><br><span class="line">    if (status != 0) &#123;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    if (!CMSampleBufferDataIsReady(sampleBuffer)) &#123;</span><br><span class="line">        NSLog(@&quot;didCompressH264 data is not ready &quot;);</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    ViewController* encoder = (__bridge ViewController*)outputCallbackRefCon;</span><br><span class="line">    bool keyframe = !CFDictionaryContainsKey( (CFArrayGetValueAtIndex(CMSampleBufferGetSampleAttachmentsArray(sampleBuffer, true), 0)), kCMSampleAttachmentKey_NotSync);</span><br><span class="line">    </span><br><span class="line">    // 判断当前帧是否为关键帧</span><br><span class="line">    // 获取sps &amp; pps数据</span><br><span class="line">    if (keyframe)</span><br><span class="line">    &#123;</span><br><span class="line">        CMFormatDescriptionRef format = CMSampleBufferGetFormatDescription(sampleBuffer);</span><br><span class="line">        size_t sparameterSetSize, sparameterSetCount;</span><br><span class="line">        const uint8_t *sparameterSet;</span><br><span class="line">        OSStatus statusCode = CMVideoFormatDescriptionGetH264ParameterSetAtIndex(format, 0, &amp;sparameterSet, &amp;sparameterSetSize, &amp;sparameterSetCount, 0 );</span><br><span class="line">        if (statusCode == noErr)</span><br><span class="line">        &#123;</span><br><span class="line">            // 获得了sps，再获取pps</span><br><span class="line">            size_t pparameterSetSize, pparameterSetCount;</span><br><span class="line">            const uint8_t *pparameterSet;</span><br><span class="line">            OSStatus statusCode = CMVideoFormatDescriptionGetH264ParameterSetAtIndex(format, 1, &amp;pparameterSet, &amp;pparameterSetSize, &amp;pparameterSetCount, 0 );</span><br><span class="line">            if (statusCode == noErr)</span><br><span class="line">            &#123;</span><br><span class="line">                // 获取SPS和PPS data</span><br><span class="line">                NSData *sps = [NSData dataWithBytes:sparameterSet length:sparameterSetSize];</span><br><span class="line">                NSData *pps = [NSData dataWithBytes:pparameterSet length:pparameterSetSize];</span><br><span class="line">                if (encoder)</span><br><span class="line">                &#123;</span><br><span class="line">                    [encoder gotSpsPps:sps pps:pps];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    CMBlockBufferRef dataBuffer = CMSampleBufferGetDataBuffer(sampleBuffer);</span><br><span class="line">    size_t length, totalLength;</span><br><span class="line">    char *dataPointer;</span><br><span class="line">    </span><br><span class="line">    //这里获取了数据指针，和NALU的帧总长度，前四个字节里面保存的</span><br><span class="line">    OSStatus statusCodeRet = CMBlockBufferGetDataPointer(dataBuffer, 0, &amp;length, &amp;totalLength, &amp;dataPointer);</span><br><span class="line">    if (statusCodeRet == noErr) &#123;</span><br><span class="line">        size_t bufferOffset = 0;</span><br><span class="line">        static const int AVCCHeaderLength = 4; // 返回的nalu数据前四个字节不是0001的startcode，而是大端模式的帧长度length</span><br><span class="line">        </span><br><span class="line">        // 循环获取nalu数据</span><br><span class="line">        while (bufferOffset &lt; totalLength - AVCCHeaderLength) &#123;</span><br><span class="line">            uint32_t NALUnitLength = 0;</span><br><span class="line">            // 读取NALU长度的数据</span><br><span class="line">            memcpy(&amp;NALUnitLength, dataPointer + bufferOffset, AVCCHeaderLength);</span><br><span class="line">            </span><br><span class="line">            // 从大端转系统端</span><br><span class="line">            NALUnitLength = CFSwapInt32BigToHost(NALUnitLength);</span><br><span class="line">            </span><br><span class="line">            NSData* data = [[NSData alloc] initWithBytes:(dataPointer + bufferOffset + AVCCHeaderLength) length:NALUnitLength];</span><br><span class="line">            [encoder gotEncodedData:data];</span><br><span class="line">            </span><br><span class="line">            // 移动到下一个NALU单元</span><br><span class="line">            bufferOffset += AVCCHeaderLength + NALUnitLength;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//填充SPS和PPS数据</span><br><span class="line">- (void)gotSpsPps:(NSData*)sps pps:(NSData*)pps</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;gotSpsPps %d %d&quot;, (int)[sps length], (int)[pps length]);</span><br><span class="line">    const char bytes[] = &quot;\x00\x00\x00\x01&quot;;</span><br><span class="line">    size_t length = (sizeof bytes) - 1; //string literals have implicit trailing &apos;\0&apos;</span><br><span class="line">    NSData *ByteHeader = [NSData dataWithBytes:bytes length:length];</span><br><span class="line">  //写入startcode</span><br><span class="line">    [self.h264FileHandle writeData:ByteHeader];</span><br><span class="line">    [self.h264FileHandle writeData:sps];</span><br><span class="line">  //写入startcode</span><br><span class="line">    [self.h264FileHandle writeData:ByteHeader];</span><br><span class="line">    [self.h264FileHandle writeData:pps];</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//填充NALU数据</span><br><span class="line">- (void)gotEncodedData:(NSData*)data</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;gotEncodedData %d&quot;, (int)[data length]);</span><br><span class="line">    if (self.h264FileHandle != NULL)</span><br><span class="line">    &#123;</span><br><span class="line">        const char bytes[] = &quot;\x00\x00\x00\x01&quot;;</span><br><span class="line">        size_t length = (sizeof bytes) - 1; //string literals have implicit trailing &apos;\0&apos;</span><br><span class="line">        NSData *ByteHeader = [NSData dataWithBytes:bytes length:length];</span><br><span class="line">        //写入startcode</span><br><span class="line">        [self.h264FileHandle writeData:ByteHeader];</span><br><span class="line">        //写入NALU数据</span><br><span class="line">        [self.h264FileHandle writeData:data];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结束编码后销毁session</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- (void)EndVideoToolBox</span><br><span class="line">&#123;</span><br><span class="line">    VTCompressionSessionCompleteFrames(encodingSession, kCMTimeInvalid);</span><br><span class="line">    VTCompressionSessionInvalidate(encodingSession);</span><br><span class="line">    CFRelease(encodingSession);</span><br><span class="line">    encodingSession = NULL;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样就完成了使用VideoToolbox 的H264编码。编码好的H264文件可以从沙盒中取出。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>仅仅看流程不看代码肯定是学不会框架的，自己动手编码试试吧！<br>Demo下载地址：<a href="https://github.com/AceDong0803/iOS-VideoToolBox-demo" target="_blank" rel="noopener">iOS-VideoToolBox-demo</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/25/H264基础简介/" rel="next" title="H264基础简介">
+                <i class="fa fa-chevron-left"></i> H264基础简介
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/26/算法练习(一)/" rel="prev" title="算法练习(一)">
+                算法练习(一) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Ace Dong" />
+            
+              <p class="site-author-name" itemprop="name">Ace Dong</p>
+              <p class="site-description motion-element" itemprop="description">iOS开发者，爱生活，爱编程</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编码流程"><span class="nav-number">2.</span> <span class="nav-text">编码流程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编码完成后的数据写入H264"><span class="nav-number">3.</span> <span class="nav-text">编码完成后的数据写入H264</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ace Dong</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

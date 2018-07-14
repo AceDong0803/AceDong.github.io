@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言一直以为对深浅拷贝理解很透彻，最近面试中被问到这样一个问题，  一个可变字符串调用copy会怎么样，不假思索的我当时就指出是指针拷贝，也就是浅拷贝，回来认真调试了一下发现是不对的。  浅拷贝这个概念相比很好理解，直接看图吧。 浅拷贝：指针拷贝，复制一个新的指针，只想同一块内存区域。实际内存并没有发生拷贝 深拷贝 深拷贝：内容拷贝，拷贝数据到一块新内存区域，指针指向拷贝的数据区 #iOS中的深浅">
+<meta property="og:type" content="article">
+<meta property="og:title" content="理解iOS中深浅拷贝-为什么NSString使用copy">
+<meta property="og:url" content="http://yoursite.com/2018/06/29/理解iOS中深浅拷贝-为什么NSString使用copy/index.html">
+<meta property="og:site_name" content="安东的博客">
+<meta property="og:description" content="前言一直以为对深浅拷贝理解很透彻，最近面试中被问到这样一个问题，  一个可变字符串调用copy会怎么样，不假思索的我当时就指出是指针拷贝，也就是浅拷贝，回来认真调试了一下发现是不对的。  浅拷贝这个概念相比很好理解，直接看图吧。 浅拷贝：指针拷贝，复制一个新的指针，只想同一块内存区域。实际内存并没有发生拷贝 深拷贝 深拷贝：内容拷贝，拷贝数据到一块新内存区域，指针指向拷贝的数据区 #iOS中的深浅">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1320629-2cf368f1015920b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1320629-d3bb8db4759630e3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1320629-507b1e411b8d3a78.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-07-14T15:45:32.671Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="理解iOS中深浅拷贝-为什么NSString使用copy">
+<meta name="twitter:description" content="前言一直以为对深浅拷贝理解很透彻，最近面试中被问到这样一个问题，  一个可变字符串调用copy会怎么样，不假思索的我当时就指出是指针拷贝，也就是浅拷贝，回来认真调试了一下发现是不对的。  浅拷贝这个概念相比很好理解，直接看图吧。 浅拷贝：指针拷贝，复制一个新的指针，只想同一块内存区域。实际内存并没有发生拷贝 深拷贝 深拷贝：内容拷贝，拷贝数据到一块新内存区域，指针指向拷贝的数据区 #iOS中的深浅">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/1320629-2cf368f1015920b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/29/理解iOS中深浅拷贝-为什么NSString使用copy/"/>
+
+
+
+
+
+  <title>理解iOS中深浅拷贝-为什么NSString使用copy | 安东的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">安东的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不忘初心，方得始终</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/29/理解iOS中深浅拷贝-为什么NSString使用copy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ace Dong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安东的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">理解iOS中深浅拷贝-为什么NSString使用copy</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-29T22:08:05+08:00">
+                2018-06-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>一直以为对深浅拷贝理解很透彻，最近面试中被问到这样一个问题，</p>
+<blockquote>
+<p>一个可变字符串调用copy会怎么样，不假思索的我当时就指出是指针拷贝，也就是浅拷贝，回来认真调试了一下发现是不对的。</p>
+</blockquote>
+<h1 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h1><p>这个概念相比很好理解，直接看图吧。<br><img src="https://upload-images.jianshu.io/upload_images/1320629-2cf368f1015920b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="浅拷贝"></p>
+<p><strong>浅拷贝</strong>：指针拷贝，复制一个新的指针，只想同一块内存区域。实际内存并没有发生拷贝</p>
+<h1 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h1><p><img src="https://upload-images.jianshu.io/upload_images/1320629-d3bb8db4759630e3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="深拷贝"></p>
+<p><strong>深拷贝</strong>：内容拷贝，拷贝数据到一块新内存区域，指针指向拷贝的数据区</p>
+<p>#iOS中的深浅拷贝，strong，copy，mutableCopy</p>
+<p><strong>strong: 浅拷贝，也就是指针引用，很明显的。我们来测试一下</strong></p>
+<ol>
+<li>新建两个类A和B，用strong声明属性testString</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@interface A : NSObject</span><br><span class="line"></span><br><span class="line">@property (nonatomic,strong)NSMutableString *testString;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@interface B : NSObject</span><br><span class="line"></span><br><span class="line">@property (nonatomic,strong)NSMutableString *testString;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>创建一个NSMutableString，然后赋值和A和B对象</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">A *a = [[A alloc]init];</span><br><span class="line">NSMutableString *string = [NSMutableString stringWithFormat:@&quot;name&quot;];</span><br><span class="line">NSLog(@&quot;原始string的地址:%p&quot;,string);</span><br><span class="line">a.testString = string;</span><br><span class="line">NSLog(@&quot;A对象string的地址:%p&quot;,a.testString);</span><br><span class="line">B *b = [[B alloc]init];</span><br><span class="line">b.testString = a.testString ;</span><br><span class="line">NSLog(@&quot;B对象string的地址:%p&quot;,b.testString);</span><br></pre></td></tr></table></figure>
+<p>运行结果如下，实际对象是一致的。</p>
+<blockquote>
+<p>2018-06-29 17:17:36.669945+0800 testArray[31561:804923] 原始string的地址:0x600000249480<br>2018-06-29 17:17:36.670097+0800 testArray[31561:804923] A对象string的地址:0x600000249480<br>2018-06-29 17:17:36.670192+0800 testArray[31561:804923] B对象string的地址:0x600000249480</p>
+</blockquote>
+<p>这意味着A使用属性对可变字符串做出了appendstring这样的操作，B中的值也会发生修改。</p>
+<blockquote>
+<p>这里就不测试了，有兴趣的可以自行测试一下。</p>
+</blockquote>
+<p><strong>copy：这里我们研究系统的NSstring，NSArray对象copy之后是怎么样的</strong></p>
+<p>先看一个有意思的现象，我们新建一个NSMutableString，然后copy，接着用这个copy对象调用MutableString特有的appendstring修改字符串</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">NSMutableString *string = [NSMutableString stringWithFormat:@&quot;name&quot;];</span><br><span class="line">NSLog(@&quot;原始string的地址:%p&quot;,string);</span><br><span class="line"></span><br><span class="line">NSMutableString *copyString = [string copy];</span><br><span class="line">NSLog(@&quot;拷贝string的地址:%p&quot;,copyString);</span><br><span class="line"></span><br><span class="line">[copyString appendString:@&quot;test&quot;];</span><br></pre></td></tr></table></figure>
+<p>结果呢？<br><img src="https://upload-images.jianshu.io/upload_images/1320629-507b1e411b8d3a78.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="结果图"></p>
+<p>闪退了！这是为什么？<br>细看一下，我们的MutableString对象调用了copy之后，拷贝出来的字符串内存地址发生了变化，也就是说这里是发生了深拷贝。</p>
+<p>接着我们使用copyString调用appendString方法发生了很常规的闪退，日志显示我们拷贝出来的是NSTaggedPointerString，这是个不可变字符串。</p>
+<p><strong>也就是说可变字符串在copy之后会发生深拷贝，拷贝出来的是一个不可变字符串！</strong></p>
+<p>接下来我们测试下如果copy一个NSString对象是怎样的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">NSString *string = [NSString stringWithFormat:@&quot;name&quot;];</span><br><span class="line">NSLog(@&quot;原始string的地址:%p&quot;,string);</span><br><span class="line"></span><br><span class="line">NSString *copyString = [string copy];</span><br><span class="line">NSLog(@&quot;拷贝string的地址:%p&quot;,copyString);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>2018-06-29 17:30:51.985051+0800 testArray[31672:813638] 原始string的地址:0xa000000656d616e4<br>2018-06-29 17:30:51.985173+0800 testArray[31672:813638] 拷贝string的地址:0xa000000656d616e4</p>
+</blockquote>
+<p>结果是这里是浅拷贝，地址没有发生变化。</p>
+<blockquote>
+<p>NSArray也是同样的验证结果，这边就不贴出来了，有兴趣的童鞋可以自行尝试</p>
+</blockquote>
+<p>我们从这得出了结论：<br>copy并不一定是浅拷贝，copy出来的一定是不可变字符串或者数组，如果被拷贝的对象是不可变数组或者字符串，这时候会发生深拷贝，反之则是浅拷贝。</p>
+<p>MutableCopy<br>这里就不贴验证了，直接上结果，对于字符串和数组MutableCopy一定是深拷贝，而且拷贝出来对象一定是可变字符串或者数组。即使被拷贝对象是不可变字符串。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p><strong>1. copy出来的字符串一定是不可变字符串，如果传入的是可变字符串，会发生深拷贝为不可变字符串，否则为浅拷贝。</strong><br><strong>2. mutablecopy，一定是深拷贝，拷贝出来的一定是可变字符串或者数组，即使传入的是不可变字符串或者数组。</strong></p>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><ol>
+<li><p>为什么NSString使用copy修饰也就可以理解了。使用copy修饰之后，即使属性拷贝来自可变字符串，也会被深拷贝成不可变字符串，也就是源字符串修改之后不会影响到属性字符串，增强了代码的健壮性。</p>
+</li>
+<li><p>关于不可变字符串和数组的copy是浅拷贝也很好理解，既然数据源本身是不可变的，也就是具备安全性，那么系统默认浅拷贝其中数据，显然是合理的做法。</p>
+</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/29/算法练习二/" rel="next" title="算法练习二">
+                <i class="fa fa-chevron-left"></i> 算法练习二
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/02/算法练习三/" rel="prev" title="算法练习三">
+                算法练习三 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Ace Dong" />
+            
+              <p class="site-author-name" itemprop="name">Ace Dong</p>
+              <p class="site-description motion-element" itemprop="description">iOS开发者，爱生活，爱编程</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#浅拷贝"><span class="nav-number">2.</span> <span class="nav-text">浅拷贝</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#深拷贝"><span class="nav-number">3.</span> <span class="nav-text">深拷贝</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#思考"><span class="nav-number">5.</span> <span class="nav-text">思考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ace Dong</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
