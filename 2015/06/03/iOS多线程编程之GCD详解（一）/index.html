@@ -79,16 +79,19 @@
 
 
 
-<meta name="description" content="iOS开发者，爱生活，爱编程">
-<meta property="og:type" content="website">
-<meta property="og:title" content="安东的博客">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="GCD简介iOS开发中多线程的API主要有pthread，NSThread，NSOperation和GCD，前两者在现在开发过程中已经不常用，NSOperation是面向对象封装的一套API，而GCD则是一套纯C语言API。  引用下百度的介绍GCD为Grand Central Dispatch的缩写。Grand Central Dispatch (GCD)是Apple开发的一个多核编程的较新的解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS多线程编程之GCD详解（一）">
+<meta property="og:url" content="http://yoursite.com/2015/06/03/iOS多线程编程之GCD详解（一）/index.html">
 <meta property="og:site_name" content="安东的博客">
-<meta property="og:description" content="iOS开发者，爱生活，爱编程">
+<meta property="og:description" content="GCD简介iOS开发中多线程的API主要有pthread，NSThread，NSOperation和GCD，前两者在现在开发过程中已经不常用，NSOperation是面向对象封装的一套API，而GCD则是一套纯C语言API。  引用下百度的介绍GCD为Grand Central Dispatch的缩写。Grand Central Dispatch (GCD)是Apple开发的一个多核编程的较新的解">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1320629-79295d0d030009a0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-07-14T12:29:26.725Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="安东的博客">
-<meta name="twitter:description" content="iOS开发者，爱生活，爱编程">
+<meta name="twitter:title" content="iOS多线程编程之GCD详解（一）">
+<meta name="twitter:description" content="GCD简介iOS开发中多线程的API主要有pthread，NSThread，NSOperation和GCD，前两者在现在开发过程中已经不常用，NSOperation是面向对象封装的一套API，而GCD则是一套纯C语言API。  引用下百度的介绍GCD为Grand Central Dispatch的缩写。Grand Central Dispatch (GCD)是Apple开发的一个多核编程的较新的解">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1320629-79295d0d030009a0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -118,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2015/06/03/iOS多线程编程之GCD详解（一）/"/>
 
 
 
 
 
-  <title>安东的博客</title>
+  <title>iOS多线程编程之GCD详解（一） | 安东的博客</title>
   
 
 
@@ -143,8 +146,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -217,9 +219,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -249,9 +251,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/06/03/iOS多线程编程之GCD详解（一）/" itemprop="url">iOS多线程编程之GCD详解（一）</a></h1>
+          <h1 class="post-title" itemprop="name headline">iOS多线程编程之GCD详解（一）</h1>
         
 
         <div class="post-meta">
@@ -301,9 +301,7 @@
       
 
       
-        
-          
-            <h1 id="GCD简介"><a href="#GCD简介" class="headerlink" title="GCD简介"></a>GCD简介</h1><p>iOS开发中多线程的API主要有pthread，NSThread，NSOperation和GCD，前两者在现在开发过程中已经不常用，NSOperation是面向对象封装的一套API，而GCD则是一套纯C语言API。</p>
+        <h1 id="GCD简介"><a href="#GCD简介" class="headerlink" title="GCD简介"></a>GCD简介</h1><p>iOS开发中多线程的API主要有pthread，NSThread，NSOperation和GCD，前两者在现在开发过程中已经不常用，NSOperation是面向对象封装的一套API，而GCD则是一套纯C语言API。</p>
 <blockquote>
 <p>引用下百度的介绍<br>GCD为Grand Central Dispatch的缩写。<br>Grand Central Dispatch (GCD)是Apple开发的一个多核编程的较新的解决方法。它主要用于优化应用程序以支持多核处理器以及其他对称多处理系统。它是一个在线程池模式的基础上执行的并行任务。在Mac OS X 10.6雪豹中首次推出，也可在IOS 4及以上版本使用。</p>
 </blockquote>
@@ -480,8 +478,6 @@
 <h1 id="参考书籍"><a href="#参考书籍" class="headerlink" title="参考书籍:"></a>参考书籍:</h1><p><a href="http://baike.baidu.com/link?url=8cLEWwOe25Y-Fg2wzOTmOmvwn9Osy7tkkNbMKft-fsX0NJlkCXUKsljKkAh2UK0pFb2zm5hL4vs4w6xgMSgWzw2FGCnTTit_hNdQbDOQIHjHs1BW6e4lUl5qARANbVfyNfqEDP_E_aoVC6tR1kLR2K" target="_blank" rel="noopener">Objective-C高级编程</a></p>
 <h1 id="后篇"><a href="#后篇" class="headerlink" title="后篇:"></a>后篇:</h1><p><a href="http://www.jianshu.com/p/53091736c9da" target="_blank" rel="noopener">iOS多线程编程之GCD详解（二）完结</a></p>
 
-          
-        
       
     </div>
     
@@ -498,12 +494,12 @@
       
 
       
+      
+      
 
       
 
       
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -513,10 +509,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -524,6 +521,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -544,8 +545,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -587,6 +597,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#GCD简介"><span class="nav-number">1.</span> <span class="nav-text">GCD简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Dispatch-Queue（队列）概念"><span class="nav-number">2.</span> <span class="nav-text">Dispatch_Queue（队列）概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#队列"><span class="nav-number">2.1.</span> <span class="nav-text">队列</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GCD队列编程实现"><span class="nav-number">3.</span> <span class="nav-text">GCD队列编程实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建一个队列"><span class="nav-number">3.1.</span> <span class="nav-text">创建一个队列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主线程同步执行"><span class="nav-number">3.2.</span> <span class="nav-text">主线程同步执行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主线程异步执行"><span class="nav-number">3.3.</span> <span class="nav-text">主线程异步执行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#串行队列同步执行"><span class="nav-number">3.4.</span> <span class="nav-text">串行队列同步执行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#串行队列异步执行"><span class="nav-number">3.5.</span> <span class="nav-text">串行队列异步执行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#并发队列同步执行"><span class="nav-number">3.6.</span> <span class="nav-text">并发队列同步执行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#并发队列异步执行"><span class="nav-number">3.7.</span> <span class="nav-text">并发队列异步执行</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#应用示例"><span class="nav-number">4.</span> <span class="nav-text">应用示例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他GCD-API"><span class="nav-number">5.</span> <span class="nav-text">其他GCD API</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-after"><span class="nav-number">5.1.</span> <span class="nav-text">dispatch_after</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-once"><span class="nav-number">5.2.</span> <span class="nav-text">dispatch_once</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-suspend-dispatch-resume"><span class="nav-number">5.3.</span> <span class="nav-text">dispatch_suspend / dispatch_resume</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-set-target-queue"><span class="nav-number">5.4.</span> <span class="nav-text">dispatch_set_target_queue</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-group"><span class="nav-number">5.5.</span> <span class="nav-text">dispatch_group</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-apply"><span class="nav-number">5.6.</span> <span class="nav-text">dispatch_apply</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-barrier-sync-dispatch-barrier-async"><span class="nav-number">5.7.</span> <span class="nav-text">dispatch_barrier_sync / dispatch_barrier_async</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#全文总结"><span class="nav-number">6.</span> <span class="nav-text">全文总结:</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考书籍"><span class="nav-number">7.</span> <span class="nav-text">参考书籍:</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#后篇"><span class="nav-number">8.</span> <span class="nav-text">后篇:</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -720,6 +746,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
