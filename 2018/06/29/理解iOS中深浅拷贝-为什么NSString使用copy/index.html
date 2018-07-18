@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next gemini use-motion" lang="zh-Hans">
+<html class="theme-next pisces use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -89,7 +89,7 @@
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1320629-2cf368f1015920b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1320629-d3bb8db4759630e3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1320629-507b1e411b8d3a78.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-07-14T15:45:32.671Z">
+<meta property="og:updated_time" content="2018-07-18T00:52:48.682Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="理解iOS中深浅拷贝-为什么NSString使用copy">
 <meta name="twitter:description" content="前言一直以为对深浅拷贝理解很透彻，最近面试中被问到这样一个问题，  一个可变字符串调用copy会怎么样，不假思索的我当时就指出是指针拷贝，也就是浅拷贝，回来认真调试了一下发现是不对的。  浅拷贝这个概念相比很好理解，直接看图吧。 浅拷贝：指针拷贝，复制一个新的指针，只想同一块内存区域。实际内存并没有发生拷贝 深拷贝 深拷贝：内容拷贝，拷贝数据到一块新内存区域，指针指向拷贝的数据区 #iOS中的深浅">
@@ -101,7 +101,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Gemini',
+    scheme: 'Pisces',
     version: '5.1.4',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
@@ -187,9 +187,15 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
             首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
           </a>
         </li>
       
@@ -197,9 +203,15 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
             归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            关于
           </a>
         </li>
       
@@ -275,6 +287,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS杂货铺/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS杂货铺</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -478,6 +512,15 @@
             
 
             
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
 
             
 
@@ -485,6 +528,22 @@
 
           
 
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/AceDong0803" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://juejin.im/user/5a75a6186fb9a063592ba9d2/posts" target="_blank" title="juejin">
+                      
+                        <i class="fa fa-fw fa-globe"></i>juejin</a>
+                  </span>
+                
+            </div>
           
 
           
@@ -546,7 +605,7 @@
 
 
 
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
 
 
 

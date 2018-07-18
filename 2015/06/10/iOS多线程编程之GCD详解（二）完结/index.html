@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next gemini use-motion" lang="zh-Hans">
+<html class="theme-next pisces use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="安东的博客">
 <meta property="og:description" content="前言上一篇详细介绍了介绍了GCD中的常用API，考虑到篇幅问题，这里继续介绍另外的两个API。 Dispatch Semaphore 信号量dispatch_semaphore_t 信号量本质上是一种锁。关于iOS中各种锁和性能比较可以看下yykit作者的这篇博文，戳这里不再安全的 OSSpinLock 下面我们看下信号量的使用:dispatch_semaphore_t  的作用之一解决资源抢夺问">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-07-14T14:46:26.689Z">
+<meta property="og:updated_time" content="2018-07-18T00:56:04.858Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS多线程编程之GCD详解（二）">
 <meta name="twitter:description" content="前言上一篇详细介绍了介绍了GCD中的常用API，考虑到篇幅问题，这里继续介绍另外的两个API。 Dispatch Semaphore 信号量dispatch_semaphore_t 信号量本质上是一种锁。关于iOS中各种锁和性能比较可以看下yykit作者的这篇博文，戳这里不再安全的 OSSpinLock 下面我们看下信号量的使用:dispatch_semaphore_t  的作用之一解决资源抢夺问">
@@ -97,7 +97,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Gemini',
+    scheme: 'Pisces',
     version: '5.1.4',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
@@ -183,9 +183,15 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
             首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
           </a>
         </li>
       
@@ -193,9 +199,15 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
             归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            关于
           </a>
         </li>
       
@@ -271,6 +283,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS杂货铺/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS杂货铺</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -455,6 +489,15 @@
             
 
             
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
 
             
 
@@ -462,6 +505,22 @@
 
           
 
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/AceDong0803" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://juejin.im/user/5a75a6186fb9a063592ba9d2/posts" target="_blank" title="juejin">
+                      
+                        <i class="fa fa-fw fa-globe"></i>juejin</a>
+                  </span>
+                
+            </div>
           
 
           
@@ -523,7 +582,7 @@
 
 
 
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
 
 
 
